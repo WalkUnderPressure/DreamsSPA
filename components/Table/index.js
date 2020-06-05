@@ -13,7 +13,7 @@ class Table extends Component {
         
         if (items && items.length > 0) {
             rows = items.map(item => {
-                return <TableRow id={item.id} codeName={item.codeName} description={item.description} date={item.date} />
+                return <TableRow id={item.id} codeName={item.codeName} description={item.description} date={item.date} handleItemDelete={this.props.handleItemDelete}/>
             })
         } else {
             rows = <tr><td><h1>Table is empty!</h1></td></tr>;

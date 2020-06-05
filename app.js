@@ -2,7 +2,10 @@ const express = require('express')
 const next = require('next')
 const bodyParser = require('body-parser')
 
-const port = parseInt(process.env.PORT, 10) || 3000
+const common = require('./COMMON');
+const domain = common.DOMAIN;
+const port = common.PORT
+
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
@@ -10,7 +13,7 @@ const handle = app.getRequestHandler()
 const Faker = require('faker');
 
 let items = [];
-const size = 5;
+const size = 3;
 for (let i = 0; i < size; i++) {
   let obj = {
     id: Faker.id,
@@ -39,15 +42,15 @@ app.prepare().then(() => {
     return app.render(req, res, '/dreans', req.query);
   })
 
-  server.get('/b', (req, res) => {
-    return app.render(req, res, '/b', req.query);
-  })
-
   server.get('/api/items', (req, res) => {
     return res.status(200).json({ users: items });
   });
   server.get('/api/alldreans', (req, res) => {
     return res.json(data);
+  })
+
+  server.get('/adddreans', (req, res) => {
+    return app.render(req,res,'/adddreans',req.query);
   })
 
   server.get('/api/redact/:id', (req, res) => {
@@ -58,21 +61,28 @@ app.prepare().then(() => {
   server.post('/api/redact',(req,res)=>{
     console.log(req.body);
     const item = req.body;
-    item.codeName = '333';
 
     const index = data.findIndex(obj => obj.id === item.id);
     
-    
-    if(index){
-      console.log('data before : ',data);
-      console.log('find obj',index)
+    if(index != -1){
       data[index] = item;
-      console.log('data after : ',data);
+      console.log('Change object :',data.find(obj => obj.id == item.id));
     }else{
-      console.log('not find obj',index)
+      const obj = {... item};
+      obj.id = Faker.random.uuid();
+      data.push(obj);
+      console.log('New object :',data.find(obj => obj.id == item.id));
     }
-    return res.json('s');
+    return res.json(item);
   })
+
+  server.delete('/api/remove/', (req, res) => {
+    const id = req.body.id;
+  
+    data = data.filter(item => item.id !== id);
+
+    return res.json({data});
+  });
 
   server.get('/tictactoe', (req, res) => {
     return app.render(req, res, '/tictactoe', req.query);
@@ -84,6 +94,6 @@ app.prepare().then(() => {
 
   server.listen(port, (err) => {
     if (err) throw err
-    console.log(`> Ready on http://localhost:${port}`);
+    console.log(`> Ready on ${domain}:${port}`);
   })
 })

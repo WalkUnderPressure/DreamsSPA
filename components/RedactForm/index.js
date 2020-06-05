@@ -8,28 +8,12 @@ class RedactForm extends Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        console.log('CWRP props', nextProps.data);
-        console.log('CWRP state', state);
-    }
-
     static getDerivedStateFromProps(props, state) {
-        console.log('DSFP')
-        console.log('incoming props : ',props);
-        // Re-run the filter whenever the list array or filter text change.
-        // Note we need to store prevPropsList and prevFilterText to detect changes.
-        if (
-            props.data != state
-        ) {
-            return { ... props.data };
-        }else{
-            return null;
-        }
-      }
+        return { ...props.data, ... state}
+    }
 
     render() {
         const element = this.state;
-        console.log('element : ', element);
         return (
             <form onSubmit={this.handleOnSubmit}>
                 <h1> ID : {element && element.id}</h1>
@@ -51,7 +35,6 @@ class RedactForm extends Component {
     handleInputChange = (event) => {
         const value = event.target.value;
         const name = event.target.name;
-        console.log('change ', value);
         this.setState({
             [name]: value
         });

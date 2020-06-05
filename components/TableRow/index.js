@@ -16,11 +16,15 @@ class TableRow extends Component {
                 <td>
                     <div>
                         <Link href={'/redact/[id]'} as={`/redact/${this.props.id}`}><a>Redact</a></Link>
-                        <Link href={'/delete/[id]'} as={`/delete/${this.props.id}`}><a>Delete</a></Link>
+                        <button onClick={this.handleDelete}>Delete</button>
                     </div>
                 </td>
             </tr>
         )
+    }
+
+    handleDelete = ()=>{
+        this.props.handleItemDelete(this.props.id);
     }
 }
 

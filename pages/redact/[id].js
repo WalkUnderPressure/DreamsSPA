@@ -11,10 +11,6 @@ class Redact extends Component {
         }
     }
 
-    // static getDerivedStateFromProps(props, state) {
-    //     return { state, item: props.item };
-    // }
-
     componentDidMount(){
         const { router: { query } } = this.props;
         if (query.id) {
@@ -52,9 +48,6 @@ class Redact extends Component {
         }).then(
             res => res.json()
         )
-        //.then(
-        //     res => this.setState({ item: res.data })
-        // );
     }
 }
 
