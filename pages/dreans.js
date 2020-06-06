@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Layout from '../Layout'
 import Table from '../components/Table';
 import Link from 'next/link';
+import {xRead,xDelete} from '../src'
 
 class Dreans extends Component {
     constructor(props) {
@@ -12,8 +13,8 @@ class Dreans extends Component {
     }
 
     componentDidMount() {
-        fetch('/api/alldreans')
-            .then(res => res.json())
+        const url = '/api/alldreans';
+        xRead(url,{})
             .then(res => {
                 this.setState({ tableItems: res });
             })
@@ -21,17 +22,10 @@ class Dreans extends Component {
 
     handleItemDelete = (id)=>{
         const url = "/api/remove";
-        fetch(url, {
-            method: "DELETE",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({id : id })
-        }).then(
-            res => {return res.json()})
-        .then(res => {
-            this.setState({tableItems : res.data})
-        })
+        xDelete(url,{id : id })
+            .then(res => {
+                this.setState({tableItems : res.data})
+            })
     }
 
     render() {

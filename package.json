@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node app",
+    "dev": "nodemon app.js",
     "build": "next build",
-    "start": "cross-env NODE_ENV=production node server.js"
+    "start": "cross-env NODE_ENV=production node app.js"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +20,8 @@
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
-    "faker": "^4.1.0"
+    "faker": "^4.1.0",
+    "node-fetch": "^2.6.0",
+    "nodemon": "^2.0.4"
   }
 }

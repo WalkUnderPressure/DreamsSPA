@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Layout from '../Layout';
 import RedactForm from '../components/RedactForm';
+import {xSave} from "../src";
 
 class AddDreans extends Component{
 
@@ -17,15 +18,7 @@ class AddDreans extends Component{
 
     handleOnSubmit = (changedData) => {
         const url = "/api/redact";
-        fetch(url, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body : JSON.stringify(changedData)
-        }).then(
-            res => res.json()
-        )
+        xSave(url,changedData);
     }
 }
 

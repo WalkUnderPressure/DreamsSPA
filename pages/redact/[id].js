@@ -3,6 +3,8 @@ import { Component } from 'react'
 import Layout from '../../Layout';
 import RedactForm from '../../components/RedactForm';
 
+import {xRead,xSave} from '../../src';
+
 class Redact extends Component {
     constructor(props) {
         super(props);
@@ -14,8 +16,8 @@ class Redact extends Component {
     componentDidMount(){
         const { router: { query } } = this.props;
         if (query.id) {
-            fetch(`/api/redact/${query.id}`)
-                .then(res => res.json())
+            const url = `/api/redact/${query.id}`;
+            xRead(url,{})
                 .then(res => {
                     this.setState({ item: res })
                 })
@@ -39,15 +41,10 @@ class Redact extends Component {
 
     handleOnSubmit = (changedData) => {
         const url = "/api/redact";
-        fetch(url, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(changedData)
-        }).then(
-            res => res.json()
-        )
+        xSave(url,changedData)
+            .then(
+                res => console.log(res)
+            )
     }
 }
 

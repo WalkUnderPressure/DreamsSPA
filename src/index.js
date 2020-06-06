@@ -1,37 +1,39 @@
-const common = require('../COMMON');
-const domain = common.DOMAIN;
+const COMMON = require('../COMMON');
+const fetch = require('node-fetch');
 
-
-xFetch = (url, data, method) => {
-    const path = `${domain}${url}`;
-    
-    fetch(path, {
+const xFetch = (url, data, method) => {
+    const path = `${COMMON.DOMAIN}:${COMMON.PORT}${url}`;
+    const request = {
         method: method,
         headers: {
             'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-        .then(
-            res => { return res.json() })
+        }
+    }
+    if (method == "POST" || method=='DELETE'){
+        request.body = JSON.stringify(data);
+    }
+    return fetch(path, request)
+        .then(res => {
+            return res.json()
+        });
 }
 
-xRead = (url,data)=>{
-    const method = 'GET';
-    xFetch(url,data,method);
-}
-
-xDelete = (url,data)=>{
-    const method = 'DELETE';
-    xFetch(url,data,method);
-}
-
-xSave = (url,data)=>{
+const xSave = (url,data)=>{
     const method = 'POST';
-    xFetch(url,data,method);
+    return xFetch(url,data,method);
 }
 
-module.exports.xRead = xRead;
-module.exports.xSave = xSave;
+const xRead = (url,data,method)=>{
+    const target_method = method || 'GET';
+    return xFetch(url,data,target_method);
+}
+
+const xDelete = (url,data)=>{
+    const method = 'DELETE';
+    return xFetch(url,data,method);
+}
+
 module.exports.xFetch = xFetch;
+module.exports.xSave = xSave;
+module.exports.xRead = xRead;
 module.exports.xDelete = xDelete;

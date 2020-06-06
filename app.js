@@ -43,7 +43,7 @@ app.prepare().then(() => {
   })
 
   server.get('/api/items', (req, res) => {
-    return res.status(200).json({ users: items });
+    return res.status(200).json({ users : items });
   });
   server.get('/api/alldreans', (req, res) => {
     return res.json(data);
@@ -71,7 +71,7 @@ app.prepare().then(() => {
       const obj = {... item};
       obj.id = Faker.random.uuid();
       data.push(obj);
-      console.log('New object :',data.find(obj => obj.id == item.id));
+      console.log('New object :',data.find(o => o.id == obj.id));
     }
     return res.json(item);
   })

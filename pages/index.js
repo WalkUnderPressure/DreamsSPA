@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import Layout from '../Layout'
-
-const API = 'http://localhost:3000/api';
-const DEFAULT_QUERY = '/items';
+import {xRead} from '../src'
 
 class Home extends Component {
     constructor(props){
@@ -13,29 +11,14 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        fetch('/api/items')
-            .then(res => {
-                return res.json();
-             })
+        const api_query = '/api/items';
+        xRead(api_query,{})
             .then(items => {
-                console.log("ITEMS : ",items.users);
                 this.setState({users : items.users});
-             });
+            })
     }
 
-
-
     render() {
-        console.log("render users : ",this.state.users)
-        // let items= null;
-        // if (this.state.users) {
-        //     items = this.state.users.map(item => {
-        //         return <li key={item.id}>{item}</li>
-        //     })
-        // }else{
-        //     items = <p>Loading . . .</p>;
-        // }
-
         const { users } = this.state;
         return (
             <Layout>
