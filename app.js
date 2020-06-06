@@ -49,10 +49,6 @@ app.prepare().then(() => {
     return res.json(data);
   })
 
-  server.get('/adddreans', (req, res) => {
-    return app.render(req,res,'/adddreans',req.query);
-  })
-
   server.get('/api/redact/:id', (req, res) => {
     const id = req.params.id;
     return res.json(data.find(obj => obj.id === id))
@@ -60,20 +56,29 @@ app.prepare().then(() => {
 
   server.post('/api/redact',(req,res)=>{
     console.log(req.body);
-    const item = req.body;
+    let item = req.body;
+    let message = '';
 
     const index = data.findIndex(obj => obj.id === item.id);
     
     if(index != -1){
       data[index] = item;
-      console.log('Change object :',data.find(obj => obj.id == item.id));
+      item = data.find(obj => obj.id == item.id);
+      message = "Item was successfully changed!";
+      console.log('Change object :',item);
     }else{
       const obj = {... item};
       obj.id = Faker.random.uuid();
       data.push(obj);
-      console.log('New object :',data.find(o => o.id == obj.id));
+      item = data.find(o => o.id == obj.id)
+      message = "New item was successfully added!";
+      console.log('New object :',item);
     }
-    return res.json(item);
+    return res.json({
+      error : false,
+      data : item,
+      message : message
+    });
   })
 
   server.delete('/api/remove/', (req, res) => {

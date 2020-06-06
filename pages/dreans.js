@@ -32,7 +32,7 @@ class Dreans extends Component {
         return (
             <Layout>
                 <Table data={this.state.tableItems} handleItemDelete={this.handleItemDelete}/>
-                <Link href='/adddreans' as="/adddreans"><a>Add</a></Link>
+                <Link href='/redact/[id]' as="/redact/add"><a>Add</a></Link>
             </Layout>
         )
     }

@@ -16,13 +16,12 @@ class RedactForm extends Component {
         const element = this.state;
         return (
             <form onSubmit={this.handleOnSubmit}>
-                <h1> ID : {element && element.id}</h1>
                 <input type="hidden" name="id" value={element && element.id} />
                 <input type="text" name="codeName" value={element && element.codeName} onChange={this.handleInputChange} />
                 <input type="text" name="description" value={element && element.description} onChange={this.handleInputChange} />
                 <input type="text" name="date" value={element && element.date} onChange={this.handleInputChange} />
 
-                <button type="submit">Save</button>
+                <button type="submit">{element.id ? "Save" : "Add"}</button>
             </form>
         )
     }

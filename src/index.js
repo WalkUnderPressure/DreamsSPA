@@ -33,6 +33,7 @@ const xDelete = (url,data)=>{
     return xFetch(url,data,method);
 }
 
+
 module.exports.xFetch = xFetch;
 module.exports.xSave = xSave;
 module.exports.xRead = xRead;

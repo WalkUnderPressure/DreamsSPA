@@ -15,7 +15,7 @@ class Redact extends Component {
 
     componentDidMount(){
         const { router: { query } } = this.props;
-        if (query.id) {
+        if (query.id !== 'add') {
             const url = `/api/redact/${query.id}`;
             xRead(url,{})
                 .then(res => {
@@ -32,7 +32,7 @@ class Redact extends Component {
         return (
             <Layout>
                 <div>
-                    Redact
+                    {element.id ? 'Redact' : 'Add New'}
                     <RedactForm data={element} onSubmit={this.handleOnSubmit} />
                 </div>
             </Layout>
@@ -43,7 +43,10 @@ class Redact extends Component {
         const url = "/api/redact";
         xSave(url,changedData)
             .then(
-                res => console.log(res)
+                res => {
+                    const notification = `Item : ${res.data.codeName} ${res.message}`
+                    alert(notification);
+                }
             )
     }
 }

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon app.js",
+    "dev": "node app.js",
     "build": "next build",
     "start": "cross-env NODE_ENV=production node app.js"
   },
