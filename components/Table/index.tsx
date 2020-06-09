@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
-import styles from './Table.module.css';
 import TableRow from '../TableRow';
+import Item from '../../Templates/Item';
 
-class Table extends Component {
-    constructor(props) {
+interface ITableProps{
+    handleItemDelete : Function;
+    data : Array<Item>;
+}
+interface ITableState{
+
+}
+
+class Table extends Component<ITableProps,ITableState> {
+    constructor(props:ITableProps) {
         super(props);
     }
 
@@ -13,7 +21,7 @@ class Table extends Component {
         
         if (items && items.length > 0) {
             rows = items.map(item => {
-                return <TableRow id={item.id} codeName={item.codeName} description={item.description} date={item.date} handleItemDelete={this.props.handleItemDelete}/>
+                return <TableRow data={item} handleItemDelete={this.props.handleItemDelete}/>
             })
         } else {
             rows = <tr><td><h1>Table is empty!</h1></td></tr>;

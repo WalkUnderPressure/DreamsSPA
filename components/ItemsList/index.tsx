@@ -1,7 +1,19 @@
 import React, { Component } from 'react';
 
-class ItemsList extends Component{
-    constructor(props){
+interface IItemsListProps{
+    itemsListHeader : string;
+}
+interface Item{
+    id : string;
+    value : string;
+}
+interface IItemsListState{
+    items : Array<Item>;
+    isOpen : boolean;
+}
+
+class ItemsList extends Component<IItemsListProps,IItemsListState>{
+    constructor(props : IItemsListProps){
         super(props);
         this.state = {
             items : [],

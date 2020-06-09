@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
-import Layout from '../Layout'
+import Layout from '../Layout';
 import Table from '../components/Table';
 import Link from 'next/link';
-import {xRead,xDelete} from '../src'
+import {xRead,xDelete} from '../src';
+import Item from '../Templates/Item';
 
-class Dreans extends Component {
-    constructor(props) {
+interface IDreansProps{
+
+}
+interface IDreansState{
+    tableItems : Array<Item>;
+}
+
+class Dreans extends Component<IDreansProps,IDreansState> {
+    constructor(props : any) {
         super(props);
         this.state = {
             tableItems: []
@@ -20,7 +28,7 @@ class Dreans extends Component {
             })
     }
 
-    handleItemDelete = (id)=>{
+    handleItemDelete = (id : string)=>{
         const url = "/api/remove";
         xDelete(url,{id : id })
             .then(res => {
