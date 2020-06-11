@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import ItemsList from '../ItemsList'
 import Link from 'next/link'
-import Item from '../../Templates/Item'
+import DreanItem from '../../Templates/DreanItem';
 
 interface ITableRowProps{
-    data : Item;
+    data : DreanItem;
     handleItemDelete : Function;
 }
 
@@ -16,11 +16,11 @@ class TableRow extends Component<ITableRowProps> {
         <td>{element && element.codeName}</td>
         <td>{element && element.description}</td>
         <td>{element && element.dateOfEvent}</td>
-        <td><ItemsList items={this.props.data.guests} itemsListHeader='Guests' /></td>
-        <td><ItemsList items={this.props.data.needThings} itemsListHeader='Need Things' /></td>
+        <td>{element && element.guests.length || 'empty'}</td>
+        <td>{element && element.needThings.length || 'empty'}</td>
         <td>
           <div>
-            <Link href={'/redact/[id]'} as={`/redact/${this.props.data.id}`}><a>Redact</a></Link>
+            <Link href={'/redact/[id]'} as={`/redact/${this.props.data._id}`}><a>Redact</a></Link>
             <button onClick={this.handleDelete}>Delete</button>
           </div>
         </td>

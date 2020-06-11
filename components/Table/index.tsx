@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import TableRow from '../TableRow'
-import Item from '../../Templates/Item'
+import DreanItem from '../../Templates/DreanItem'
 
 interface ITableProps{
     handleItemDelete : Function;
-    data : Array<Item>;
+    data : Array<DreanItem>
 }
 interface ITableState{
 
@@ -13,18 +13,21 @@ interface ITableState{
 class Table extends Component<ITableProps, ITableState> {
   constructor (props:ITableProps) {
     super(props)
+    this.state = {}
   }
 
   render () {
     const items = this.props.data
     let rows = null
 
+    console.log('table items : ', items);
+
     if (items && items.length > 0) {
-      rows = items.map(item => {
-        return <TableRow data={item} handleItemDelete={this.props.handleItemDelete}/>
+      rows = items.map((item, i) => {
+        return <TableRow key={'drean_item+' + i} data={item} handleItemDelete={this.props.handleItemDelete}/>
       })
     } else {
-      rows = <tr><td><h1>Table is empty!</h1></td></tr>
+      rows = <tr><td><h3>Table is empty!</h3></td></tr>
     }
 
     return (

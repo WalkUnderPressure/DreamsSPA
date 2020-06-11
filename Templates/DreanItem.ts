@@ -1,5 +1,5 @@
-export default interface Item {
-    id : string;
+export default interface DreanItem {
+    _id? : string;
     codeName : string;
     description : string;
     dateOfEvent : Date;
