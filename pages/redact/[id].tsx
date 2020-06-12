@@ -1,6 +1,5 @@
 import { withRouter } from 'next/router'
-import { Component } from 'react'
-import React from 'react'
+import React, { Component } from 'react'
 import Layout from '../../Layout'
 import RedactForm from '../../components/RedactForm'
 import { xRead, xSave } from '../../src'
@@ -26,11 +25,10 @@ class Redact extends Component<IRedactProps, IRedactState> {
   componentDidMount () {
     const { router: { query } } = this.props
     if (query.id !== 'add') {
-      const url = `/api/redact/${query.id}`
+      const url = `/api/dreans/redact/${query.id}`
       xRead(url, {})
         .then(res => {
           const answer: ServerResponse = res;
-          console.log(answer.message);
           this.setState({ item: answer.data });
         })
     }
@@ -38,27 +36,35 @@ class Redact extends Component<IRedactProps, IRedactState> {
 
   render () {
     const element = this.state.item;
-    console.log('id[] :', element);
     return (
       <Layout>
         <div>
           {element && element._id ? 'Redact' : 'Add New'}
-          <RedactForm data={element} onSubmit={this.handleOnSubmit} />
+          <RedactForm data={element} onSubmit={this.handleOnSubmit} handlerDeleteSubListItem={this.handleOnDelete}/>
         </div>
       </Layout>
     )
   }
 
-    handleOnSubmit = (changedData) => {
-      const url = '/api/redact'
-      xSave(url, changedData as DreanItem)
-        .then(
-          res => {
-            const notification = `Item : ${res.data.codeName} ${res.message}`
-            alert(notification)
+  handleOnDelete = (index:number, target: string) => {
+
+    this.state.item[target][index]
+    console.log(`target : ${target}[${index}]`)
+  }
+
+  handleOnSubmit = (changedData) => {
+    const url = '/api/dreans/redact'
+    xSave(url, changedData as DreanItem)
+      .then(
+        res => {
+          const answer: ServerResponse = res;
+          if(!answer.error){
+            this.setState({ item: answer.data });
           }
-        )
-    }
+          alert(answer.message)
+        }
+      )
+  }
 }
 
 export default withRouter(Redact)

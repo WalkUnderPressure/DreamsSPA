@@ -3,8 +3,9 @@ import { ListItem } from './listItem'
 
 interface IListProps{
     handleOnDelete : Function;
-    listName : string
-    items : Array<string>
+    name: string;
+    listName : string;
+    items : Array<string>;
 }
 
 interface IListState{
@@ -20,25 +21,32 @@ export class List extends Component<IListProps, IListState> {
   }
 
   static getDerivedStateFromProps (props : IListProps, state : IListState) {
-    return { items: props.items }
+    // console.log(`state`,state);
+    // console.log(`props`,props);
+    return { ...props, ...state.items }
   }
 
   render () {
     const element = this.state.items;
-    let listItems = null
+    let listItems = null;
 
-    console.log('list items data : ', this.state.items);
+    // console.log('list data : ', this.state.items);
 
     listItems = element && element.map((item,i) => {
-      return <ListItem key={`listItem_id:${i}`} item={item} handleOnDelete={this.props.handleOnDelete}/>
+      return <ListItem key={`listItem_id:${i}`} index={i} item={item} handleOnDelete={this.handlerOfDeleteListItem}/>
     })
     return (
       <div>
         <h3>{this.props && this.props.listName}</h3>
         {listItems}
-        <button onClick={this.onClickHandler}>Add new item</button>
+        <br/>
+        {/* <button onClick={this.onClickHandler}>Add new item</button> */}
       </div>
     )
+  }
+
+  handlerOfDeleteListItem = (index: number) => {
+    this.props.handleOnDelete(index, this.props.name)
   }
 
   onClickHandler = (event) => {

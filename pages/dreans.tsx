@@ -22,17 +22,16 @@ class Dreans extends Component<IDreansProps, IDreansState> {
   }
 
   componentDidMount () {
-    const url = '/api/alldreans'
+    const url = '/api/dreans/all'
     xRead(url, {})
       .then(res => {
         const answer: ServerResponse = res;
-        console.log(answer.message);
         this.setState({ tableItems: answer.data });
       })
   }
 
     handleItemDelete = (id : string) => {
-      const url = '/api/remove'
+      const url = '/api/dreans/remove'
       xDelete(url, { _id: id })
         .then(res => {
           const answer: ServerResponse = res;

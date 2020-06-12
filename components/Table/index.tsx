@@ -20,8 +20,6 @@ class Table extends Component<ITableProps, ITableState> {
     const items = this.props.data
     let rows = null
 
-    console.log('table items : ', items);
-
     if (items && items.length > 0) {
       rows = items.map((item, i) => {
         return <TableRow key={'drean_item+' + i} data={item} handleItemDelete={this.props.handleItemDelete}/>

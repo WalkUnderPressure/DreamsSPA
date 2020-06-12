@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import {pre, prop, modelOptions, getModelForClass, DocumentType} from '@typegoose/typegoose';
-import DreanItem from '../Templates/DreanItem'
+import { prop, modelOptions, getModelForClass, DocumentType} from '@typegoose/typegoose';
+import DreanItem from '../../Templates/DreanItem'
 
 // @pre<DreanSchema>('save', function(next) {
 //   this.updatedAt = new Date().getTime();
@@ -21,11 +21,11 @@ export class DreanSchema implements DreanItem{
     @prop()
     dateOfEvent: Date;
 
-    @prop()
-    guests: Array<string>;
+    @prop({type: String })
+    guests: [string]
 
-    @prop()
-    needThings: Array<string>;
+    @prop({type: String })
+    needThings: [string]
 }
 
 export type DreanType = mongoose.Model<DocumentType<DreanSchema>, {}> & DreanSchema;

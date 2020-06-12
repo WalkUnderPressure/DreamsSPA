@@ -3,6 +3,6 @@ export default interface DreanItem {
     codeName : string;
     description : string;
     dateOfEvent : Date;
-    guests : Array<string>;
-    needThings : Array<string>;
+    guests : [string];
+    needThings : [string];
 }

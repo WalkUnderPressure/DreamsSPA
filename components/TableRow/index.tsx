@@ -10,12 +10,13 @@ interface ITableRowProps{
 
 class TableRow extends Component<ITableRowProps> {
   render () {
-    const element = this.props.data
+    const element = this.props.data;
+    const dateTime = element && new Date(element.dateOfEvent).toLocaleDateString();
     return (
       <tr>
         <td>{element && element.codeName}</td>
         <td>{element && element.description}</td>
-        <td>{element && element.dateOfEvent}</td>
+        <td>{dateTime}</td>
         <td>{element && element.guests.length || 'empty'}</td>
         <td>{element && element.needThings.length || 'empty'}</td>
         <td>

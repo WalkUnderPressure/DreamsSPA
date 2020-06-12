@@ -2,6 +2,3 @@ node_modules
 .next
 .idea
 .git
-.eslintrc.js
-config.js
-.gitignore

@@ -7,13 +7,16 @@
     "dev": "nodemon server/server.ts",
     "build": "next build && tsc --project tsconfig.server.json",
     "postbuild": "cp -r static .next/",
-    "start": "NODE_ENV=production next start"
+    "start": "NODE_ENV=production next start",
+    "migrate": "cd ./albums-migrations/ && migrate-mongo up && cd .."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@typegoose/typegoose": "^7.2.0",
+    "awilix": "^4.2.6",
+    "awilix-express": "^3.0.0",
     "body-parser": "^1.19.0",
     "cross-env": "^7.0.2",
     "express": "^4.17.1",
