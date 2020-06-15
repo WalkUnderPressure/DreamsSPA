@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import { ListItem } from './listItem'
+import Faker from 'faker';
 
 interface IListProps{
-    handleOnDelete : Function;
-    name: string;
-    listName : string;
-    items : Array<string>;
+  handleOnChangeString: Function;
+  addNewItemHandler: Function;
+  handleOnDelete : Function;
+  name: string;
+  listName : string;
+  items : Array<string>;
 }
 
 interface IListState{
@@ -16,7 +19,7 @@ export class List extends Component<IListProps, IListState> {
   constructor (props : IListProps) {
     super(props)
     this.state = {
-      items: []
+      items: Array<string>()
     }
   }
 
@@ -33,7 +36,12 @@ export class List extends Component<IListProps, IListState> {
     // console.log('list data : ', this.state.items);
 
     listItems = element && element.map((item,i) => {
-      return <ListItem key={`listItem_id:${item}`} index={i} item={item} handleOnDelete={this.handlerOfDeleteListItem}/>
+      const key = Faker.random.uuid();
+      return <ListItem
+                key={`listItem_id:${item}${i}`} 
+                index={i} item={item} 
+                handleOnDelete={this.handlerOfDeleteListItem}
+                handleOnChangeString={this.handleOnChangeString} />
     }) || 'list empty';
 
     // console.log('list items',listItems);
@@ -41,9 +49,10 @@ export class List extends Component<IListProps, IListState> {
     return (
       <div>
         <h3>{this.props && this.props.listName}</h3>
-        {listItems}
-        <br/>
-         <button type="button" onClick={this.onClickHandler}>Add new item</button>
+        <button type="button" onClick={this.addNewItemHandler}>Add new item</button>
+        <ul>
+          {listItems}
+        </ul>
       </div>
     )
   }
@@ -52,7 +61,15 @@ export class List extends Component<IListProps, IListState> {
     this.props.handleOnDelete(index, this.props.name)
   }
 
-  onClickHandler = () => {
-    console.log('add new list item click', this.props.name);
+
+  // console.log(changedString)
+  // this.setState({ item : changedString })
+
+  handleOnChangeString = (index: number, changedString: string) => {
+    this.props.handleOnChangeString(index, this.props.name, changedString);
+  }
+
+  addNewItemHandler = () => {
+    this.props.addNewItemHandler(this.props.name);
   }
 }

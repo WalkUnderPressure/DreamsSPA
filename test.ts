@@ -1,17 +1,42 @@
-export default null;
-let arr_0: string[]  = ['a','b','c'];
-let arr_1: string[] = ['1','2','3'];
+import Express from 'express';
+import jwt from 'jsonwebtoken';
 
-const item = {
-    arr_0,
-    arr_1
-};
+const server = Express();
 
-const target='arr_0';
-const index = 0;
+server.get('/api', (req, res) => {
+    res.json({
+        message : 'welcome'
+    });
+});
 
-console.log('item before : ', item);
+server.post('/api/add', verifyToken, (req, res) => {
+    res.json({
+        message : 'Added!'
+    })
+})
 
-item[target] = item[target].filter( (item,i) => i !== index);
+const verifyToken = (req, res, next) => {
+    const header = req.headers['autorization'];
+    if(typeof header !== undefined){
 
-console.log('item after : ', item);
+    }else{
+        
+    }
+}
+server.post('/api/login', (req, res) => {
+    const user = {
+        id: 1,
+        name: 'David',
+        email: 'some@gmail.com'
+    };
+    console.log(user);
+    jwt.sign({user},'spa', (err, token) => {
+        res.json({
+            token: token
+        });
+    })
+})
+
+server.listen(5000, () => {
+    console.log('server start listen on port 5000');
+})

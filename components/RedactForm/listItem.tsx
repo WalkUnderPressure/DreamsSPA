@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
+import { index } from '@typegoose/typegoose';
 
 interface IListItemProps{
+  handleOnChangeString: Function;
   handleOnDelete : Function;
   index: number;
   item : string;
@@ -20,28 +22,24 @@ export class ListItem extends Component<IListItemProps, IListItemState> {
   }
 
   static getDerivedStateFromProps (props : IListItemProps, state : IListItemState) {
-    // console.log(`state`,state);
-    // console.log(`props`,props);
     return { ...props, ... state }
   }
 
   render () {
-    const element = this.state.item;
+    const element = this.state;
     // console.log('list item data : ',element);
     return (
-      <div>
         <li>
-          <input type="text" onChange={this.handleOnChange} value={element}/>
-          <button onClick={this.handleOnDelete}>Remove</button>
+          <input type="text" onChange={this.handleOnChange} value={element.item}/>
+          <button type="button" onClick={this.handleOnDelete}>Remove</button>
         </li>
-      </div>
     )
   }
 
   handleOnChange = (event) => {
     const changedString = event.target.value;
-    // console.log(changedString)
-    this.setState({ item : changedString })
+    this.setState({ item: changedString});
+    // this.props.handleOnChangeString(this.state.index, changedString);
   }
 
   handleOnDelete = (event) => {

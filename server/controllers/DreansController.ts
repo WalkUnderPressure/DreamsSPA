@@ -1,18 +1,16 @@
 import { route, GET, POST, DELETE } from 'awilix-express';
 import ServerResponse from '../../Templates/ServerResponse';
-import DreanItem from '../../Templates/DreanItem';
 import { Request, Response } from 'express';
-import BaseContext from './BaseContext';
+import BaseContext from '../BaseContext';
 
 @route('/api/dreans')
 export default class DreansController extends BaseContext {
     @GET()
     @route('/all')
-    async getLeads(req: Request, res: Response) {
-        console.log('get all function ')
-        const { DreanModel } = this.di;
+    public getDreans(req: Request, res: Response) {
+        const { DreansService } = this.di;
 
-        DreanModel.find({})
+        DreansService.getAllDreans()
             .then(resolve => {
                 const serRes: ServerResponse = {
                     error: (resolve == null ? true : false),
@@ -26,11 +24,11 @@ export default class DreansController extends BaseContext {
     @GET()
     @route('/redact/:id')
     public getDreanById(req: Request, res: Response) {
-        const { DreanModel } = this.di;
+        const { DreansService } = this.di;
         const id = req.params.id;
 
         if (id) {
-            DreanModel.findById(id)
+            DreansService.getDreanByID(id)
                 .then(resolve => {
 
                     const serRes: ServerResponse = {
@@ -55,12 +53,12 @@ export default class DreansController extends BaseContext {
     @POST()
     @route('/redact')
     public redactDrean(req: Request, res: Response) {
-        const { DreanModel } = this.di;
-        let item = req.body as DreanItem;
+        const { DreansService } = this.di;
+        let item = req.body;
         const id = item._id;
 
         if (id) {
-            DreanModel.findByIdAndUpdate(id, item)
+            DreansService.updateDreanByID(id, item)
                 .then(resolve => {
                     console.log('item for update : ', resolve);
 
@@ -73,7 +71,7 @@ export default class DreansController extends BaseContext {
                     return res.json(serRes);
                 })
         } else {
-            DreanModel.insertMany(item)
+            DreansService.createDrean(item)
                 .then(resolve => {
                     console.log('created item : ', resolve);
 
@@ -91,11 +89,11 @@ export default class DreansController extends BaseContext {
     @DELETE()
     @route('/remove')
     public removeDrean(req: Request, res: Response) {
-        const { DreanModel } = this.di;
+        const { DreansService } = this.di;
         const id = req.body._id;
 
         console.log('id for delete : ', id);
-        DreanModel.findByIdAndRemove(id)
+        DreansService.deleteDreanByID(id)
             .then(resolve => {
                 console.log('item for delete : ', resolve);
 

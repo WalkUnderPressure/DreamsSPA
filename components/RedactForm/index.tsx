@@ -36,13 +36,30 @@ class RedactForm extends Component<IRedactFormProps, IRedactFormState> {
         <input type="text" name="description" value={element && element.description} onChange={this.handleInputChange} />
         <input type="text" name="dateOfEvent" value={dateTime} onChange={this.handleInputChange} />
 
-        <List name='guests' listName={'Guests'} items={element && element.guests} handleOnDelete={this.props.handlerDeleteSubListItem} />
-        <List name='needThings' listName={'Need Things'} items={element && element.needThings} handleOnDelete={this.props.handlerDeleteSubListItem} />
+        <List 
+          name='guests' 
+          listName={'Guests'} 
+          items={element && element.guests} 
+          handleOnDelete={this.props.handlerDeleteSubListItem}
+          handleOnChangeString={this.handleOnChangeString}
+          addNewItemHandler={this.addNewItemHandler} />
+        <List 
+          name='needThings' 
+          listName={'Need Things'} 
+          items={element && element.needThings} 
+          handleOnDelete={this.props.handlerDeleteSubListItem}
+          handleOnChangeString={this.handleOnChangeString}
+          addNewItemHandler={this.addNewItemHandler} />
         <br/>
         <br/>
         <button type="submit">{element && element._id ? 'Save' : 'Add'}</button>
+        <button type="button" onClick={this.getData}>get data</button>
       </form>
     )
+  }
+
+  getData = () => {
+    console.log("get data",this.state.data);
   }
 
   handleOnSubmit = (event) => {
@@ -57,6 +74,22 @@ class RedactForm extends Component<IRedactFormProps, IRedactFormState> {
     this.state.data[name] = value
     this.setState({ data: this.state.data })
   };
+
+  handleOnChangeString = (index: number, name: string, changedString: string) => {
+    this.state.data[name][index] = changedString;
+    this.setState({
+      data: this.state.data
+    })
+    console.log(index,name,changedString);
+  }
+
+  addNewItemHandler = (name: string) => {
+    this.state.data[name].push('');
+    this.setState({
+      data: this.state.data
+    })
+    console.log('add new list item click', name);
+  }
 }
 
 export default RedactForm
