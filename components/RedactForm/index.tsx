@@ -71,15 +71,15 @@ class RedactForm extends Component<IRedactFormProps, IRedactFormState> {
     const value : string = event.target.value
     const name : string = event.target.name
 
-    this.state.data[name] = value
-    this.setState({ data: this.state.data })
+    let newState= {...this.state};
+    newState.data[name] = value
+    this.setState({ ...newState })
   };
 
   handleOnChangeString = (index: number, name: string, changedString: string) => {
-    this.state.data[name][index] = changedString;
-    this.setState({
-      data: this.state.data
-    })
+    let newState = { ...this.state};
+    newState.data[name][index] = changedString;
+    this.setState({...newState})
     console.log(index,name,changedString);
   }
 

@@ -31,9 +31,5 @@ module.exports = {
     }
     
     return db.collection('dreans').insertMany(items);
-  },
- 
-  down(db) {
-    return db.collection('albums').updateOne({artist: 'The Beatles'}, {$set: {blacklisted: false}});
   }
 };

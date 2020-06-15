@@ -38,8 +38,8 @@ export class ListItem extends Component<IListItemProps, IListItemState> {
 
   handleOnChange = (event) => {
     const changedString = event.target.value;
-    this.setState({ item: changedString});
-    // this.props.handleOnChangeString(this.state.index, changedString);
+    // this.setState({ item: changedString});
+    this.props.handleOnChangeString(this.props.index, changedString);
   }
 
   handleOnDelete = (event) => {

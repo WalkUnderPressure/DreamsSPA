@@ -38,13 +38,13 @@ export class List extends Component<IListProps, IListState> {
     listItems = element && element.map((item,i) => {
       const key = Faker.random.uuid();
       return <ListItem
-                key={`listItem_id:${item}${i}`} 
-                index={i} item={item} 
+                key={`listItem_id:${i}`}
+                index={i} item={item}
                 handleOnDelete={this.handlerOfDeleteListItem}
                 handleOnChangeString={this.handleOnChangeString} />
     }) || 'list empty';
 
-    // console.log('list items',listItems);
+    console.log('list items',listItems);
 
     return (
       <div>
@@ -60,6 +60,7 @@ export class List extends Component<IListProps, IListState> {
   handlerOfDeleteListItem = (index: number) => {
     this.props.handleOnDelete(index, this.props.name)
   }
+
 
 
   // console.log(changedString)
