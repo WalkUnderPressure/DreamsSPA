@@ -18,7 +18,7 @@ class Redact extends Component<IRedactProps, IRedactState> {
   constructor (props: IRedactProps) {
     super(props)
     this.state = {
-      item: {}
+      item: {} as DreanItem
     }
   }
 
@@ -36,27 +36,38 @@ class Redact extends Component<IRedactProps, IRedactState> {
 
   render () {
     const element = this.state.item;
+    // console.log('id element : ',element);
     return (
       <Layout>
         <div>
           {element && element._id ? 'Redact' : 'Add New'}
-          <RedactForm data={element} onSubmit={this.handleOnSubmit} handlerDeleteSubListItem={this.handleOnDelete}/>
+          <RedactForm data={element} handlerOnSubmit={this.handleOnSubmit} handlerDeleteSubListItem={this.handleOnDelete}/>
         </div>
       </Layout>
     )
   }
 
   handleOnDelete = (index:number, target: string) => {
-
-    this.state.item[target][index]
     console.log(`target : ${target}[${index}]`)
+
+      this.state.item[target] = this.state.item[target].filter( (item,i) => i !== index)
+
+      // console.log('after delete', this.state.item);
+      this.setState({
+          item: this.state.item
+      })
   }
 
-  handleOnSubmit = (changedData) => {
-    const url = '/api/dreans/redact'
-    xSave(url, changedData as DreanItem)
-      .then(
-        res => {
+  handleOnSubmit = (changedData: DreanItem) => {
+      const url = '/api/dreans/redact'
+
+      this.state.item.codeName = changedData.codeName;
+      this.state.item.description = changedData.description;
+      this.state.item.dateOfEvent = changedData.dateOfEvent;
+
+      xSave(url, this.state.item as DreanItem)
+          .then(
+              res => {
           const answer: ServerResponse = res;
           if(!answer.error){
             this.setState({ item: answer.data });

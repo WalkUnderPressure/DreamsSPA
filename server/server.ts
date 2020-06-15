@@ -1,8 +1,9 @@
-import Express, { Request, Response, Application } from 'express';
+import Express from 'express';
+import { Request, Response, Application } from 'express';
 import Next from 'next';
 import * as bodyParser from 'body-parser';
-import queryString from 'query-string';
-import url from 'url';
+import * as  queryString from 'query-string';
+import * as url from 'url';
 import models from '../db/database';
 import config from '../config';
 import ServerResponse from '../Templates/ServerResponse';

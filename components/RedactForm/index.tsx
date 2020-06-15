@@ -25,6 +25,9 @@ class RedactForm extends Component<IRedactFormProps, IRedactFormState> {
 
   render () {
     const element = this.state.data;
+
+    // console.log('redact form element : ',element);
+
     const dateTime = element && new Date(element.dateOfEvent).toLocaleDateString();
     return (
       <form onSubmit={this.handleOnSubmit}>

@@ -33,14 +33,17 @@ export class List extends Component<IListProps, IListState> {
     // console.log('list data : ', this.state.items);
 
     listItems = element && element.map((item,i) => {
-      return <ListItem key={`listItem_id:${i}`} index={i} item={item} handleOnDelete={this.handlerOfDeleteListItem}/>
-    })
+      return <ListItem key={`listItem_id:${item}`} index={i} item={item} handleOnDelete={this.handlerOfDeleteListItem}/>
+    }) || 'list empty';
+
+    // console.log('list items',listItems);
+
     return (
       <div>
         <h3>{this.props && this.props.listName}</h3>
         {listItems}
         <br/>
-        {/* <button onClick={this.onClickHandler}>Add new item</button> */}
+         <button type="button" onClick={this.onClickHandler}>Add new item</button>
       </div>
     )
   }
@@ -49,8 +52,7 @@ export class List extends Component<IListProps, IListState> {
     this.props.handleOnDelete(index, this.props.name)
   }
 
-  onClickHandler = (event) => {
-    event.PreventDefault();
-    console.log('add new list item click');
+  onClickHandler = () => {
+    console.log('add new list item click', this.props.name);
   }
 }
