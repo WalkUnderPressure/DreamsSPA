@@ -1,6 +1,6 @@
 const Faker = require('faker');
 
-module.exports = {
+module.export = {
   up(db) {
 
     let items = [];
@@ -29,7 +29,7 @@ module.exports = {
 
       items.push(item);
     }
-    
+
     return db.collection('dreans').insertMany(items);
   }
 };

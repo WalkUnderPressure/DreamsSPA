@@ -12,6 +12,10 @@ import DreanItem from '../../Templates/DreanItem'
 
 @modelOptions({schemaOptions: {collection: 'dreans', versionKey: false }})
 export class DreanSchema implements DreanItem{
+
+    @prop()
+    owner_id: string;
+
     @prop()
     codeName: string;
 

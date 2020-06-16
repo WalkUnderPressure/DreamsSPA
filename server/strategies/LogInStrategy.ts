@@ -1,68 +1,3 @@
-// import { Request } from 'express';
-// import passportLocal from 'passport-local';
-// import { USER_ROLE } from '../../COMMON';
-// import bcrypt from 'bcrypt';
-// import jwt from 'jsonwebtoken';
-// // import { ConfirmRequestMethod } from '../../src/constants';
-
-// import BaseContext from '../BaseContext';
-// import { IContextContainer } from '../container';
-// // import BaseModel from '../models/BaseModel';
-
-
-// declare global {
-//     namespace Express {
-//         interface Request {
-//             locale: any;
-//         }
-//     }
-// }
-
-// /**
-//  * Return the Passport Local Strategy object.
-//  */
-
-
-// export default class LogInStrategy extends BaseContext {
-//     private strategyUser: passportLocal.Strategy;
-
-//     get strategy() {
-//         return this.strategyUser;
-//     }
-
-//     constructor(opts: IContextContainer) {
-//         super(opts);
-
-//         this.verifyRequestUser = this.verifyRequestUser.bind(this);
-
-//         this.strategyUser = new passportLocal.Strategy({
-//             passwordField: 'password',
-//             passReqToCallback: true,
-//             usernameField: 'email',
-//             session: false,
-
-//         }, this.verifyRequestUser);
-//     }
-
-//     public async verifyRequestUser(req: Request, email: string, password: string, done: any) {
-//         const { UserModel } = this.di;
-        
-//         const user = await UserModel.findOne({ email: email });
-//         if (user) {
-//             bcrypt.compare(password, user.password, (err, result) => {
-//                 if(err){
-//                     return done('Cant check passwords!');
-//                 }else if(result) {
-//                     return done(null, user);
-//                 }else{
-//                     return done(null, false);
-//                 }
-//             })
-//         }else {
-//             return done(null, false);
-//         } 
-//     }
-// }
 import { Request } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
@@ -72,14 +7,9 @@ import BaseContext from '../BaseContext';
 import { IContextContainer } from '../container';
 import config from '../../config';
 
-/**
- * Return the Passport Local Strategy object.
- */
-
 interface ILoginStrategyOptions {
     UserModel: UserType;
 }
-
 
 export default class LogInStrategy extends BaseContext {
     private strategyUser: passportLocal.Strategy;
@@ -143,7 +73,8 @@ export default class LogInStrategy extends BaseContext {
         const identity = {
             email: user.email,
             firstName: user.firstName,
-            lastName: user.lastName
+            lastName: user.lastName,
+            token: user.token
         }
         //const identity = user.initSession(req);
         return done(null, identity);
