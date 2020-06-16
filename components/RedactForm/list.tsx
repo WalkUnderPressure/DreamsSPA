@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { ListItem } from './listItem'
 import Faker from 'faker';
+import { index } from '@typegoose/typegoose';
 
 interface IListProps{
   handleOnChangeString: Function;
@@ -24,8 +25,6 @@ export class List extends Component<IListProps, IListState> {
   }
 
   static getDerivedStateFromProps (props : IListProps, state : IListState) {
-    // console.log(`state`,state);
-    // console.log(`props`,props);
     return { ...props, ...state.items }
   }
 
@@ -38,13 +37,11 @@ export class List extends Component<IListProps, IListState> {
     listItems = element && element.map((item,i) => {
       const key = Faker.random.uuid();
       return <ListItem
-                key={`listItem_id:${i}`}
+                key={`listItem_id:${key}`}
                 index={i} item={item}
                 handleOnDelete={this.handlerOfDeleteListItem}
                 handleOnChangeString={this.handleOnChangeString} />
     }) || 'list empty';
-
-    console.log('list items',listItems);
 
     return (
       <div>
@@ -61,13 +58,9 @@ export class List extends Component<IListProps, IListState> {
     this.props.handleOnDelete(index, this.props.name)
   }
 
-
-
-  // console.log(changedString)
-  // this.setState({ item : changedString })
-
-  handleOnChangeString = (index: number, changedString: string) => {
-    this.props.handleOnChangeString(index, this.props.name, changedString);
+  handleOnChangeString = (event) => {
+    event.target.name = this.props.name;
+    this.props.handleOnChangeString(event);
   }
 
   addNewItemHandler = () => {

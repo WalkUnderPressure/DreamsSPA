@@ -47,25 +47,10 @@ class Redact extends Component<IRedactProps, IRedactState> {
     )
   }
 
-  handleOnDelete = (index:number, target: string) => {
-    console.log(`target : ${target}[${index}]`)
-
-      this.state.item[target] = this.state.item[target].filter( (item,i) => i !== index)
-
-      // console.log('after delete', this.state.item);
-      this.setState({
-          item: this.state.item
-      })
-  }
-
   handleOnSubmit = (changedData: DreanItem) => {
       const url = '/api/dreans/redact'
-
-      this.state.item.codeName = changedData.codeName;
-      this.state.item.description = changedData.description;
-      this.state.item.dateOfEvent = changedData.dateOfEvent;
-
-      xSave(url, this.state.item as DreanItem)
+      
+      xSave(url, changedData)
           .then(
               res => {
           const answer: ServerResponse = res;

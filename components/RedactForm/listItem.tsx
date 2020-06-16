@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { index } from '@typegoose/typegoose';
 
 interface IListItemProps{
   handleOnChangeString: Function;
@@ -9,8 +8,8 @@ interface IListItemProps{
 }
 
 interface IListItemState{
-  index: number
-  item : string
+  index: number;
+  item : string;
 }
 
 export class ListItem extends Component<IListItemProps, IListItemState> {
@@ -37,13 +36,16 @@ export class ListItem extends Component<IListItemProps, IListItemState> {
   }
 
   handleOnChange = (event) => {
-    const changedString = event.target.value;
-    // this.setState({ item: changedString});
-    this.props.handleOnChangeString(this.props.index, changedString);
+    event.target.index = this.state.index;
+    this.props.handleOnChangeString(event);
+    
+    this.setState({
+      item: event.target.value
+    })
   }
 
   handleOnDelete = (event) => {
     event.preventDefault();
-    this.props.handleOnDelete(this.props.index)
+    this.props.handleOnDelete(this.state.index)
   }
 }

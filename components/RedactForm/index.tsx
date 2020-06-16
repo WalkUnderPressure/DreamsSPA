@@ -3,7 +3,6 @@ import DreanItem from '../../Templates/DreanItem';
 import { List } from './list'
 
 interface IRedactFormProps{
-  handlerDeleteSubListItem: Function;
   handlerOnSubmit : Function;
   data : DreanItem;
 }
@@ -40,27 +39,27 @@ class RedactForm extends Component<IRedactFormProps, IRedactFormState> {
           name='guests' 
           listName={'Guests'} 
           items={element && element.guests} 
-          handleOnDelete={this.props.handlerDeleteSubListItem}
+          handleOnDelete={this.handleOnDelete}
           handleOnChangeString={this.handleOnChangeString}
           addNewItemHandler={this.addNewItemHandler} />
         <List 
           name='needThings' 
           listName={'Need Things'} 
           items={element && element.needThings} 
-          handleOnDelete={this.props.handlerDeleteSubListItem}
+          handleOnDelete={this.handleOnDelete}
           handleOnChangeString={this.handleOnChangeString}
           addNewItemHandler={this.addNewItemHandler} />
         <br/>
         <br/>
         <button type="submit">{element && element._id ? 'Save' : 'Add'}</button>
-        <button type="button" onClick={this.getData}>get data</button>
+        {/* <button type="button" onClick={this.getData}>get data</button> */}
       </form>
     )
   }
 
-  getData = () => {
-    console.log("get data",this.state.data);
-  }
+  // getData = () => {
+  //   console.log("get data",this.state.data);
+  // }
 
   handleOnSubmit = (event) => {
     event.preventDefault()
@@ -76,11 +75,12 @@ class RedactForm extends Component<IRedactFormProps, IRedactFormState> {
     this.setState({ ...newState })
   };
 
-  handleOnChangeString = (index: number, name: string, changedString: string) => {
-    let newState = { ...this.state};
-    newState.data[name][index] = changedString;
-    this.setState({...newState})
-    console.log(index,name,changedString);
+  handleOnChangeString = (event) => {
+    const name = event.target.name;
+    const index = event.target.index;
+    const value = event.target.value
+    
+    this.props.data[name][index] = value;
   }
 
   addNewItemHandler = (name: string) => {
@@ -88,7 +88,12 @@ class RedactForm extends Component<IRedactFormProps, IRedactFormState> {
     this.setState({
       data: this.state.data
     })
-    console.log('add new list item click', name);
+  }
+
+  handleOnDelete = (index:number, target: string) => {
+    const newState = { ... this.state } as IRedactFormState;
+    newState.data[target] = this.state.data[target].filter( (item,i) => i !== index);
+    this.setState({ ... newState });
   }
 }
 

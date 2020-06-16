@@ -1,18 +1,18 @@
-import Express from 'express';
-import { Request, Response, Application } from 'express';
+import Express, { Request, Response, Application } from 'express';
 import Next from 'next';
 import * as bodyParser from 'body-parser';
 import * as  queryString from 'query-string';
 import * as url from 'url';
-import models from '../db/database';
-import config from '../config';
 import ServerResponse from '../Templates/ServerResponse';
-import DreanItem from '../Templates/DreanItem';
 import { AwilixContainer } from "awilix";
 import { loadControllers, scopePerRequest } from 'awilix-express'
+import models from '../db/database';
+import config from '../config';
 import container from './container';
+import { PassportStatic } from 'passport';
 
-models(config.mongo.uri, config.mongo.options)
+
+models( config.mongo.uri, config.mongo.options)
 const domain: string = config.baseUrl
 const port: number = parseInt(domain.split(':')[2])
 
@@ -22,7 +22,9 @@ const handle = app.getRequestHandler()
 
 app.prepare().then(() => {
   const server: Application = Express()
-
+  const passport = container.resolve<PassportStatic>('passport');
+  server.use(passport.initialize());
+  
   server.use(bodyParser.urlencoded({ extended: false }))
   server.use(bodyParser.json())
 

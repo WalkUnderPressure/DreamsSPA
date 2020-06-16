@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import Layout from '../Layout'
+import { xRead } from '../src';
+import { METHODS } from '../COMMON';
 
 interface ILoginProps {
-    login: string;
+    email: string;
     password: string;
 }
 
 interface ILoginState {
-    login: string;
+    email: string;
     password: string;
 }
 
@@ -15,7 +17,7 @@ class Login extends Component<ILoginProps, ILoginState>{
     constructor(props: ILoginProps) {
         super(props);
         this.state = {
-            login: '',
+            email: '',
             password: ''
         }
     }
@@ -25,8 +27,8 @@ class Login extends Component<ILoginProps, ILoginState>{
             <Layout>
                 <h1>Login</h1>
                 <form onSubmit={this.handleOnSubmit}>
-                    <label htmlFor="login">Login: </label>
-                    <input onChange={this.handlerOnChange} value={this.state.login} type="text" id="login" name="login"/>
+                    <label htmlFor="email">Email: </label>
+                    <input onChange={this.handlerOnChange} value={this.state.email} type="text" id="email" name="email"/>
                     <br/><br/>
                     <label htmlFor="password">Password: </label>
                     <input onChange={this.handlerOnChange} value={this.state.password} type="password" id="password" name="password"/><br/><br/>
@@ -47,12 +49,20 @@ class Login extends Component<ILoginProps, ILoginState>{
 
     handleOnSubmit = (event) => {
         event.preventDefault();
-        console.log('LogIn Click!');
-        console.log('login : ', this.state.login);
-        console.log('password : ', this.state.password);
+        console.log('LogIn Click!', this.state);
+    
+        xRead('/api/auth/login',this.state,METHODS.POST)
+            .then(resolve => {
+                console.log('log in resolve : ',resolve);
 
-        document.cookie = `login=${this.state.login};`;
-        document.cookie = `password=${this.state.password};`;
+                const element = resolve.data;
+                
+                for(let field in element){
+                    localStorage.setItem(field, element && element[field]);
+                }
+
+                alert(resolve.message);
+            })
     }
 }
 

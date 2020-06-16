@@ -16,7 +16,7 @@ const prodConfig = {
   dev: isDev,
 
   port: process.env.PORT || 3000,
-  jwtSecret: 'jwt',
+  jwtSecret: 'ub2aWS62u9LXbBV22CfG263zecqc2692npKdsKG98cpubxf2R6vFJhf3qUb2aj2z',
 
   locale: {
     default: 'en',
