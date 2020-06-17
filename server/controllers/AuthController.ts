@@ -72,7 +72,46 @@ export default class AuthController extends BaseContext {
         const { passport } = this.di;
         const JST_EXPIRE = 3;
         const REMEMBER_ME_EXPIRE = 30;
+        console.log('<---- LOG IN ---->')
         return passport.authenticate('local-login', (err, identity) => {
+            console.log('err ', err);
+            console.log('identity ', identity);
+
+            if (err) {
+                const serRes = {
+                    error: true,
+                    data: null,
+                    message: err
+                } as ServerResponse;
+                return res.json(serRes);
+            }
+            let expire = JST_EXPIRE;
+
+            if (req.body.rememberMe) {
+                expire = REMEMBER_ME_EXPIRE;
+            }
+
+            res.cookie('token', identity.token, { maxAge: 1000 * 60 * 60 * 24 * expire });
+
+            delete identity.token;
+
+            const serRes = {
+                error: false,
+                data: identity,
+                message: 'You have successfully logged in!'
+            } as ServerResponse;
+            res.json(serRes);
+
+        })(req, res, next);
+    }
+
+    @POST()
+    @route('/logout')
+    public logout(req: Request, res: Response, next: NextFunction) {
+        const { passport } = this.di;
+        console.log('<---- LOG OUT ---->')
+
+        return passport.authenticate('local-logout', (err, identity) => {
             console.log('err ', err);
             console.log('identity ', identity);
 
@@ -84,18 +123,19 @@ export default class AuthController extends BaseContext {
                 } as ServerResponse;
                 res.json(serRes);
             }
-            let expire = JST_EXPIRE;
 
-            if (req.body.rememberMe) {
-                expire = REMEMBER_ME_EXPIRE;
+            const result: boolean = identity === null || identity === false;
+            
+            if (!result) {
+                for (let field in req.cookies) {
+                    res.clearCookie(field);
+                }
             }
-
-            res.cookie('token', identity.token, { maxAge: 1000 * 60 * 60 * 24 * expire });
-
+            const message = !result ? 'You have successfully logged out!' : 'Cant LogOut something went wrong!'; 
             const serRes = {
-                error: false,
+                error: result,
                 data: identity,
-                message: 'You have successfully logged in!'
+                message: message
             } as ServerResponse;
             res.json(serRes);
 

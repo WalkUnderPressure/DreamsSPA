@@ -7,5 +7,8 @@
         "isolatedModules": false,
         "noEmit": false
         },
-    "include": ["server/**/*.ts"]
+    "include": ["server/**/*.ts"],
+    "exclude": [
+        "albums-migrations/**/*.js"
+    ]
 }

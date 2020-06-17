@@ -33,6 +33,9 @@ import {USER_ROLE} from '../../COMMON';
 export class UserSchema {
     
     @prop()
+    _id: string;
+
+    @prop()
     role: USER_ROLE;
 
     @prop()

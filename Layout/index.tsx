@@ -3,6 +3,7 @@ import styles from './layout.module.css';
 import Link from 'next/link'
 import store from 'store';
 import {cookie} from "express-validator";
+import { xSave } from '../src';
 
 interface ILayoutProps{
 
@@ -54,6 +55,21 @@ export default class Layout extends Component<ILayoutProps, ILayoutState>{
 
     handleLogOut = () => {
         console.log('log out click !');
-        store.clearAll();
+        
+        const email = store.get('email');
+
+        const url = '/api/auth/logout';
+        xSave(url, {email: email, password: 'template'})
+            .then(answer => {
+                console.log('log out response : ', answer);
+                if(!answer.error){
+                    store.clearAll();
+                    alert(`${answer.data.email} ${answer.message}`)
+                }else{
+                    alert(answer.message)
+                }
+            })
+        
+        
     }
 }

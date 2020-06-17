@@ -7,14 +7,14 @@ interface IRedactFormProps{
   data : DreanItem;
 }
 interface IRedactFormState{
-    data : DreanItem;
+  data : DreanItem;
 }
 
 class RedactForm extends Component<IRedactFormProps, IRedactFormState> {
   constructor (props : IRedactFormProps) {
     super(props)
-    this.state = {
-      data : {} as DreanItem
+    this.state= {
+      ...this.props
     }
   }
 
@@ -52,14 +52,14 @@ class RedactForm extends Component<IRedactFormProps, IRedactFormState> {
         <br/>
         <br/>
         <button type="submit">{element && element._id ? 'Save' : 'Add'}</button>
-        {/* <button type="button" onClick={this.getData}>get data</button> */}
+        <button type="button" onClick={this.getData}>get data</button>
       </form>
     )
   }
 
-  // getData = () => {
-  //   console.log("get data",this.state.data);
-  // }
+  getData = () => {
+    console.log("get data",this.state.data);
+  }
 
   handleOnSubmit = (event) => {
     event.preventDefault()

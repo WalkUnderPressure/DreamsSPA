@@ -1,4 +1,6 @@
-const config = {
+// const config =  require('../config');
+
+module.exports =  {
   mongodb: {
     url: "mongodb://localhost:27017",
 
@@ -15,5 +17,3 @@ const config = {
   changelogCollectionName: "changelog",
   migrationFileExtension: ".js"
 };
-
-module.exports = config;

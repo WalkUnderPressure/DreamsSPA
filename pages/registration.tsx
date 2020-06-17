@@ -47,7 +47,7 @@ export default class Registration extends Component<IRegistrationProps, IRegistr
                     <input onChange={this.handlerOnChange} value={this.state.confirmPassword} type="password" id="confirmPassword" name="confirmPassword" /><br /><br />
                     <br /><br />
 
-                    <input type="submit" value="LogIn" />
+                    <input type="submit" value="Registration" />
                 </form>
             </Layout>
         )

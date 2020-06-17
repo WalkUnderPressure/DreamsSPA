@@ -3,6 +3,12 @@ import { DreanType } from '../models/Drean.model';
 
 export default class DreansService extends BaseContext{
     
+    getAllDreansWithOwner(owner_id: string){
+        console.log('owner id ', owner_id);
+        const { DreanModel } = this.di;
+        return DreanModel.find({owner_id: owner_id})
+    }
+
     getAllDreans () {
         const { DreanModel } = this.di;
         return DreanModel.find({});

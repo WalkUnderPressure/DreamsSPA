@@ -7,8 +7,9 @@ import passport, { PassportStatic } from 'passport';
 
 export const passportFunc = (ctx: IContextContainer) => {
     passport.use('local-login', ctx.LogInStrategy.strategy);
+    passport.use('local-logout', ctx.LogOutStrategy.strategy);
     passport.use('local-signup', ctx.SignUpStrategy.strategy);
-    // passport.use(ctx.jwtStrategy.strategy);
+    passport.use('local-jwt',ctx.JWTStrategy.strategy);
     return passport;
 };
 

@@ -1,12 +1,12 @@
 import { METHODS, DOMAIN} from '../COMMON'
 import fetch, { RequestInit } from 'node-fetch'
 
-export const xFetch = (url : string, data : Object, method : METHODS) => {
+export const xFetch = (url : string, data : any, method : METHODS) => {
   const path = `${DOMAIN}${url}`
 
   const request : RequestInit = {}
 
-  request.method = method
+  request.method = method;
   request.headers = {
     'Content-Type': 'application/json'
   }
