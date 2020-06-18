@@ -6,7 +6,6 @@ import { UserType } from '../models/User.model';
 import BaseContext from '../BaseContext';
 import { IContextContainer } from '../container';
 import config from '../../config';
-
 interface ILoginStrategyOptions {
     UserModel: UserType;
 }
@@ -34,12 +33,10 @@ export default class LogInStrategy extends BaseContext {
     }
 
     public async verifyRequestUser(req: Request, email: string, password: string, done: any) {
-
-        console.log('verify user!')
-
-        const { UserModel } = this.di;
-
+        const { UserModel, initSession } = this.di;
         const user = await UserModel.findOne({ email: email });
+
+        console.log('verify user!', user);
 
         if (!user) {
             return done('Incorrect password');
@@ -68,13 +65,9 @@ export default class LogInStrategy extends BaseContext {
         user.token = token;
         user.save();
         
-        const identity = {
-            email: user.email,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            token: user.token
-        }
-        //const identity = user.initSession(req);
+        console.log('user to init => ', user);
+        
+        const identity = initSession(req, user);
         return done(null, identity);
     }
 

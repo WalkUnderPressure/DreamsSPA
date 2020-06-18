@@ -14,8 +14,10 @@ class RedactForm extends Component<IRedactFormProps, IRedactFormState> {
   constructor (props : IRedactFormProps) {
     super(props)
     this.state= {
-      ...this.props
+        ... this.props
     }
+    this.state.data.guests = [];
+    this.state.data.needThings = [];
   }
 
   static getDerivedStateFromProps (props : IRedactFormProps, state : IRedactFormState) {
@@ -84,10 +86,20 @@ class RedactForm extends Component<IRedactFormProps, IRedactFormState> {
   }
 
   addNewItemHandler = (name: string) => {
-    this.state.data[name].push('');
-    this.setState({
-      data: this.state.data
-    })
+    if(!this.state.data[name]){
+      const newState = this.state.data;
+
+      newState[name] = [];
+      newState[name].push('');
+      this.setState({
+        data: newState
+      })
+    }else{
+      this.state.data[name].push('');
+      this.setState({
+        data: this.state.data
+      })
+    }
   }
 
   handleOnDelete = (index:number, target: string) => {

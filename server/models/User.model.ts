@@ -4,6 +4,10 @@ import bcrypt from 'bcrypt';
 import {USER_ROLE} from '../../COMMON';
 @pre<UserSchema>("save", function (next) { // or @pre(this: Car, 'save', ...
     
+    if (this._id === undefined || this._id === null) {
+        this._id = mongoose.Types.ObjectId();
+    }
+
     this.updatedAt = Date.now();
     if (this.isNew) {
         this.createdAt = Date.now();
@@ -32,8 +36,9 @@ import {USER_ROLE} from '../../COMMON';
 @modelOptions({schemaOptions: {collection: 'users', versionKey: false }})
 export class UserSchema {
     
-    @prop()
-    _id: string;
+    public _id: mongoose.Schema.Types.ObjectId;
+    //@prop()
+    //_id?: mongoose.Types.ObjectId;
 
     @prop()
     role: USER_ROLE;

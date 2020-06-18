@@ -48,9 +48,13 @@ class Dreans extends Component<IDreansProps, IDreansState> {
       return (
         <Layout>
           <Table data={this.state.tableItems} handleItemDelete={this.handleItemDelete}/>
-          <Link href='/redact/[id]' as='/redact/add'><a>Add</a></Link>
+          <Link href='/redact/[id]' as='/redact/add'><a onClick={this.onClickAdd} >Add</a></Link>
         </Layout>
       )
+    }
+
+    onClickAdd = () => {
+      console.log('Add Clicked!');
     }
 }
 

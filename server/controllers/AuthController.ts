@@ -21,6 +21,7 @@ export default class AuthController extends BaseContext {
     public register(req: Request, res: Response, next: NextFunction) {
         const { passport } = this.di;
 
+        console.log('Registr =====>');
         // const errors: Result<ValidationError> = validationResult(req);
 
         // if (!errors.isEmpty()) {
@@ -30,6 +31,9 @@ export default class AuthController extends BaseContext {
         // tslint:disable-next-line: no-shadowed-variable
 
         return passport.authenticate('local-signup', (errors, identity) => {
+
+            console.log('err ', errors);
+            console.log('identity ', identity);
 
             if (errors) {
                 const serRes = {
@@ -112,9 +116,6 @@ export default class AuthController extends BaseContext {
         console.log('<---- LOG OUT ---->')
 
         return passport.authenticate('local-logout', (err, identity) => {
-            console.log('err ', err);
-            console.log('identity ', identity);
-
             if (err) {
                 const serRes = {
                     error: true,
@@ -131,14 +132,16 @@ export default class AuthController extends BaseContext {
                     res.clearCookie(field);
                 }
             }
+            
+            console.log('session after clear ', req.session);
+
             const message = !result ? 'You have successfully logged out!' : 'Cant LogOut something went wrong!'; 
             const serRes = {
                 error: result,
                 data: identity,
-                message: message
+                message: message,
             } as ServerResponse;
             res.json(serRes);
-
         })(req, res, next);
     }
 }

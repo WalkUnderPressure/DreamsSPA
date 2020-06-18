@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Layout from '../Layout'
 import { xSave } from '../src';
+import Router from 'next/router';
 
 interface IRegistrationProps { }
 
@@ -69,14 +70,10 @@ export default class Registration extends Component<IRegistrationProps, IRegistr
 
         xSave('/api/auth/register', this.state)
             .then(resolve => {
-                console.log('Registr resolve : ', resolve);
-
                 alert(resolve.message);
-                // if(!resolve.error){
-                //     setTimeout(()=>{
-                //         console.log('you will go to LogIn Page!');
-                //     },5000)
-                // }
+                if(!resolve.error){
+                    Router.push('/login');
+                }
             })
     }
 }

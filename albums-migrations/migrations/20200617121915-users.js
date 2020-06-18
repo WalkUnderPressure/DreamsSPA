@@ -22,9 +22,9 @@ module.exports = {
       item.firstName = Faker.name.firstName();
       item.lastName = Faker.name.lastName();
 
-      item._id = Faker.random.uuid();
-      const payload = { sub: item._id };
-      item.token = jwt.sign(payload, jwtSecret);
+      // item._id = Faker.random.uuid();
+      // const payload = { sub: item._id };
+      // item.token = jwt.sign(payload, jwtSecret);
       
       item.password = await bcrypt.hash(passwords[j], 10);
 

@@ -1,14 +1,13 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import styles from './layout.module.css';
 import Link from 'next/link'
 import store from 'store';
-import {cookie} from "express-validator";
 import { xSave } from '../src';
 
-interface ILayoutProps{
+interface ILayoutProps {
 
 }
-interface ILayoutState{
+interface ILayoutState {
 
 }
 
@@ -19,25 +18,25 @@ export default class Layout extends Component<ILayoutProps, ILayoutState>{
     render() {
         let user = store.get('email')
         let userState = null;
-        if(user) {
+        if (user) {
             userState = (
                 <div>
                     <p>Welcome {user}</p>
                     <button onClick={this.handleLogOut}>Log Out</button>
                 </div>
             )
-        }else{
+        } else {
             userState = (
                 <div>
                     <p>Please LogIn or Registration!</p>
                     <Link href="/login" as="/login"><a>Login</a></Link>
-                    <br/><br/>
+                    <br /><br />
                     <Link href="/registration" as="/registration"><a>Registration</a></Link>
                 </div>
             )
         }
 
-        return(
+        return (
             <div className={styles.layoutContainer}>
                 <h1>Header</h1>
                 {userState}
@@ -55,21 +54,19 @@ export default class Layout extends Component<ILayoutProps, ILayoutState>{
 
     handleLogOut = () => {
         console.log('log out click !');
-        
+
         const email = store.get('email');
 
         const url = '/api/auth/logout';
-        xSave(url, {email: email, password: 'template'})
+        xSave(url, { email: email, password: 'template' })
             .then(answer => {
                 console.log('log out response : ', answer);
-                if(!answer.error){
+                if (!answer.error) {
                     store.clearAll();
                     alert(`${answer.data.email} ${answer.message}`)
-                }else{
+                } else {
                     alert(answer.message)
                 }
             })
-        
-        
     }
 }

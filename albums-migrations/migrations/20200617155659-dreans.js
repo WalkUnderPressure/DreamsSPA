@@ -1,6 +1,5 @@
-
-
 const Faker = require('faker');
+const mongoose = require('mongoose');
 
 module.exports = {
   async up(db) {
@@ -10,11 +9,11 @@ module.exports = {
     const itemsCount = 6;
     
     const user = await db.collection('users').findOne({role: 'USER'});
-    const ownerId = user._id;
+    // const ownerId = user._id;
 
     for(let j=0; j < itemsCount; j++){
       item = {
-        owner_id: ownerId,
+        owner_id: user._id.toString(),
         codeName: Faker.random.words(),
         description: Faker.random.words(),
         dateOfEvent: Faker.date.future(),

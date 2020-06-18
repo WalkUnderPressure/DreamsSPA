@@ -1,3 +1,5 @@
+import { mongoose } from "@typegoose/typegoose";
+
 export const DOMAIN:string = `http://localhost:3000`
 export enum METHODS {
     POST = 'POST',
@@ -11,8 +13,10 @@ export enum USER_ROLE {
 }
 
 export interface  IIdentity {
-    userId: string;
+    userId: mongoose.Schema.Types.ObjectId;
     firstName: string;
     lastName: string;
-    role: USER_ROLE
+    role: USER_ROLE;
+    email: string;
+    token: string;
 }

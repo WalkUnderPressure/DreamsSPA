@@ -1,12 +1,12 @@
 import BaseContext from '../BaseContext';
 import { DreanType } from '../models/Drean.model';
+import { mongoose } from '@typegoose/typegoose';
 
 export default class DreansService extends BaseContext{
     
     getAllDreansWithOwner(owner_id: string){
-        console.log('owner id ', owner_id);
         const { DreanModel } = this.di;
-        return DreanModel.find({owner_id: owner_id})
+        return DreanModel.find({ owner_id: owner_id });
     }
 
     getAllDreans () {

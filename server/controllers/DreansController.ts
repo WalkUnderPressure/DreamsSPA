@@ -11,11 +11,9 @@ export default class DreansController extends BaseContext {
     public getDreans(req: Request, res: Response) {
         const { DreansService, passport } = this.di;
 
-        passport.authenticate('local-jwt', (err, identity: IIdentity) => {
-            console.log('identity : ', identity);
-            const owner_id =  identity.userId;
-            
-            DreansService.getAllDreansWithOwner(owner_id)
+        const user = req.session.identity;
+        const owner_id = user && user.userId;
+        DreansService.getAllDreansWithOwner(owner_id)
             .then(resolve => {
                 const serRes: ServerResponse = {
                     error: (resolve == null ? true : false),
@@ -24,39 +22,7 @@ export default class DreansController extends BaseContext {
                 }
                 return res.json(serRes)
             })
-
-            // const isLogged = identity && identity.userId && identity.role !== USER_ROLE.GUEST ? true : false;
-            // const resource = req.path.replace(/\./g, '_');
-            // console.log('req.method=', req.method, 'resource=', resource, 'isAllowed?', isLogged);
-            // const userId = identity && identity.userId || null
-            // if (!isLogged) {
-            //     const isAPICall = resource.toLowerCase().includes('api');
-            //       if (isAPICall) {
-            //           return  res.status(401).json({
-            //             error: false,
-            //             data: null,
-            //             message: 'You are not authorized to send this request!',
-            //           });
-            //       } else {
-            //         return res.redirect('/error');
-            //       }
-            // }
-        //   next();
-        })(req, res);
-        
-
-        // DreansService.getAllDreans()
-        //     .then(resolve => {
-        //         const serRes: ServerResponse = {
-        //             error: (resolve == null ? true : false),
-        //             data: resolve,
-        //             message: (resolve == null ? 'Cant get all items!' : 'Successfully get all items!')
-        //         }
-        //         return res.json(serRes)
-        //     })
     }
-
-
 
     @GET()
     @route('/redact/:id')
@@ -92,7 +58,6 @@ export default class DreansController extends BaseContext {
     public redactDrean(req: Request, res: Response, next: NextFunction) {
         const { DreansService, passport } = this.di;
 
-        // /*
         let item = req.body;
         const id = item._id;
 
@@ -123,22 +88,12 @@ export default class DreansController extends BaseContext {
                     return res.json(serRes);
                 })
         }
-        // */
     }
 
     @DELETE()
     @route('/remove')
     public removeDrean(req: Request, res: Response, next: NextFunction) {
         const { DreansService, passport } = this.di;
-
-        return passport.authenticate('local-jwt', (err, identity) => {
-            console.log('err ', err);
-            console.log('identity ', identity);
-            
-            
-        })(req, res, next);
-
-        const id = req.body._id;
 
         // console.log('id for delete : ', id);
         // DreansService.deleteDreanByID(id)
