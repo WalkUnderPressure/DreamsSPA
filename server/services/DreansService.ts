@@ -1,6 +1,5 @@
 import BaseContext from '../BaseContext';
 import { DreanType } from '../models/Drean.model';
-import { mongoose } from '@typegoose/typegoose';
 
 export default class DreansService extends BaseContext{
     
@@ -34,8 +33,9 @@ export default class DreansService extends BaseContext{
         return DreanModel.findByIdAndUpdate(id, drean)
     }
     
-    createDrean(drean: DreanType) {
+    createDrean(owner_id: string, drean: DreanType) {
         const { DreanModel } = this.di;
+        drean.owner_id = owner_id;
         return DreanModel.insertMany(drean);
     }
 }

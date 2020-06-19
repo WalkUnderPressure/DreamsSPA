@@ -23,26 +23,21 @@ export default class JwtStrategy extends BaseContext {
 
         this._strategy = new Strategy({
             jwtFromRequest: this.getJwtFromRequest,
-            secretOrKey   : config.jwtSecret,
+            secretOrKey: config.jwtSecret,
         }, this.verifyRequest);
     }
 
     public async verifyRequest(jwtPayload: any, done: VerifiedCallback) {
-        console.log('jwtStrategy')
+
         if (this._request) {
             const sub = jwtPayload.sub;
-            
-            const { UserModel } = this.di;
+
+            const { UserModel, initSession } = this.di;
             const user = await UserModel.findById(sub);
             if (user) {
-                const identity = {
-                    userId: user._id,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    role: user.role,
-                } as IIdentity;
+                const identity = initSession(this._request, user);
                 return done(null, identity);
-            } 
+            }
             return done('User was not found');
 
             // const identity: IIdentity = this._request.session.identity;
@@ -61,6 +56,6 @@ export default class JwtStrategy extends BaseContext {
     public getJwtFromRequest(req: Request) {
         this._request = req;
         const getToken = ExtractJwt.fromAuthHeaderAsBearerToken();
-        return  getToken(req) || req.cookies['token'] || null;
+        return getToken(req) || req.cookies['token'] || null;
     }
 }

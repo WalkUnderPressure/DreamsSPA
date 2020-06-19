@@ -3,6 +3,7 @@ import styles from './layout.module.css';
 import Link from 'next/link'
 import store from 'store';
 import { xSave } from '../src';
+import Router from 'next/router';
 
 interface ILayoutProps {
 
@@ -63,7 +64,8 @@ export default class Layout extends Component<ILayoutProps, ILayoutState>{
                 console.log('log out response : ', answer);
                 if (!answer.error) {
                     store.clearAll();
-                    alert(`${answer.data.email} ${answer.message}`)
+                    alert(`${answer.data.email} ${answer.message}`);
+                    Router.push('/login');
                 } else {
                     alert(answer.message)
                 }

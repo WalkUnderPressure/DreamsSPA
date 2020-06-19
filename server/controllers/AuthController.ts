@@ -131,10 +131,10 @@ export default class AuthController extends BaseContext {
                 for (let field in req.cookies) {
                     res.clearCookie(field);
                 }
+                delete req.session;
+                console.log('session after clear ', req.session);
             }
             
-            console.log('session after clear ', req.session);
-
             const message = !result ? 'You have successfully logged out!' : 'Cant LogOut something went wrong!'; 
             const serRes = {
                 error: result,

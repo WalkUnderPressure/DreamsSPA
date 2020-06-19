@@ -75,16 +75,16 @@ export default class DreansController extends BaseContext {
                     return res.json(serRes);
                 })
         } else {
-            DreansService.createDrean(item)
+            const user = req.session.identity;
+            const ownerId = user && user.userId;
+            DreansService.createDrean( ownerId, item)
                 .then(resolve => {
                     console.log('created item : ', resolve);
-
                     const serRes: ServerResponse = {
                         error: (resolve == null ? true : false),
                         data: resolve,
                         message: (resolve == null ? 'Cant create new item!' : 'Successfully crate new item!')
                     }
-
                     return res.json(serRes);
                 })
         }
@@ -95,19 +95,20 @@ export default class DreansController extends BaseContext {
     public removeDrean(req: Request, res: Response, next: NextFunction) {
         const { DreansService, passport } = this.di;
 
-        // console.log('id for delete : ', id);
-        // DreansService.deleteDreanByID(id)
-        //     .then(resolve => {
-        //         console.log('item for delete : ', resolve);
+        const id = req.body._id;
+        console.log('id for delete : ', id);
+        DreansService.deleteDreanByID(id)
+            .then(resolve => {
+                console.log('item for delete : ', resolve);
 
-        //         const serRes: ServerResponse = {
-        //             error: (resolve == null ? true : false),
-        //             data: resolve,
-        //             message: (resolve == null ? 'Cant delete item!' : 'Successfully delete item!')
-        //         }
+                const serRes: ServerResponse = {
+                    error: (resolve == null ? true : false),
+                    data: resolve,
+                    message: (resolve == null ? 'Cant delete item!' : 'Successfully delete item!')
+                }
 
-        //         return res.json(serRes);
-        //     })
+                return res.json(serRes);
+            })
     }
 }
 

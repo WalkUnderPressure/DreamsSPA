@@ -26,7 +26,10 @@ export const IGNORS = [
   '/service-worker.js',
   '/manifest.json',
   '/styles.chunk.css.map',
-  '/error'
+  '/error',
+  'login',
+  'registration',
+  '/',
 ];
 
 models(config.mongo.uri, config.mongo.options)
@@ -81,6 +84,7 @@ app.prepare().then(() => {
 function acl(req: Request, res: Response, next: NextFunction) {
   let useAcl = true;
   const path = req.path.toString();
+  console.log('path => ', path);
   for (const item of IGNORS) {
     if (path.startsWith(item)) {
       useAcl = false;
@@ -90,10 +94,11 @@ function acl(req: Request, res: Response, next: NextFunction) {
     passport.authenticate('local-jwt', (err, identity: IIdentity) => {
       const isLogged = identity && identity.userId && identity.role !== USER_ROLE.GUEST ? true : false;
       const resource = req.path.replace(/\./g, '_');
-      const isAllowed = ['/','login','registration'].includes(resource);
-      console.log('req.method=', req.method, 'resource=', resource, 'isAllowed?', isLogged && isAllowed);
+      
+      console.log('req.method=', req.method, 'resource=', resource, 'isAllowed?', isLogged);
+      
       const userId = identity && identity.userId || null
-      if (!isLogged || !isAllowed) {
+      if (!isLogged) {
         const isAPICall = resource.toLowerCase().includes('api');
         if (isAPICall) {
           return res.status(401).json({
@@ -105,6 +110,7 @@ function acl(req: Request, res: Response, next: NextFunction) {
           return res.redirect('/error');
         }
       }
+      
       next();
     })(req, res, next);
   } else {
