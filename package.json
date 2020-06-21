@@ -1,5 +1,5 @@
 {
-  "name": "dreaming-and-do-together-app",
+  "name": "recipe-app",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -22,7 +22,6 @@
     "@types/passport": "^1.0.3",
     "@types/passport-jwt": "^3.0.3",
     "@types/passport-local": "^1.0.33",
-    "@types/react-redux": "^7.1.9",
     "@types/react-router-dom": "^5.1.5",
     "awilix": "^4.2.6",
     "awilix-express": "^3.0.0",
@@ -36,7 +35,7 @@
     "history": "^5.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.18",
-    "next": "^2.4.9",
+    "next": "^9.4.4",
     "next-redux-wrapper": "^6.0.2",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
