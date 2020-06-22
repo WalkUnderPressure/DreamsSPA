@@ -3,13 +3,20 @@ import ItemsList from '../ItemsList'
 import Link from 'next/link'
 import DreanItem from '../../Templates/DreanItem';
 
-interface ITableRowProps{
-    data : DreanItem;
-    handleItemDelete : Function;
+interface ITableRowProps {
+  data: DreanItem;
+  handleItemDelete: Function;
 }
 
+// Todo.propTypes = {
+//   removeOnClick: PropTypes.func.isRequired,
+//   onClick: PropTypes.func.isRequired,
+//   completed: PropTypes.bool.isRequired,
+//   text: PropTypes.string.isRequired
+// }
+
 class TableRow extends Component<ITableRowProps> {
-  render () {
+  render() {
     const element = this.props.data;
     const dateTime = element && new Date(element.dateOfEvent).toLocaleDateString();
     return (
@@ -29,9 +36,9 @@ class TableRow extends Component<ITableRowProps> {
     )
   }
 
-    handleDelete = () => {
-      this.props.handleItemDelete(this.props.data._id)
-    }
+  handleDelete = () => {
+    this.props.handleItemDelete(this.props.data._id)
+  }
 }
 
 export default TableRow
