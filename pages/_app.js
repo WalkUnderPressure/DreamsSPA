@@ -8,6 +8,17 @@ import makeStore from '../redux/store';
 
 class MyApp extends App {
 
+    static async getInitialProps({ Component, router, ctx }) {
+        console.log('execSaga');
+    
+        await ctx.store.stopSaga();
+        
+        await ctx.store.execSagaTasks(ctx, dispatch => {
+
+        });
+        const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
+        return {pageProps};
+    }
 
     render () {
         const {Component, pageProps, store } = this.props;

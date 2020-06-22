@@ -1,22 +1,23 @@
 import React, { Component } from 'react';
 import Layout from '../Layout';
+import store from 'store';
 
 import { connect } from 'react-redux';
 import Footer from '../components/reduxTest/Footer';
 import AddTodo from '../containers/AddTodo';
 import VisibleTodoList from '../containers/VisibleTodoList';
-import { getAllUserDreans } from '../redux/actions/UsersDreans';
+import { getAllUserDreans, userDreansActionsList } from '../redux/actions/UsersDreans';
 
-class Home extends Component {
+interface IHomeProps {
+  getAllUserDreans: (id:string) => void;
+  currentFilter: any;
+}
+
+class Home extends Component<IHomeProps> {
   constructor (props) {
     super(props)
     this.state = {
     }
-  }
-
-  componentDidMount(){
-    console.log('index did mount!', this.props);
-    this.props.getAllUserDreans;
   }
 
   render () {
@@ -25,13 +26,20 @@ class Home extends Component {
       <Layout>
         <div>
           <h1>Welcome to Dreams And plans Manager</h1>
-          <h1>{this.props.currentFilter}</h1>
-          <AddTodo />
-          <VisibleTodoList />
-          <Footer />
+          <button onClick={this.getDreans}>Get Dreans</button>
+          {/* <h1>{this.props.currentFilter}</h1> */}
+          {/* <AddTodo /> */}
+          {/* <VisibleTodoList /> */}
+          {/* <Footer /> */}
         </div>
       </Layout>
     )
+  }
+  
+  getDreans = () => {
+    console.log("getDreans => ");
+    const userId = store.get('userId');
+    this.props.getAllUserDreans(userId);
   }
 }
 
@@ -39,9 +47,6 @@ const mapStateToProps = (state, ownProps) => ({
   currentFilter: state.visibilityFilter
 })
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  getAllUserDreans: id => dispatch(getAllUserDreans(id))
-})
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default connect(mapStateToProps, {getAllUserDreans})(Home)
 // export default Home;

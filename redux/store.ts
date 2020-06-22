@@ -4,9 +4,13 @@ import { all } from 'redux-saga/effects';
 
 // import Entity from 'src/models/entity';
 import rootReducer from './reducers';
+import { getDreans } from './entitites/dreans';
 
 const saga = function* root() {
-    //yield all( Entity.saga );
+    console.log('1 - saga started !!!')
+    yield all([
+        getDreans()
+    ] );
 };
 
 /**
@@ -75,7 +79,7 @@ export default (initialState, options) => {
         await store.stopSaga();
         // Re-run on client side
         if (!ctx.isServer) {
-          store.runSaga();
+            store.runSaga();
         }
     };
 
