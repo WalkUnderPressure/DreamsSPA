@@ -35,7 +35,7 @@ export default class LogOutStrategy extends BaseContext {
 
     public async verifyRequestUser(req: Request, email: string, password: string, done: any) {
         const { UserModel } = this.di;
-
+        console.log('<---- LOG OUT ---->', req.body);
         const user = await UserModel.findOne({ email: email });
 
         if (!user) {

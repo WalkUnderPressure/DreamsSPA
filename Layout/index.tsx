@@ -4,34 +4,52 @@ import Link from 'next/link'
 import store from 'store';
 import { xSave } from '../src';
 import Router from 'next/router';
+import { connect } from 'react-redux';
+import { IIdentity } from 'COMMON';
+import { ILogInFields } from 'redux/actions/UserAuthActions';
+import { userLogOutRequest } from '../redux/actions/UserAuthActions';
 
 interface ILayoutProps {
-
+    children: any;
+    user?: IIdentity;
+    userLogOutRequest: (data: ILogInFields) => void;
 }
 interface ILayoutState {
 
 }
-
-export default class Layout extends Component<ILayoutProps, ILayoutState>{
-    constructor(props) {
+class Layout extends Component<ILayoutProps, ILayoutState>{
+    constructor(props: ILayoutProps) {
         super(props);
+        this.state = {
+        }
     }
     render() {
-        let user = store.get('email')
+        let user = this.props.user;
         let userState = null;
+        let logInAndReg = null;
         if (user) {
             userState = (
                 <div>
-                    <p>Welcome {user}</p>
+                    <p>Welcome {user.firstName}</p>
                     <button onClick={this.handleLogOut}>Log Out</button>
                 </div>
             )
+            logInAndReg = (
+                <div className={styles.footerContainer}>
+                    <Link href="/" as="/"><a>Go to Home</a></Link>
+                    <Link href="/dreans" as="/dreans"><a>Go to Dreans</a></Link>
+                </div>
+            )
+
         } else {
             userState = (
                 <div>
                     <p>Please LogIn or Registration!</p>
+                </div>
+            )
+            logInAndReg = (
+                <div className={styles.footerContainer}>
                     <Link href="/login" as="/login"><a>Login</a></Link>
-                    <br /><br />
                     <Link href="/registration" as="/registration"><a>Registration</a></Link>
                 </div>
             )
@@ -43,32 +61,23 @@ export default class Layout extends Component<ILayoutProps, ILayoutState>{
                 {userState}
                 {this.props.children}
                 <h1>footer</h1>
-                <div className={styles.footerContainer}>
-                    <Link href="/" as="/"><a>Go to Home</a></Link>
-                    <Link href="/dreans" as="/dreans"><a>Go to Dreans</a></Link>
-                    <Link href="/login" as="/login"><a>Login</a></Link>
-                    <Link href="/registration" as="/registration"><a>Registration</a></Link>
-                </div>
+                {logInAndReg}
             </div>
         )
     }
 
     handleLogOut = () => {
         console.log('log out click !');
-
-        const email = store.get('email');
-
-        const url = '/api/auth/logout';
-        xSave(url, { email: email, password: 'template' })
-            .then(answer => {
-                console.log('log out response : ', answer);
-                if (!answer.error) {
-                    store.clearAll();
-                    alert(`${answer.data.email} ${answer.message}`);
-                    Router.push('/login');
-                } else {
-                    alert(answer.message)
-                }
-            })
+        this.props.userLogOutRequest({ email: this.props.user.email, password: 'template' });
     }
 }
+
+const mapStateToProps = (state) => ({
+    user: state.identity.user,
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    userLogOutRequest: (data: ILogInFields) => dispatch(userLogOutRequest(data)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Layout)

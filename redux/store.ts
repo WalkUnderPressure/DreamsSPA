@@ -1,16 +1,22 @@
 import { Store, createStore, applyMiddleware, compose } from 'redux';
-import createSagaMiddleware, { END, Saga } from 'redux-saga';
+import createSagaMiddleware, { END } from 'redux-saga';
 import { all } from 'redux-saga/effects';
 
 // import Entity from 'src/models/entity';
 import rootReducer from './reducers';
-import { getDreans } from './entitites/dreans';
+import { getDreans, deleteDrean, getDreanForRedact } from './entities/dreans';
+import { userLogIn, userLogOut, userRegistration } from './identity/index';
 
 const saga = function* root() {
-    console.log('1 - saga started !!!')
+    // console.log('1 - saga started !!!')
     yield all([
-        getDreans()
-    ] );
+        getDreans(),
+        deleteDrean(),
+        getDreanForRedact(),
+        userLogIn(),
+        userLogOut(),
+        userRegistration(),
+    ]);
 };
 
 /**
@@ -28,20 +34,20 @@ export default (initialState, options) => {
 
     const composeEnhancers =
         typeof window === 'object' &&
-        (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?   
-        (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+            (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+            (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
                 // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
             }) : compose;
-        
+
     const enhancer = composeEnhancers(
         applyMiddleware(...middleware)
         // other store enhancers if any
     );
 
     const store: any = createStore(
-      rootReducer, 
-      initialState, 
-      enhancer
+        rootReducer,
+        initialState,
+        enhancer
     );
 
     store.runSaga = () => {
@@ -74,7 +80,7 @@ export default (initialState, options) => {
         } else {
             tasks(store.dispatch);
         }
-        
+
         // Stop running and wait for the tasks to be done
         await store.stopSaga();
         // Re-run on client side
@@ -84,6 +90,6 @@ export default (initialState, options) => {
     };
 
     store.runSaga();
-    
+
     return store;
 };

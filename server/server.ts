@@ -27,9 +27,8 @@ export const IGNORS = [
   '/manifest.json',
   '/styles.chunk.css.map',
   '/error',
-  'login',
-  'registration',
-  '/',
+  '/login',
+  '/registration',
 ];
 
 models(config.mongo.uri, config.mongo.options)
@@ -84,7 +83,6 @@ app.prepare().then(() => {
 function acl(req: Request, res: Response, next: NextFunction) {
   let useAcl = true;
   const path = req.path.toString();
-  console.log('path => ', path);
   for (const item of IGNORS) {
     if (path.startsWith(item)) {
       useAcl = false;
@@ -95,9 +93,8 @@ function acl(req: Request, res: Response, next: NextFunction) {
       const isLogged = identity && identity.userId && identity.role !== USER_ROLE.GUEST ? true : false;
       const resource = req.path.replace(/\./g, '_');
       
-      console.log('req.method=', req.method, 'resource=', resource, 'isAllowed?', isLogged);
+      console.log('req.method=', req.method, 'resource=', resource, 'isLogged?', isLogged);
       
-      const userId = identity && identity.userId || null
       if (!isLogged) {
         const isAPICall = resource.toLowerCase().includes('api');
         if (isAPICall) {

@@ -3,8 +3,6 @@ import { Strategy, ExtractJwt, VerifiedCallback } from 'passport-jwt';
 import config from '../../config';
 import BaseContext from '../BaseContext';
 import { IContextContainer } from '../container';
-import { IIdentity } from 'COMMON';
-
 
 export default class JwtStrategy extends BaseContext {
     private _strategy: Strategy;

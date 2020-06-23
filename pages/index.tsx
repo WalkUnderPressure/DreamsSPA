@@ -1,52 +1,55 @@
 import React, { Component } from 'react';
 import Layout from '../Layout';
-import store from 'store';
-
 import { connect } from 'react-redux';
-import Footer from '../components/reduxTest/Footer';
-import AddTodo from '../containers/AddTodo';
-import VisibleTodoList from '../containers/VisibleTodoList';
-import { getAllUserDreans, userDreansActionsList } from '../redux/actions/UsersDreans';
+import { IIdentity } from 'COMMON';
 
 interface IHomeProps {
-  getAllUserDreans: (id:string) => void;
-  currentFilter: any;
+  user: IIdentity
 }
 
-class Home extends Component<IHomeProps> {
-  constructor (props) {
+interface IHomeState {
+
+}
+
+
+
+class Home extends Component<IHomeProps, IHomeState> {
+  constructor(props: IHomeProps) {
     super(props)
     this.state = {
     }
   }
 
-  render () {
+  render() {
     console.log('index redux props => ', this.props)
+    const user = this.props.user;
+    const userBlock = () => {
+      return(
+        <div style={{ display: "flex", flexDirection: "column", justifyContent: "left" }}>
+            <h3>{user && user.firstName} {user && user.lastName}</h3>
+            <p>Email : {user && user.email}</p>
+            <p>Role : {user && user.role}</p>
+          </div>
+      )
+    }
     return (
       <Layout>
         <div>
-          <h1>Welcome to Dreams And plans Manager</h1>
-          <button onClick={this.getDreans}>Get Dreans</button>
-          {/* <h1>{this.props.currentFilter}</h1> */}
-          {/* <AddTodo /> */}
-          {/* <VisibleTodoList /> */}
-          {/* <Footer /> */}
+          <h1 style={{ textAlign: "center", color: "red" }} >Welcome to Dreams And plans Manager</h1>
+
+          {user ? userBlock() : 'You not LogIn!'}
+          
         </div>
       </Layout>
     )
   }
-  
-  getDreans = () => {
-    console.log("getDreans => ");
-    const userId = store.get('userId');
-    this.props.getAllUserDreans(userId);
-  }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  currentFilter: state.visibilityFilter
+const mapStateToProps = (state) => ({
+  user: state.identity.user
 })
 
+const mapDispatchToProps = (dispatch) => ({
+})
 
-export default connect(mapStateToProps, {getAllUserDreans})(Home)
-// export default Home;
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

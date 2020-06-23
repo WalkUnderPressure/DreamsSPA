@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import Layout from '../Layout'
-import { xRead } from '../src';
-import { METHODS } from '../COMMON';
-// import { createBrowserHistory } from 'history';
-// import { withRouter, Redirect, Router } from 'react-router-dom';
-
-import Router from 'next/router'
+import { connect } from 'react-redux';
+import { userLogInRequest, ILogInFields } from '../redux/actions/UserAuthActions';
 
 
 interface ILoginProps {
+    userLogInRequest: (data: ILogInFields ) => void;
     email: string;
     password: string;
 }
@@ -55,26 +52,20 @@ class Login extends Component<ILoginProps, ILoginState>{
     handleOnSubmit = (event) => {
         event.preventDefault();
         console.log('LogIn Click!', this.state);
-
-        xRead('/api/auth/login', this.state, METHODS.POST)
-            .then(resolve => {
-                const element = resolve.data;
-                console.log('log in resolve : ', element);
-
-                if (element) {
-                    console.log('log in successfully!');
-                    for (let field in element) {
-                        localStorage.setItem(field, element && element[field]);
-                    }
-
-                    // REDIRECT
-                    Router.push('/');
-                } else {
-                    console.log('log in not successfully!');
-                    alert(resolve.message);
-                }
-            })
+        const data: ILogInFields = {
+            email: this.state.email,
+            password: this.state.password
+        };
+        this.props.userLogInRequest(data);
     }
 }
 
-export default Login;
+const mapStateToProps = (state) => ({
+
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    userLogInRequest: (data: ILogInFields) => dispatch(userLogInRequest(data)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

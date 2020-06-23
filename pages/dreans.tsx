@@ -2,60 +2,53 @@ import React, { Component } from 'react'
 import Layout from '../Layout'
 import Table from '../components/Table'
 import Link from 'next/link'
-import { xRead, xDelete } from '../src'
+import { connect } from 'react-redux';
 import DreanItem from '../Templates/DreanItem'
-import ServerResponse from '../Templates/ServerResponse'
+import { getAllUserDreans, deleteUserDrean } from '../redux/actions/UsersDreansActions';
 
-interface IDreansProps{
-
+interface IDreansProps {
+  deleteUserDrean: (id) => void;
+  tableItems: Array<DreanItem>;
 }
-interface IDreansState{
-    tableItems : Array<DreanItem>;
+interface IDreansState {
+  tableItems: Array<DreanItem>;
 }
 
 class Dreans extends Component<IDreansProps, IDreansState> {
-  constructor (props : any) {
+  constructor(props: any) {
     super(props)
     this.state = {
       tableItems: []
     }
   }
 
-  componentDidMount () {
-    const url = '/api/dreans/all'
-    xRead(url, {})
-      .then(res => {
-        const answer: ServerResponse = res;
-        this.setState({ tableItems: answer.data });
-      })
+  static getInitialProps(ctx) {
+    // console.log('getInitialProps!', ctx);
+    ctx.store.dispatch(getAllUserDreans());
   }
 
-    handleItemDelete = (id : string) => {
-      const url = '/api/dreans/remove'
-      xDelete(url, { _id: id })
-        .then(res => {
-          const answer: ServerResponse = res;
-          alert(answer.message);
-          if(!answer.error){
-            const id = answer.data._id;
-            const data = this.state.tableItems.filter(item => item._id !== id);
-            this.setState({ tableItems: data });
-          }
-        })
-    }
+  handleItemDelete = (id: string) => {
+    this.props.deleteUserDrean(id);
+  }
 
-    render () {
-      return (
-        <Layout>
-          <Table data={this.state.tableItems} handleItemDelete={this.handleItemDelete}/>
-          <Link href='/redact/[id]' as='/redact/add'><a onClick={this.onClickAdd} >Add</a></Link>
-        </Layout>
-      )
-    }
-
-    onClickAdd = () => {
-      console.log('Add Clicked!');
-    }
+  render() {
+    console.log('props table items : ', this.props.tableItems);
+    const element = this.props;
+    return (
+      <Layout>
+        <Table data={element.tableItems} handleItemDelete={this.handleItemDelete} />
+        <Link href='/redact/[id]' as='/redact/add'><a>Add</a></Link>
+      </Layout>
+    )
+  }
 }
 
-export default Dreans
+const mapStateToProps = (state) => ({
+  tableItems: state.entity.dreans,
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  deleteUserDrean: (id) => dispatch(deleteUserDrean(id)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dreans)

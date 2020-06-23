@@ -21,7 +21,7 @@ export default class AuthController extends BaseContext {
     public register(req: Request, res: Response, next: NextFunction) {
         const { passport } = this.di;
 
-        console.log('Registr =====>');
+        console.log('Registration =====>');
         // const errors: Result<ValidationError> = validationResult(req);
 
         // if (!errors.isEmpty()) {
@@ -76,16 +76,16 @@ export default class AuthController extends BaseContext {
         const { passport } = this.di;
         const JST_EXPIRE = 3;
         const REMEMBER_ME_EXPIRE = 30;
-        console.log('<---- LOG IN ---->')
+        console.log('<---- LOG IN ---->', req.body);
         return passport.authenticate('local-login', (err, identity) => {
             console.log('err ', err);
             console.log('identity ', identity);
 
-            if (err) {
+            if (err || identity === false) {
                 const serRes = {
                     error: true,
                     data: null,
-                    message: err
+                    message: 'Email or password not entered!',
                 } as ServerResponse;
                 return res.json(serRes);
             }
@@ -99,6 +99,7 @@ export default class AuthController extends BaseContext {
 
             delete identity.token;
 
+            // console.log('identity => ', identity);
             const serRes = {
                 error: false,
                 data: identity,
@@ -113,7 +114,6 @@ export default class AuthController extends BaseContext {
     @route('/logout')
     public logout(req: Request, res: Response, next: NextFunction) {
         const { passport } = this.di;
-        console.log('<---- LOG OUT ---->')
 
         return passport.authenticate('local-logout', (err, identity) => {
             if (err) {

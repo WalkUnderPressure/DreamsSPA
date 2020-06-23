@@ -2,8 +2,12 @@ import React, { Component } from 'react';
 import Layout from '../Layout'
 import { xSave } from '../src';
 import Router from 'next/router';
+import { connect } from 'react-redux';
+import { userRegistrationRequest } from '../redux/actions/UserAuthActions'; 
 
-interface IRegistrationProps { }
+interface IRegistrationProps { 
+    userRegistrationRequest: (data: any) => void;
+}
 
 interface IRegistrationState {
     firstName: string;
@@ -13,7 +17,7 @@ interface IRegistrationState {
     confirmPassword: string;
 }
 
-export default class Registration extends Component<IRegistrationProps, IRegistrationState>{
+class Registration extends Component<IRegistrationProps, IRegistrationState>{
     constructor(props: IRegistrationProps) {
         super(props);
         this.state = {
@@ -65,15 +69,19 @@ export default class Registration extends Component<IRegistrationProps, IRegistr
 
     handleOnSubmit = (event) => {
         event.preventDefault();
-        console.log('LogIn Click!');
+        console.log('Registration Click!');
         console.log('state : ', this.state);
 
-        xSave('/api/auth/register', this.state)
-            .then(resolve => {
-                alert(resolve.message);
-                if(!resolve.error){
-                    Router.push('/login');
-                }
-            })
+        this.props.userRegistrationRequest(this.state);
     }
 }
+
+const mapStateToProps = (state) => ({
+
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    userRegistrationRequest: (data: any) => dispatch(userRegistrationRequest(data)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Registration)

@@ -12,7 +12,11 @@ class Error extends Component {
     return (
       <Layout>
         <div>
-          <h1>Error</h1>
+          <h1>E</h1>
+          <h1>R</h1>
+          <h1>R</h1>
+          <h1>O</h1>
+          <h1>R</h1>
         </div>
       </Layout>
     )
