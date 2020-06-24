@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import TableRow from '../TableRow'
 import DreanItem from '../../Templates/DreanItem'
+import { List } from 'immutable'
 
 interface ITableProps{
     handleItemDelete : Function;
@@ -19,6 +20,8 @@ class Table extends Component<ITableProps, ITableState> {
   render () {
     const items = this.props.data
     let rows = null
+
+    console.log('items -> ', items);
 
     if (items && items.length > 0) {
       rows = items.map((item, i) => {

@@ -10,10 +10,10 @@ import { redactDreanRequest } from '../../redux/actions/redactAddFormActions';
 import { connect } from 'react-redux'
 
 interface IRedactProps extends WithRouterProps {
-  redactDrean: DreanItem;
+  editingItem: DreanItem;
 }
 interface IRedactState {
-  item: DreanItem;
+
 }
 
 class Redact extends Component<IRedactProps, IRedactState> {
@@ -25,21 +25,17 @@ class Redact extends Component<IRedactProps, IRedactState> {
   }
 
   static getInitialProps(ctx) {
-    const id = ctx.query.id;
-    console.log('id => ', id);
-    if (id !== 'add') {
-      ctx.store.dispatch(redactDreanRequest(id));
-    }
+    ctx.store.dispatch(redactDreanRequest(ctx.query.id));
   }
 
   render() {
-    const element = this.props.redactDrean;
+    const element = this.props.editingItem;
     console.log('id element : ', element);
     return (
       <Layout>
         <div>
           {element && element._id ? 'Redact' : 'Add New'}
-          <RedactForm data={element} handlerOnSubmit={this.handleOnSubmit} />
+          <RedactForm handlerOnSubmit={this.handleOnSubmit} />
         </div>
       </Layout>
     )
@@ -63,7 +59,7 @@ class Redact extends Component<IRedactProps, IRedactState> {
 
 
 const mapStateToProps = (state) => ({
-  redactDrean: state.editingItem
+  editingItem: state.editingItem
 })
 
 const mapDispatchToProps = (dispatch) => ({

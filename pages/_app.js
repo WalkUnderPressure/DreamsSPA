@@ -1,5 +1,6 @@
 import App from 'next/app';
 import React from 'react';
+const { serialize, deserialize } = require('json-immutable');
 
 import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
@@ -24,6 +25,12 @@ class MyApp extends App {
         </Provider>
     }
 }
-
-const wRedux = withRedux(makeStore, {})(MyApp);
+const wRedux = withRedux(makeStore, {
+    serializeState: state => {
+    return state ? serialize(state) : state;
+    },
+    deserializeState: state => {
+    return state ? deserialize(state) : state;
+    }
+    })(MyApp);
 export default wRedux;

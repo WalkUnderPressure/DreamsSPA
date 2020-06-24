@@ -1,35 +1,56 @@
+import { fromJS, List, Map } from 'immutable';
+
 import { combineReducers } from 'redux';
 import { userDreansActionsList } from '../actions/UsersDreansActions';
 import { AnyAction } from "redux";
 import { userAuthActionsList } from 'redux/actions/UserAuthActions';
 import { redactAddFormActionsList } from 'redux/actions/redactAddFormActions';
 
-const entity = (state = [], action: AnyAction) => {
+const initialEntities = fromJS({
+
+});
+
+const entity = (state = initialEntities, action: AnyAction) => {
   // console.log('act=', action);
   switch (action.type) {
     case userDreansActionsList.USER_DREANS_GET_SUCCESSFULLY:
-      console.log('get successfully : ', action.dreansArray);
-      return { dreans: action.dreansArray }
+      console.log('get successfully : ', state);
+      state = state.set('dreans', fromJS(action.dreansArray));
+      console.log('state after --> ', state); 
+      return state
     case userDreansActionsList.USER_DREAN_DELETE_SUCCESSFULLY:
       console.log('delete successfully : ', action);
-      const data = state.dreans.filter(item => item._id !== action.id) || [];
-      return {dreans: data};
+      const changedDreans = Map(state).getIn(['entity','dreans']);
+      Map(changedDreans).filter(item => item._id !== action.id) 
+      // const data = state.dreans.filter(item => item._id !== action.id) || [];
+      // return {dreans: data};
     default:
       return state
   }
 }
 
-const editingItem = (state = [], action: AnyAction) => {
+const editingItem = (state = initialEntities, action: AnyAction) => {
   switch (action.type) {
     case redactAddFormActionsList.REDACT_DREAN_SUCCESSFULLY:
       console.log('get drean for redact successfully : ', action);
       return { ... action.data }
+    case redactAddFormActionsList.REDACT_DREAN_UNSUCCESSFULLY:
+      const emptyItem = {
+        needThings: [],
+        guests: [],
+      }
+      return { ... emptyItem } 
+    case redactAddFormActionsList.REDACT_MAIN_INPUT:
+      console.log('main action ', state);
+      const name = action.field.name;
+      const value = action.field.value;
+      return state[name] = value
     default:
       return state
   }
 }
 
-const identity = (state = [], action: AnyAction) => {
+const identity = (state = initialEntities, action: AnyAction) => {
   // console.log('act=', action);
   switch (action.type) {
     case userAuthActionsList.USER_LOGIN_SUCCESSFULLY:

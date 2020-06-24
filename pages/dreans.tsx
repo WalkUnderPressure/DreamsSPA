@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { connect } from 'react-redux';
 import DreanItem from '../Templates/DreanItem'
 import { getAllUserDreans, deleteUserDrean } from '../redux/actions/UsersDreansActions';
+import { List } from 'immutable';
 
 interface IDreansProps {
   deleteUserDrean: (id) => void;
@@ -24,7 +25,10 @@ class Dreans extends Component<IDreansProps, IDreansState> {
 
   static getInitialProps(ctx) {
     // console.log('getInitialProps!', ctx);
-    ctx.store.dispatch(getAllUserDreans());
+    
+    ctx.store.execSagaTasks(ctx, dispatch => {
+      dispatch(getAllUserDreans());
+    });
   }
 
   handleItemDelete = (id: string) => {
@@ -43,9 +47,17 @@ class Dreans extends Component<IDreansProps, IDreansState> {
   }
 }
 
-const mapStateToProps = (state) => ({
-  tableItems: state.entity.dreans,
-})
+const mapStateToProps = (state) => {
+  console.log('map state to props ---> ', state);
+  // const data = state.getIn(['entity', 'dreans']);
+  // const www = state.entity.get('dreans');
+  const www = state.entity.getIn(['dreans']);
+  console.log('www ', www);
+  // console.log('data ', data);
+  return ({
+    tableItems: state.entity.getIn(['dreans']),
+  })
+}
 
 const mapDispatchToProps = (dispatch) => ({
   deleteUserDrean: (id) => dispatch(deleteUserDrean(id)),
