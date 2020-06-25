@@ -69,7 +69,7 @@ export function* userRegistration() {
         console.log('fetch() saga take = ', actionData);
 
         const url = '/api/auth/register';
-        const data: ILogInFields = actionData.data;
+        const data = actionData.data;
         console.log('log in data for request ', data);
         const result: ServerResponse = yield call(xSave, url, { ...data })
         console.log('fetch() saga call = ', result);

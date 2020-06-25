@@ -3,23 +3,21 @@ import Layout from '../Layout'
 import Table from '../components/Table'
 import Link from 'next/link'
 import { connect } from 'react-redux';
-import DreanItem from '../Templates/DreanItem'
-import { getAllUserDreans, deleteUserDrean } from '../redux/actions/UsersDreansActions';
+import { getAllUserDreans } from '../redux/actions/UsersDreansActions';
 import { List } from 'immutable';
 
 interface IDreansProps {
-  deleteUserDrean: (id) => void;
-  tableItems: Array<DreanItem>;
+  tableItems: List<Map<string, any>>;
 }
 interface IDreansState {
-  tableItems: Array<DreanItem>;
+  tableItems: List<Map<string, any>>;
 }
 
 class Dreans extends Component<IDreansProps, IDreansState> {
   constructor(props: any) {
     super(props)
     this.state = {
-      tableItems: []
+      tableItems: List()
     }
   }
 
@@ -31,16 +29,12 @@ class Dreans extends Component<IDreansProps, IDreansState> {
     });
   }
 
-  handleItemDelete = (id: string) => {
-    this.props.deleteUserDrean(id);
-  }
-
   render() {
-    console.log('props table items : ', this.props.tableItems);
+    console.log('dreans items : ', this.props.tableItems);
     const element = this.props;
     return (
       <Layout>
-        <Table data={element.tableItems} handleItemDelete={this.handleItemDelete} />
+        <Table data={element.tableItems} />
         <Link href='/redact/[id]' as='/redact/add'><a>Add</a></Link>
       </Layout>
     )
@@ -49,18 +43,13 @@ class Dreans extends Component<IDreansProps, IDreansState> {
 
 const mapStateToProps = (state) => {
   console.log('map state to props ---> ', state);
-  // const data = state.getIn(['entity', 'dreans']);
-  // const www = state.entity.get('dreans');
-  const www = state.entity.getIn(['dreans']);
-  console.log('www ', www);
-  // console.log('data ', data);
   return ({
-    tableItems: state.entity.getIn(['dreans']),
+    tableItems: state.entity.get('dreans'),
   })
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  deleteUserDrean: (id) => dispatch(deleteUserDrean(id)),
+  
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dreans)

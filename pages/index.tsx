@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import Layout from '../Layout';
 import { connect } from 'react-redux';
-import { IIdentity } from 'COMMON';
 
 interface IHomeProps {
-  user: IIdentity
+  user: Map<string, any>
 }
 
 interface IHomeState {
@@ -21,14 +20,14 @@ class Home extends Component<IHomeProps, IHomeState> {
   }
 
   render() {
-    console.log('index redux props => ', this.props)
+    console.log('index redux props => ', this.props.user)
     const user = this.props.user;
     const userBlock = () => {
       return(
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "left" }}>
-            <h3>{user && user.firstName} {user && user.lastName}</h3>
-            <p>Email : {user && user.email}</p>
-            <p>Role : {user && user.role}</p>
+            <h3>{user && user.get("firstName")} {user && user.get("lastName")}</h3>
+            <p>Email : {user && user.get("email")}</p>
+            <p>Role : {user && user.get("role")}</p>
           </div>
       )
     }
@@ -46,7 +45,7 @@ class Home extends Component<IHomeProps, IHomeState> {
 }
 
 const mapStateToProps = (state) => ({
-  user: state.identity.user
+  user: state.identity.get("user")
 })
 
 const mapDispatchToProps = (dispatch) => ({

@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
 import styles from './layout.module.css';
-import Link from 'next/link'
-import store from 'store';
-import { xSave } from '../src';
+import Link from 'next/link';
 import Router from 'next/router';
 import { connect } from 'react-redux';
-import { IIdentity } from 'COMMON';
 import { ILogInFields } from 'redux/actions/UserAuthActions';
 import { userLogOutRequest } from '../redux/actions/UserAuthActions';
 
 interface ILayoutProps {
     children: any;
-    user?: IIdentity;
+    user?: Map<string, any>;
     userLogOutRequest: (data: ILogInFields) => void;
 }
 interface ILayoutState {
@@ -23,14 +20,16 @@ class Layout extends Component<ILayoutProps, ILayoutState>{
         this.state = {
         }
     }
+
     render() {
         let user = this.props.user;
+        
         let userState = null;
         let logInAndReg = null;
         if (user) {
             userState = (
                 <div>
-                    <p>Welcome {user.firstName}</p>
+                    <p>Welcome {user.get("firstName")}</p>
                     <button onClick={this.handleLogOut}>Log Out</button>
                 </div>
             )
@@ -68,12 +67,12 @@ class Layout extends Component<ILayoutProps, ILayoutState>{
 
     handleLogOut = () => {
         console.log('log out click !');
-        this.props.userLogOutRequest({ email: this.props.user.email, password: 'template' });
+        this.props.userLogOutRequest({ email: this.props.user.get("email"), password: 'template' });
     }
 }
 
 const mapStateToProps = (state) => ({
-    user: state.identity.user,
+    user: state.identity.get("user"),
 })
 
 const mapDispatchToProps = (dispatch) => ({
