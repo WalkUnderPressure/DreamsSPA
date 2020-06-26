@@ -5,7 +5,7 @@ export const redactAddFormActionsList = {
     REDACT_DREAN_SUCCESSFULLY: 'REDACT_DREAN_SUCCESSFULLY',
     REDACT_DREAN_UNSUCCESSFULLY: 'REDACT_DREAN_UNSUCCESSFULLY',
 
-    REDACT_MAIN_INPUT: 'REDACT_MAIN_INPUT',
+    LOAD: 'LOAD',
 }
 
 export const redactDreanRequest = (id: string) => ({
@@ -27,7 +27,8 @@ export interface IInputField {
     value: string;
 }
 
-export const mainInputChange = (field: IInputField) => ({
-    type: redactAddFormActionsList.REDACT_MAIN_INPUT,
-    field,
+
+export const loadRedactAddItem = (data: any) => ({
+    type: redactAddFormActionsList.LOAD,
+    data
 })

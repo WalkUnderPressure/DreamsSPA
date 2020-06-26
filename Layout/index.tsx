@@ -29,7 +29,7 @@ class Layout extends Component<ILayoutProps, ILayoutState>{
         if (user) {
             userState = (
                 <div>
-                    <p>Welcome {user.get("firstName")}</p>
+                    <p className='text-red-500'>Welcome {user.get("firstName")}</p>
                     <button onClick={this.handleLogOut}>Log Out</button>
                 </div>
             )
@@ -56,7 +56,7 @@ class Layout extends Component<ILayoutProps, ILayoutState>{
 
         return (
             <div className={styles.layoutContainer}>
-                <h1>Header</h1>
+                <h1 className='text-green-800'>Header</h1>
                 {userState}
                 {this.props.children}
                 <h1>footer</h1>

@@ -42,7 +42,6 @@ class Dreans extends Component<IDreansProps, IDreansState> {
 }
 
 const mapStateToProps = (state) => {
-  console.log('map state to props ---> ', state);
   return ({
     tableItems: state.entity.get('dreans'),
   })

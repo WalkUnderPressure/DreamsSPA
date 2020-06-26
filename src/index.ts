@@ -16,7 +16,6 @@ export const xFetch = (url : string, data : any, method : METHODS) => {
   } else {
     request.body = JSON.stringify(data)
   }
-
   return fetch(path, request)
     .then(res => {
       return res.json()

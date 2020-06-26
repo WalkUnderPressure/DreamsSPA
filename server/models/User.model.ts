@@ -30,15 +30,12 @@ import {USER_ROLE} from '../../COMMON';
         return next();
     });
     //!!! --------------------------------------------------------------------
-
 })
 
 @modelOptions({schemaOptions: {collection: 'users', versionKey: false }})
 export class UserSchema {
     
     public _id: mongoose.Schema.Types.ObjectId;
-    //@prop()
-    //_id?: mongoose.Types.ObjectId;
 
     @prop()
     role: USER_ROLE;

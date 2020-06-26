@@ -126,7 +126,7 @@ export default class AuthController extends BaseContext {
             }
 
             const result: boolean = identity === null || identity === false;
-            
+
             if (!result) {
                 for (let field in req.cookies) {
                     res.clearCookie(field);
@@ -134,8 +134,8 @@ export default class AuthController extends BaseContext {
                 delete req.session;
                 console.log('session after clear ', req.session);
             }
-            
-            const message = !result ? 'You have successfully logged out!' : 'Cant LogOut something went wrong!'; 
+
+            const message = !result ? 'You have successfully logged out!' : 'Cant LogOut something went wrong!';
             const serRes = {
                 error: result,
                 data: identity,
@@ -143,5 +143,24 @@ export default class AuthController extends BaseContext {
             } as ServerResponse;
             res.json(serRes);
         })(req, res, next);
+    }
+
+    @POST()
+    @route('/checkEmail')
+    public checkEmail(req: Request, res: Response, next: NextFunction) {
+        const { UserService } = this.di;
+
+        const email = req.body.email;
+        UserService.findUserByEmail(email)
+            .then(user => {
+                const userExist = user !== null;
+
+                const serRes: ServerResponse = {
+                    error: userExist,
+                    data: userExist? user.email : null,
+                    message: userExist ? 'User with this email already exist!' : 'You can use this email!'
+                };
+                res.json(serRes);
+            })
     }
 }

@@ -17,8 +17,6 @@ const passportFunc = (ctx: IContextContainer) => {
 };
 
 const initSession = (ctx: IContextContainer) => (req: Request, user: UserSchema): IIdentity => {
-    console.log('XXXXXXX INIT xXXXXXXXXXXX', user);
-    // const isSuperRole = SUPER.includes(user.role);
     const identity: IIdentity = {
         userId: user._id,
         firstName: user.firstName,
@@ -26,8 +24,6 @@ const initSession = (ctx: IContextContainer) => (req: Request, user: UserSchema)
         role: user.role,
         email: user.email,
         token: user.token,
-        // current: null,
-        // secrets: [],
         // locale: user.locale,
     };
     
@@ -38,7 +34,7 @@ const initSession = (ctx: IContextContainer) => (req: Request, user: UserSchema)
     return identity;
 }
 
-export interface IContextContainer extends IModelContainer,IServicesContainer, IStrategiesContainer  {
+export interface IContextContainer extends IModelContainer, IServicesContainer, IStrategiesContainer  {
     config: any;
     passport: PassportStatic;
     initSession: (req: Request, user: UserSchema) => IIdentity;

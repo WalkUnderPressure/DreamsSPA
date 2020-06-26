@@ -5,7 +5,7 @@ import { all } from 'redux-saga/effects';
 // import Entity from 'src/models/entity';
 import rootReducer from './reducers';
 import { getDreans, deleteDrean, getDreanForRedact } from './entities/dreans';
-import { userLogIn, userLogOut, userRegistration } from './identity/index';
+import { userLogIn, userLogOut, userRegistration } from './identity/user';
 
 const saga = function* root() {
     // console.log('1 - saga started !!!')

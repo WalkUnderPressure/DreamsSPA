@@ -1,119 +1,103 @@
 import React, { Component } from 'react'
-import DreanItem from '../../Templates/DreanItem';
-import { List } from './list'
-import { connect } from 'react-redux';
-import { mainInputChange, IInputField } from 'redux/actions/redactAddFormActions';
+import { connect } from 'react-redux'
+import { Field, reduxForm, Form, InjectedFormProps, FieldArray, GenericFieldArray } from 'redux-form';
+import InputField from 'components/InputField';
+import { required } from 'redux/validators';
+import DreanList from './DreanList';
 
-interface IRedactFormProps{
-  handlerOnSubmit : Function;
-  editingItem : DreanItem;
-  mainInputChange: (field: IInputField) => void;
+const FieldArrayCustom = FieldArray as new () => GenericFieldArray<Field, any>;
+
+interface IRedactDreanForm {
+  // load: Function;
+  // redactDreanId: string;
 }
-interface IRedactFormState{
-  data : DreanItem;
-}
+class RedactDreanForm extends Component<InjectedFormProps<{}, {}, string> & IRedactDreanForm> {
 
-class RedactForm extends Component<IRedactFormProps, IRedactFormState> {
-  constructor (props : IRedactFormProps) {
-    super(props)
-  }
+  render(){
+    const { handleSubmit, load, pristine, reset, submitting } = this.props;
+    return(
+      <Form onSubmit={handleSubmit}>
+      <div>
+        <label>Code Name</label>
+        <div>
+          <Field
+            name="codeName"
+            component={InputField}
+            type="text"
+            placeholder="Code name"
+            validate={[required]}
+          />
+        </div>
+      </div>
 
-  // static getDerivedStateFromProps (props : IRedactFormProps, state : IRedactFormState) {
-  //   return { ...props, ...state.data}
-  // }
+      <div>
+        <label>Description</label>
+        <div>
+          <Field 
+            name="description"
+            component="textarea"
+            type="text"
+            placeholder="description"
+            validate={[required]}
+          />
+        </div>
+      </div>
 
-  render () {
-    const element = this.props.editingItem;
-    console.log('redact form element : ',element);
+      <div>
+        <label>Date of event</label>
+        <div>
+          <Field 
+            name="dateOfEvent"
+            component="input"
+            type="date"
+            validate={[required]}
+          />
+        </div>
+      </div>
+      
+      <div>
+        <h1>Guests</h1>
+        <FieldArrayCustom name="guests" component={DreanList}/>
+      </div>
 
-    const dateTime = element && new Date(element.dateOfEvent).toLocaleDateString();
-    return (
-      <form onSubmit={this.handleOnSubmit}>
-        <input type="hidden" name="id" value={element && element._id} />
-
-        <input type="text" name="codeName" value={element && element.codeName} onChange={this.handleInputChange} />
-        <input type="text" name="description" value={element && element.description} onChange={this.handleInputChange} />
-        <input type="text" name="dateOfEvent" value={dateTime} onChange={this.handleInputChange} />
-
-        <List 
-          name='guests' 
-          listName={'Guests'} 
-          items={element && element.guests} 
-          handleOnDelete={this.handleOnDelete}
-          handleOnChangeString={this.handleOnChangeString}
-          addNewItemHandler={this.addNewItemHandler} />
-        <List 
-          name='needThings' 
-          listName={'Need Things'} 
-          items={element && element.needThings} 
-          handleOnDelete={this.handleOnDelete}
-          handleOnChangeString={this.handleOnChangeString}
-          addNewItemHandler={this.addNewItemHandler} />
-        <br/>
-        <br/>
-        <button type="submit">{element && element._id ? 'Save' : 'Add'}</button>
-        <button type="button" onClick={this.getData}>get data</button>
-      </form>
+      <div>
+        <h1>Need Things</h1>
+        <FieldArrayCustom name="needThings" component={DreanList}/>
+      </div>
+      
+      <div>
+        <button type="submit" disabled={pristine || submitting}>
+          Submit
+        </button>
+        <button type="button" disabled={pristine || submitting} onClick={reset}>
+          Undo Changes
+        </button>
+      </div>
+    </Form>
     )
   }
-
-  getData = () => {
-    console.log("get data",this.props.editingItem);
-  }
-
-handleInputChange = (event) => {
-    const value : string = event.target.value
-    const name : string = event.target.name
-
-    // let newState= {...this.state};
-    // newState.data[name] = value
-    // this.setState({ ... newState })
-    
-    this.props.mainInputChange({ name: name, value: value } as IInputField)
-  };
-  
-  handleOnSubmit = (event) => {
-    event.preventDefault()
-    this.props.handlerOnSubmit(this.state.data)
-  }
-
-  handleOnChangeString = (event) => {
-    const name = event.target.name;
-    const index = event.target.index;
-    const value = event.target.value
-    
-    // this.props.data[name][index] = value;
-  }
-
-  addNewItemHandler = (name: string) => {
-    if(!this.state.data[name]){
-      const newState = this.state.data;
-
-      newState[name] = [];
-      newState[name].push('');
-      this.setState({
-        data: newState
-      })
-    }else{
-      this.state.data[name].push('');
-      this.setState({
-        data: this.state.data
-      })
-    }
-  }
-
-  handleOnDelete = (index:number, target: string) => {
-    const newState = { ... this.state } as IRedactFormState;
-    newState.data[target] = this.state.data[target].filter( (item, i) => i !== index);
-    this.setState({ ... newState });
-  }
 }
-const mapStateToProps = (state) => ({
-  editingItem: state.editingItem
-})
 
+const reduxFormRedactDrean = reduxForm({
+  form: 'redactDreanForm',
+})(RedactDreanForm);
+
+const mapStateToProps = (state: any, props: any) => {
+  console.log('state redact drean form => ', props);
+  // console.log('filter => ', state.entity.get("dreans").filter(item => item.get("_id") === id).get(0).toJS())
+  // console.log('toJS => ', state.entity.get("dreans").filter(item => item.get("_id") === id).toJS())
+
+  // const drean = state.entity.get("dreans").filter(item => item.get("_id") === id).toJS();
+  // console.log('drean +> ', drean)
+  return ({
+    initialValues: props.data && props.data.toJS(),
+  })
+}
 const mapDispatchToProps = (dispatch) => ({
-  mainInputChange: (field: IInputField) => dispatch(mainInputChange(field)),
+
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(RedactForm)
+const connectRedactDrean = connect(mapStateToProps, mapDispatchToProps)(reduxFormRedactDrean);
+
+export default  connectRedactDrean;
+

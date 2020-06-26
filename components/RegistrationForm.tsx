@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Field, reduxForm, InjectedFormProps, Form, FormErrors } from 'redux-form';
-import { required, minLength, maxLength, correctEmail, checkPasswords } from '../redux/validators/';
+import { required, minLength, maxLength, correctEmail, checkPasswords, asyncValidate } from '../redux/validators/';
 import InputField from './InputField';
 
 const firstNameMinLength = minLength(4);
@@ -8,7 +8,6 @@ const firstNameMaxLength = maxLength(8);
 
 const passwordMinLength = minLength(4);
 const passwordMaxLength = maxLength(10);
-
 
 class RegistrationForm extends Component<InjectedFormProps<{}, {}, string>> {
 
@@ -98,6 +97,8 @@ class RegistrationForm extends Component<InjectedFormProps<{}, {}, string>> {
 
 export default reduxForm({
     form: 'registration',
+    asyncValidate,
+    asyncChangeFields: ['email']
 })(RegistrationForm)
 
 

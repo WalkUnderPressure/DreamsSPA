@@ -1,3 +1,4 @@
+import 'styles/styles.scss';
 import App from 'next/app';
 import React from 'react';
 const { serialize, deserialize } = require('json-immutable');

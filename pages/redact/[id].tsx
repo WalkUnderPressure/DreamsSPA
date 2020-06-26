@@ -10,32 +10,38 @@ import { redactDreanRequest } from '../../redux/actions/redactAddFormActions';
 import { connect } from 'react-redux'
 
 interface IRedactProps extends WithRouterProps {
-  editingItem: DreanItem;
+  // id: string;
+  // drean: Map<string, any>;
+  dreanSaveChanges: (values: any) => void;
 }
 interface IRedactState {
 
 }
 
-class Redact extends Component<IRedactProps, IRedactState> {
-  constructor(props: IRedactProps) {
-    super(props)
-    this.state = {
-      item: {} as DreanItem
-    }
-  }
+const dreanSaveChanges = (values) => {
+  console.log('dreanSaveChanges is working!', values);
+}
 
-  static getInitialProps(ctx) {
-    ctx.store.dispatch(redactDreanRequest(ctx.query.id));
+class Redact extends Component<IRedactProps, IRedactState> {
+
+  public static async getInitialProps(ctx: any) {
+    let id: any = null;
+    await ctx.store.execSagaTasks(ctx, (dispatch: any) => {
+        id = ctx?.req?.params?.id ? ctx.req.params.id : ctx.query.id;
+        ctx.store.dispatch(redactDreanRequest(id));
+    })
+    return {id}
   }
 
   render() {
-    const element = this.props.editingItem;
-    console.log('id element : ', element);
+    const element = this.props;
+    console.log('id element: ', element);
     return (
       <Layout>
         <div>
-          {element && element._id ? 'Redact' : 'Add New'}
-          <RedactForm handlerOnSubmit={this.handleOnSubmit} />
+          {element && element.id !== 'add'? 'Redact' : 'Add New'}
+
+          <RedactForm data={this.props.drean} onSubmit={ values => this.props.dreanSaveChanges(values)} />
         </div>
       </Layout>
     )
@@ -58,12 +64,24 @@ class Redact extends Component<IRedactProps, IRedactState> {
 }
 
 
-const mapStateToProps = (state) => ({
-  editingItem: state.editingItem
-})
+const mapStateToProps = (state, props) => {
+  const id = props.id;
+  let drean = {}
+  if(id !== 'add' || id !== null){
+    try {
+      drean = state.entity.get("dreans").filter(item => item.get("_id") === id).get(0)
+    } catch (error) {
+      drean = new Map()
+    }
+  }
+  console.log('drean +> ', drean)
+  return ({
+    drean
+  })
+} 
 
 const mapDispatchToProps = (dispatch) => ({
-
+  dreanSaveChanges: (values: any) => dispatch(dreanSaveChanges(values))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Redact)

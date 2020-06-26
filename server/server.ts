@@ -84,7 +84,7 @@ function acl(req: Request, res: Response, next: NextFunction) {
   let useAcl = true;
   const path = req.path.toString();
   for (const item of IGNORS) {
-    if (path.startsWith(item)) {
+    if (path.startsWith(item) || path ===  '/') {
       useAcl = false;
     }
   }
