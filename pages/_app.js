@@ -1,4 +1,4 @@
-import 'styles/styles.scss';
+import '../styles/styles.scss';
 import App from 'next/app';
 import React from 'react';
 const { serialize, deserialize } = require('json-immutable');
@@ -21,9 +21,13 @@ class MyApp extends App {
 
     render() {
         const { Component, pageProps, store } = this.props;
-        return <Provider store={store}>
-            <Component {...pageProps} />
-        </Provider>
+        return (
+            <div className='bg-grey-lighter h-screen font-sans'>
+                <Provider store={store}>
+                    <Component {...pageProps} />
+                </Provider>
+            </div>
+        ) 
     }
 }
 const wRedux = withRedux(makeStore, {

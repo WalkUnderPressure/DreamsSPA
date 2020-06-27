@@ -10,8 +10,6 @@ interface IHomeState {
 
 }
 
-
-
 class Home extends Component<IHomeProps, IHomeState> {
   constructor(props: IHomeProps) {
     super(props)
@@ -24,7 +22,7 @@ class Home extends Component<IHomeProps, IHomeState> {
     const user = this.props.user;
     const userBlock = () => {
       return(
-        <div style={{ display: "flex", flexDirection: "column", justifyContent: "left" }}>
+        <div>
             <h3>{user && user.get("firstName")} {user && user.get("lastName")}</h3>
             <p>Email : {user && user.get("email")}</p>
             <p>Role : {user && user.get("role")}</p>
@@ -34,10 +32,8 @@ class Home extends Component<IHomeProps, IHomeState> {
     return (
       <Layout>
         <div>
-          <h1 style={{ textAlign: "center", color: "red" }} >Welcome to Dreams And plans Manager</h1>
-
+         <h1 className='text-yellow-600'>Welcome to Dreams And Plans Manager</h1>
           {user ? userBlock() : 'You not LogIn!'}
-          
         </div>
       </Layout>
     )

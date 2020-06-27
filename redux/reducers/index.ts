@@ -36,38 +36,34 @@ const entity = (state = initialEntities, action: AnyAction) => {
       console.log('delete successfully : ', action);
       const filtered = state.get("dreans").filter(item => item.get("_id") !== action.id);
       return state.set("dreans", filtered);
+    case redactAddFormActionsList.REDACT_DREAN_SUCCESSFULLY:
+        console.log('get drean for redact successfully : ', action);
+        console.log('state on this step => ', state.get('dreans'));
+  
+        const element: DreanItem = action.data;
+        const id = element._id;
+        console.log('element id -> ', id);
+        const indexOfListToUpdate = state.get('dreans').findIndex(listItem => {
+          return listItem.get('_id') === id;
+        });
+        console.log('indexOfListToUpdate => ', indexOfListToUpdate);
+        const newState = state.setIn(['dreans', indexOfListToUpdate], fromJS(element));
+        console.log('new State => ', state);
+  
+        // return state.setIn(['dreans',]) { ... action.data }
+        return state
     default:
       return state
   }
 }
 
-// const editingItem = (state = initialEntities, action: AnyAction) => {
-//   switch (action.type) {
-//     case redactAddFormActionsList.REDACT_DREAN_SUCCESSFULLY:
-//       console.log('get drean for redact successfully : ', action);
-//       return { ... action.data }
 //     case redactAddFormActionsList.REDACT_DREAN_UNSUCCESSFULLY:
 //       const emptyItem = {
 //         needThings: [],
 //         guests: [],
 //       }
 //       return { ... emptyItem } 
-    
-//     default:
-//       return state
-//   }
-// }
 
-// const editingItem = (state = {}, action: AnyAction) => {
-//   switch (action.type) {
-//     case redactAddFormActionsList.LOAD:
-//       return {
-//         data: action.data
-//       }
-//     default:
-//       return state
-//   }
-// }
 
 
 export default combineReducers({

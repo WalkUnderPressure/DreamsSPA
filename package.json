@@ -1,5 +1,5 @@
 {
-  "name": "recipe-app",
+  "name": "dreans-app",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -16,7 +16,7 @@
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-sass": "^1.0.1",
-    "autoprefixer": "^9.7.4",
+    "autoprefixer": "^9.8.4",
     "awilix": "^4.2.6",
     "awilix-express": "^3.0.0",
     "bcrypt": "^5.0.0",

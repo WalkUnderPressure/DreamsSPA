@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import styles from './layout.module.css';
 import Link from 'next/link';
-import Router from 'next/router';
 import { connect } from 'react-redux';
 import { ILogInFields } from 'redux/actions/UserAuthActions';
 import { userLogOutRequest } from '../redux/actions/UserAuthActions';
@@ -34,7 +32,7 @@ class Layout extends Component<ILayoutProps, ILayoutState>{
                 </div>
             )
             logInAndReg = (
-                <div className={styles.footerContainer}>
+                <div>
                     <Link href="/" as="/"><a>Go to Home</a></Link>
                     <Link href="/dreans" as="/dreans"><a>Go to Dreans</a></Link>
                 </div>
@@ -47,20 +45,26 @@ class Layout extends Component<ILayoutProps, ILayoutState>{
                 </div>
             )
             logInAndReg = (
-                <div className={styles.footerContainer}>
+                <div>
                     <Link href="/login" as="/login"><a>Login</a></Link>
                     <Link href="/registration" as="/registration"><a>Registration</a></Link>
                 </div>
             )
         }
-
+        
         return (
-            <div className={styles.layoutContainer}>
-                <h1 className='text-green-800'>Header</h1>
-                {userState}
+            <div 
+            className='container lg mx-auto h-auto border-solid border-8 border-gray-600'
+            >
+                <header>
+                    <h1 className=''>Header</h1>
+                    {userState}
+                </header>
                 {this.props.children}
-                <h1>footer</h1>
-                {logInAndReg}
+                <footer>
+                    <h1>footer</h1>
+                    {logInAndReg} 
+                </footer>
             </div>
         )
     }
