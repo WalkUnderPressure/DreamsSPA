@@ -41,13 +41,15 @@ class Redact extends Component<IRedactProps, IRedactState> {
         <div>
           {element && element.id !== 'add'? 'Redact' : 'Add New'}
 
-          <RedactForm data={this.props.drean} onSubmit={ values => this.props.dreanSaveChanges(values)} />
+          <RedactForm data={this.props.drean} onSubmit={ values => this.handleOnSubmit(values)} />
         </div>
       </Layout>
     )
   }
 
   handleOnSubmit = (changedData: DreanItem) => {
+      console.log('dreanSaveChanges is working!', changedData);
+
     const url = '/api/dreans/redact'
 
     xSave(url, changedData)
