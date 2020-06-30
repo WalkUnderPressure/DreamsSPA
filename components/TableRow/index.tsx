@@ -22,9 +22,19 @@ class TableRow extends Component<ITableRowProps> {
         <td>{element && element.get("guests").size || 'empty'}</td>
         <td>{element && element.get("needThings").size || 'empty'}</td>
         <td>
-          <div>
-            <Link href={'/redact/[id]'} as={`/redact/${element.get("_id")}`}><a>Redact</a></Link>
-            <button onClick={this.handleDelete}>Delete</button>
+          <div className={'flex flex-row justify-around'}>
+            <Link href={'/redact/[id]'} as={`/redact/${element.get("_id")}`}>
+                <button className={'my-2 bg-transparent hover:bg-blue-300 ' +
+                    'text-red-600 font-semibold hover:text-white py-2 px-4 ' +
+                    'border border-red-800 hover:border-transparent rounded'}>
+                Redact
+                </button>
+            </Link>
+            <button onClick={this.handleDelete} className={'my-2 bg-transparent hover:bg-red-700 ' +
+                'text-red-600 font-semibold hover:text-white py-2 px-4 ' +
+                'border border-red-800 hover:border-transparent rounded'}>
+                Delete
+            </button>
           </div>
         </td>
       </tr>

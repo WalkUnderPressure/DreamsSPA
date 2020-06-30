@@ -12,6 +12,7 @@ interface ILayoutProps {
 interface ILayoutState {
 
 }
+
 class Layout extends Component<ILayoutProps, ILayoutState>{
     constructor(props: ILayoutProps) {
         super(props);
@@ -26,44 +27,85 @@ class Layout extends Component<ILayoutProps, ILayoutState>{
         let logInAndReg = null;
         if (user) {
             userState = (
-                <div>
-                    <p className='text-red-500'>Welcome {user.get("firstName")}</p>
-                    <button onClick={this.handleLogOut}>Log Out</button>
+                <div className={'my-5 flex flex-col justify-between'}>
+                    <p className='text-red-500 text-xl'>Welcome <span className={'text-red-900 text-2xl font-bold'}>{user.get("firstName")}</span></p>
+                    <button onClick={this.handleLogOut} className={'bg-transparent hover:bg-red-600 ' +
+                    '   text-red-600 font-semibold hover:text-white py-2 px-4 ' +
+                    '   border border-red-800 hover:border-transparent rounded'}>
+                        LogOut
+                    </button>
                 </div>
             )
             logInAndReg = (
-                <div>
-                    <Link href="/" as="/"><a>Go to Home</a></Link>
-                    <Link href="/dreans" as="/dreans"><a>Go to Dreans</a></Link>
+                <div className={'my-5 h-full flex flex-col justify-start'}>
+                    <Link href="/" as="/">
+                        <button className={'my-2 bg-transparent hover:bg-red-300 ' +
+                        '   text-red-600 font-semibold hover:text-white py-2 px-4 ' +
+                        '   border border-red-800 hover:border-transparent rounded'}>
+                            Go to Home
+                        </button>
+                    </Link>
+                    <Link href="/dreans" as="/dreans">
+                        <button className={'my-2 bg-transparent hover:bg-red-300 ' +
+                        '   text-red-600 font-semibold hover:text-white py-2 px-4 ' +
+                        '   border border-red-800 hover:border-transparent rounded'}>
+                            Go to Dreans
+                        </button>
+                    </Link>
                 </div>
             )
 
         } else {
             userState = (
-                <div>
-                    <p>Please LogIn or Registration!</p>
+                <div className={'my-5 flex flex-col justify-between'}>
+                    <p className='text-red-500 text-xl font-bold'>Please LogIn or Register!</p>
                 </div>
             )
             logInAndReg = (
-                <div>
-                    <Link href="/login" as="/login"><a>Login</a></Link>
-                    <Link href="/registration" as="/registration"><a>Registration</a></Link>
+                <div className={'my-5 h-full flex flex-col justify-start'}>
+                    <Link href="/login" as="/login">
+                        <button className={'my-2 bg-transparent hover:bg-red-300 ' +
+                        '   text-red-600 font-semibold hover:text-white py-2 px-4 ' +
+                        '   border border-red-800 hover:border-transparent rounded'}>
+                            Login
+                        </button>
+                    </Link>
+                    <Link href="/registration" as="/registration">
+                        <button className={'my-2 bg-transparent hover:bg-red-300 ' +
+                        '   text-red-600 font-semibold hover:text-white py-2 px-4 ' +
+                        '   border border-red-800 hover:border-transparent rounded'}>
+                            Registration
+                        </button>
+                    </Link>
                 </div>
             )
         }
-        
+        const size = 32;
         return (
             <div 
-            className='container lg mx-auto h-auto border-solid border-8 border-gray-600'
+            className='container lg mx-auto h-auto'
             >
-                <header>
-                    <h1 className=''>Header</h1>
-                    {userState}
+                <header className='items-center flex flex-row justify-around p-2
+                    bg-white rounded-br-full rounded-tl-full border-solid border-black border-b-4'>
+                    <div className={`flex content-center rounded-full h-${size} w-${size}`}>
+                        <p className='m-auto font-mono text-6xl text-red-600'>夢</p>
+                    </div>
+                    <div className={''}>
+                        <h1 className='text-6xl text-red-900'>Board of Dreams and Plans</h1>
+                    </div>
                 </header>
-                {this.props.children}
-                <footer>
-                    <h1>footer</h1>
-                    {logInAndReg} 
+                <div className={'flex flex-row'}>
+                    <nav className={'flex flex-col justify-between bg-white px-4 sticky top-0 opacity-100'}>
+                            {userState}
+                            {logInAndReg}
+                    </nav>
+                    <div className={'w-full px-10'}>
+                        {this.props.children}
+                    </div>
+                </div>
+                <footer className={'items-center flex flex-row justify-around p-2 ' +
+                    'bg-white opacity-100 rounded-tr-full rounded-bl-full'}>
+                    <h1 className={'text-xl'}>© Brinzey Oleksandr 2020. All Rights Reserved.</h1>
                 </footer>
             </div>
         )

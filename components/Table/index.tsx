@@ -31,11 +31,11 @@ class Table extends Component<ITableProps, ITableState> {
     }
 
     return (
-      <div>
-        <table>
+      <div className={'text-center'}>
+        <table className={'table-fixed'}>
           <thead>
             <tr>
-              <th>Code Name</th>
+              <th className={'w-1/6 px-4 py-2'}>Code Name</th>
               <th>Description</th>
               <th>Date</th>
               <th>Guests</th>
@@ -43,7 +43,7 @@ class Table extends Component<ITableProps, ITableState> {
               <th>Activity</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className={''}>
             {rows}
           </tbody>
         </table>

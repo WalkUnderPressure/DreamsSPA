@@ -13,27 +13,33 @@ class DreanList extends Component<WrappedFieldArrayProps<{}> & IDreanListProps>{
     // console.log('drean list props => ', this.props);
     const { fields, name, meta: { error, submitFailed } } = this.props;
     return (
-      <ul>
-        <div>
-          <h1>{name}</h1>
-          <button type="button" onClick={() => fields.push('')}>
+      <ul className={'w-10/12'}>
+        <div className={'w-full flex flex-col'}>
+          <button type="button" onClick={() => fields.push('')}
+                  className={'my-auto bg-transparent hover:bg-green-400 ' +
+            'text-red-600 font-semibold hover:text-white py-2 px-4 ' +
+            'border border-red-800 hover:border-transparent rounded'}>
             Add Item
           </button>
           {submitFailed && error && <span>{error}</span>}
         </div>
         {fields && fields.map((member, index: number) => (
-          <li key={index}>
-            <Field
-              name={`${member}`}
-              type="text"
-              component={InputField}
-              validate={[required]}
-            />
-            <button
-              type="button"
-              title="Remove Item"
-              onClick={() => fields.remove(index)}
-            >Remove</button>
+          <li className={'my-2 flex flex-row items-center'} key={index}>
+            <div className={'w-full'}>
+              <Field
+                  name={`${member}`}
+                  type="text"
+                  component={InputField}
+                  validate={[required]}
+              />
+            </div>
+            <button type="button" title="Remove Item"
+                    onClick={() => fields.remove(index)}
+                    className={'bg-transparent hover:bg-red-700 ' +
+                    'text-red-600 font-semibold hover:text-white py-2 px-4 ' +
+                    'border border-red-800 hover:border-transparent rounded'}>
+              Remove
+            </button>
           </li>
         ))}
       </ul>

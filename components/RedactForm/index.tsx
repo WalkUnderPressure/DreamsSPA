@@ -8,18 +8,16 @@ import DreanList from './DreanList';
 const FieldArrayCustom = FieldArray as new () => GenericFieldArray<Field, any>;
 
 interface IRedactDreanForm {
-  // load: Function;
-  // redactDreanId: string;
+
 }
 class RedactDreanForm extends Component<InjectedFormProps<{}, {}, string> & IRedactDreanForm> {
 
   render(){
-    const { handleSubmit, load, pristine, reset, submitting } = this.props;
+    const { handleSubmit, pristine, reset, submitting } = this.props;
     return(
-      <Form onSubmit={handleSubmit}>
-      <div>
-        <label>Code Name</label>
-        <div>
+      <Form className={'bg-pink-200 w-10/12 m-auto p-auto items-center'} onSubmit={handleSubmit}>
+        <div className='flex-col mx-auto justify-start items-center py-2 text-xl'>
+          <h1 className={'mb-6 text-center uppercase text-5xl'}>Redact or Add</h1>
           <Field
             name="codeName"
             component={InputField}
@@ -27,52 +25,48 @@ class RedactDreanForm extends Component<InjectedFormProps<{}, {}, string> & IRed
             placeholder="Code name"
             validate={[required]}
           />
-        </div>
-      </div>
 
-      <div>
-        <label>Description</label>
-        <div>
+
           <Field 
             name="description"
-            component="textarea"
+            component={InputField}
             type="text"
-            placeholder="description"
+            placeholder="Description"
             validate={[required]}
           />
-        </div>
-      </div>
 
-      <div>
-        <label>Date of event</label>
-        <div>
-          <Field 
-            name="dateOfEvent"
-            component="input"
-            type="date"
-            validate={[required]}
+          <Field
+              name="dateOfEvent"
+              component={InputField}
+              type="date"
+              validate={[required]}
+              placeholder={'Date of event'}
           />
-        </div>
-      </div>
-      
-      <div>
-        <h1>Guests</h1>
-        <FieldArrayCustom name="guests" component={DreanList}/>
-      </div>
 
-      <div>
-        <h1>Need Things</h1>
-        <FieldArrayCustom name="needThings" component={DreanList}/>
-      </div>
-      
-      <div>
-        <button type="submit" disabled={pristine || submitting}>
-          Submit
-        </button>
-        <button type="button" disabled={pristine || submitting} onClick={reset}>
-          Undo Changes
-        </button>
-      </div>
+          <div className={'mx-auto flex flex-row w-11/12 '}>
+            <div className={'w-1/2'}>
+              <h1 className={'mb-6 text-center uppercase text-3xl'}>Guests</h1>
+              <FieldArrayCustom name="guests" component={DreanList}/>
+            </div>
+
+            <div className={'w-1/2'}>
+              <h1 className={'mb-6 text-center uppercase text-3xl'}>Need Things</h1>
+              <FieldArrayCustom name="needThings" component={DreanList}/>
+            </div>
+          </div>
+
+
+          <div className={'flex flex-rol justify-around my-20'}>
+            <button type="submit" disabled={submitting}
+                    className='w-1/3 mx-auto text-black hover: cursor-pointer hover: text-green-700 text-xl'>
+              Submit
+            </button>
+            <button type="button" disabled={pristine || submitting} onClick={reset}
+                    className='w-1/3 mx-auto text-black hover: cursor-pointer hover: text-green-700 text-xl'>
+              Undo Changes
+            </button>
+          </div>
+        </div>
     </Form>
     )
   }
@@ -84,11 +78,6 @@ const reduxFormRedactDrean = reduxForm({
 
 const mapStateToProps = (state: any, props: any) => {
   console.log('state redact drean form => ', props);
-  // console.log('filter => ', state.entity.get("dreans").filter(item => item.get("_id") === id).get(0).toJS())
-  // console.log('toJS => ', state.entity.get("dreans").filter(item => item.get("_id") === id).toJS())
-
-  // const drean = state.entity.get("dreans").filter(item => item.get("_id") === id).toJS();
-  // console.log('drean +> ', drean)
   return ({
     initialValues: props.data && props.data.toJS(),
   })

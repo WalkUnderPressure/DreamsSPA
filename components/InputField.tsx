@@ -17,13 +17,11 @@ class InputField extends Component<WrappedFieldProps & IInputFieldProps, IInputF
         // console.log('input props --------> \n', {...this.props});
         
         return (
-            <div className='flex flex-col'>
-                <div 
-                className='flex flex-col justify-center'
-                >
-                    <p
+            <div className='flex flex-col w-full'>
+                <div className='flex flex-col justify-center'>
+                    {placeholder? <p
                         className='text-center'
-                    >{placeholder}</p>
+                    >{placeholder}</p> : ''}
                     <input id={id} {...input} type={type} placeholder={placeholder}
                     className='block appearance-none w-10/12 bg-white border border-grey-light hover:border-grey p-2 mx-auto rounded shadow'
                     />

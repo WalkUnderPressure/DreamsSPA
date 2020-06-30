@@ -4,7 +4,7 @@ import { required, minLength, maxLength, correctEmail, checkPasswords, asyncVali
 import InputField from './InputField';
 
 const firstNameMinLength = minLength(4);
-const firstNameMaxLength = maxLength(8);
+const firstNameMaxLength = maxLength(12);
 
 const passwordMinLength = minLength(4);
 const passwordMaxLength = maxLength(10);
@@ -15,80 +15,69 @@ class RegistrationForm extends Component<InjectedFormProps<{}, {}, string>> {
         const { error, handleSubmit, pristine, reset, submitting } = this.props;
         return (
 
-            <Form onSubmit={handleSubmit}>
-                <h1>Registration</h1>
+            <Form className={'bg-pink-200 w-10/12 m-auto p-auto items-center'} onSubmit={handleSubmit}>
+                <div className='flex-col mx-auto justify-start items-center py-2 text-xl'>
+                    <h1 className={'mb-6 text-center uppercase text-5xl'}>Registration</h1>
 
-                {/* <div>
+                    {/* <div>
                     <label htmlFor="timezone">TimeZone</label>
-                    <Field 
+                    <Field
                     type="hidden"
                     name='timezone'
-                    value={ Intl.DateTimeFormat().resolvedOptions().timeZone }
-                />
-                </div> */}
+                    value={ Intl.DateTimeFormat().resolvedOptions().timeZone }/>
+                    </div> */}
 
-
-                <div>
-                    <label htmlFor="firstName">First Name: </label>
                     <Field
+                        className='align-middle w-full'
                         id="firstName" name="firstName"
                         component={InputField} type="text"
                         validate={[required, firstNameMinLength, firstNameMaxLength]}
-                        placeholder="First Name "
+                        placeholder='First Name'
                     />
-                </div>
 
-                <div>
-                    <label htmlFor="lastName">Last Name: </label>
                     <Field
+                        className='align-middle w-full'
                         id="lastName" name="lastName"
                         component={InputField} type="text"
                         validate={[required, firstNameMinLength, firstNameMaxLength]}
-                        placeholder="Last Name "
+                        placeholder='Last Name'
                     />
-                </div>
 
-                <div>
-                    <label htmlFor="email">Email: </label>
                     <Field
+                        className='align-middle w-full'
                         id="email" name="email"
                         component={InputField} type="email"
                         validate={[required, correctEmail]}
-                        placeholder="Email"
+                        placeholder='Email'
                     />
-                </div>
 
-                <br /> <br /> <br />
-                <div>
-                    <label htmlFor="password">Password: </label>
-                    <Field
-                        id="password" name="password"
-                        component={InputField} type="password"
-                        validate={[required, passwordMinLength, passwordMaxLength]}
-                        placeholder="Password"
-                    />
-                </div>
+                    <div className={'mt-30'}>
+                        <Field
+                            id="password" name="password"
+                            component={InputField} type="password"
+                            validate={[required, passwordMinLength, passwordMaxLength]}
+                            placeholder="Password"
+                        />
+                        <Field
+                            id="confirmPassword" name="confirmPassword"
+                            component={InputField} type="password"
+                            validate={[required, passwordMinLength, passwordMaxLength, checkPasswords]}
+                            placeholder="Confirm Password:"
+                        />
+                    </div>
 
-                <div>
-                    <label htmlFor="confirmPassword">Confirm Password: </label>
-                    <Field
-                        id="confirmPassword" name="confirmPassword"
-                        component={InputField} type="password"
-                        validate={[required, passwordMinLength, passwordMaxLength, checkPasswords]}
-                        placeholder="Confirm Password:"
-                    />
-                </div>
-                <br /> <br /> <br />
+                    {error && <strong>{error}</strong>}
 
-                {error && <strong>{error}</strong>}
-
-                <div>
-                    <button type="submit" disabled={submitting}>
-                        Registration
-                    </button>
-                    <button type="button" disabled={pristine || submitting} onClick={reset}>
-                        Reset
-                    </button>
+                    <div className={'flex flex-rol justify-around my-20'}>
+                        <button type="submit" disabled={submitting}
+                                className='w-1/3 mx-auto text-black hover: cursor-pointer hover: text-green-700 text-xl'>
+                            Registration
+                        </button>
+                        <button type="button" disabled={pristine || submitting} onClick={reset}
+                                className='w-1/3 mx-auto text-black hover: cursor-pointer hover: text-green-700 text-xl'>
+                            Reset
+                        </button>
+                    </div>
                 </div>
             </Form>
         )

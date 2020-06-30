@@ -34,8 +34,16 @@ class Dreans extends Component<IDreansProps, IDreansState> {
     const element = this.props;
     return (
       <Layout>
-        <Table data={element.tableItems} />
-        <Link href='/redact/[id]' as='/redact/add'><a>Add</a></Link>
+        <div className={'h-full p-5 bg-white rounded-lg'}>
+          <Table data={element.tableItems} />
+          <Link href='/redact/[id]' as='/redact/add'>
+            <button className={'my-2 bg-transparent hover:bg-blue-400 ' +
+            '   text-red-600 font-semibold hover:text-white py-2 px-4 ' +
+            '   border border-red-800 hover:border-transparent rounded'}>
+              Add
+            </button>
+          </Link>
+        </div>
       </Layout>
     )
   }
