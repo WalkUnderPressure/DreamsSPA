@@ -11,7 +11,7 @@ export default class MyDocument extends Document {
             </Head>
             
             <body 
-            className="bgImage font-serif text-sm text-steel bg-fixed"
+            className="font-serif text-sm text-steel bg-fixed"
             >
                 <Main/>
                 <NextScript/>

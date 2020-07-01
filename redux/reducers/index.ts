@@ -1,11 +1,11 @@
-import { fromJS, List, Map } from 'immutable';
-
+import { fromJS, Map } from 'immutable';
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form'
 import { userDreansActionsList } from '../actions/UsersDreansActions';
 import { AnyAction } from "redux";
 import { userAuthActionsList } from 'redux/actions/UserAuthActions';
 import { redactAddFormActionsList } from 'redux/actions/redactAddFormActions';
+import DreanItem from 'Templates/DreanItem';
 
 const initialEntities = fromJS({
 
@@ -49,22 +49,14 @@ const entity = (state = initialEntities, action: AnyAction) => {
         console.log('indexOfListToUpdate => ', indexOfListToUpdate);
         const newState = state.setIn(['dreans', indexOfListToUpdate], fromJS(element));
         console.log('new State => ', state);
-  
-        // return state.setIn(['dreans',]) { ... action.data }
+        return state
+    case redactAddFormActionsList.SAVE_DREAN_CHANGES_SUCCESSFULLY:
+        console.log('drean save successfully', action)
         return state
     default:
       return state
   }
 }
-
-//     case redactAddFormActionsList.REDACT_DREAN_UNSUCCESSFULLY:
-//       const emptyItem = {
-//         needThings: [],
-//         guests: [],
-//       }
-//       return { ... emptyItem } 
-
-
 
 export default combineReducers({
   entity,

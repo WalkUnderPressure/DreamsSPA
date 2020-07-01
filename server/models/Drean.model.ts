@@ -1,14 +1,11 @@
 import mongoose from 'mongoose';
-import { prop, modelOptions, getModelForClass, DocumentType} from '@typegoose/typegoose';
+import { prop, modelOptions, getModelForClass, DocumentType, pre} from '@typegoose/typegoose';
 import DreanItem from '../../Templates/DreanItem'
 
-// @pre<DreanSchema>('save', function(next) {
-//   this.updatedAt = new Date().getTime();
-//   if (this.isNew) {
-//     this.createdAt = new Date().getTime();
-//   }
-//   next();
-// })
+@pre<DreanSchema>('update', function(next) {
+  console.log('this ', this);
+    next();
+})
 
 @modelOptions({schemaOptions: {collection: 'dreans', versionKey: false }})
 export class DreanSchema implements DreanItem{
@@ -23,7 +20,7 @@ export class DreanSchema implements DreanItem{
     description: string;
 
     @prop()
-    dateOfEvent: Date;
+    dateOfEvent: number;
 
     @prop({type: String })
     guests: [string]

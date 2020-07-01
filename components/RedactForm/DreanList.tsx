@@ -13,7 +13,7 @@ class DreanList extends Component<WrappedFieldArrayProps<{}> & IDreanListProps>{
     // console.log('drean list props => ', this.props);
     const { fields, name, meta: { error, submitFailed } } = this.props;
     return (
-      <ul className={'w-10/12'}>
+      <ul className={'w-10/12 pl-0'}>
         <div className={'w-full flex flex-col'}>
           <button type="button" onClick={() => fields.push('')}
                   className={'my-auto bg-transparent hover:bg-green-400 ' +
@@ -35,10 +35,12 @@ class DreanList extends Component<WrappedFieldArrayProps<{}> & IDreanListProps>{
             </div>
             <button type="button" title="Remove Item"
                     onClick={() => fields.remove(index)}
+                    // className={'btnRemove'}
                     className={'bg-transparent hover:bg-red-700 ' +
                     'text-red-600 font-semibold hover:text-white py-2 px-4 ' +
-                    'border border-red-800 hover:border-transparent rounded'}>
-              Remove
+                    'border border-red-800 hover:border-transparent rounded'}
+            >
+              X
             </button>
           </li>
         ))}

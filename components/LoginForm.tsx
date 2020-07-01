@@ -4,7 +4,7 @@ import { required, minLength, maxLength, correctEmail } from '../redux/validator
 import InputField from './InputField';
 
 const passwordMinLength = minLength(4);
-const passwordMaxLength = maxLength(8);
+const passwordMaxLength = maxLength(10);
 
 class LoginForm extends Component<InjectedFormProps<{}, {}, string>> {
 

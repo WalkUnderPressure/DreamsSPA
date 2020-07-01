@@ -1,5 +1,7 @@
-@import 'tailwindcss/components';
+@import 'tailwindcss/base';
 @import 'tailwindcss/utilities';
+@import 'tailwindcss/components';
+@import './customStyles.scss';
 
 body {
   background-image: url('https://images7.alphacoders.com/888/888540.jpg');

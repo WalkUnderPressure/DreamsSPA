@@ -54,12 +54,13 @@ export default class SignUpStrategy extends BaseContext {
         }
         const defaultTimezone = 'America/Edmonton';
         const { firstName, lastName, timezone, role } = req.body;
+
         let isRole: string = USER_ROLE.USER;
 
         //if (isAdminCreate && role) {
         //    isRole = role
         //}
-
+        
         const userData = {
             email: email && email.trim(),
             password: password && password.trim(),

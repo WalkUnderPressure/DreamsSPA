@@ -16,7 +16,7 @@ module.exports = {
         owner_id: user._id.toString(),
         codeName: Faker.random.words(),
         description: Faker.random.words(),
-        dateOfEvent: Faker.date.future(),
+        dateOfEvent: Faker.date.future().getTime(),
         guests:[],
         needThings: []
       };

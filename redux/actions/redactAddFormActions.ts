@@ -5,7 +5,9 @@ export const redactAddFormActionsList = {
     REDACT_DREAN_SUCCESSFULLY: 'REDACT_DREAN_SUCCESSFULLY',
     REDACT_DREAN_UNSUCCESSFULLY: 'REDACT_DREAN_UNSUCCESSFULLY',
 
-    LOAD: 'LOAD',
+    SAVE_DREAN_CHANGES: 'SAVE_DREAN_CHANGES',
+    SAVE_DREAN_CHANGES_SUCCESSFULLY: 'SAVE_DREAN_CHANGES_SUCCESSFULLY',
+    SAVE_DREAN_CHANGES_UNSUCCESSFULLY: 'SAVE_DREAN_CHANGES_UNSUCCESSFULLY',
 }
 
 export const redactDreanRequest = (id: string) => ({
@@ -22,13 +24,15 @@ export const redactDreanUnsuccessfully = () => ({
     type: redactAddFormActionsList.REDACT_DREAN_SUCCESSFULLY,
 })
 
-export interface IInputField {
-    name: string;
-    value: string;
-}
-
-
-export const loadRedactAddItem = (data: any) => ({
-    type: redactAddFormActionsList.LOAD,
+export const saveDreanChanges = (data: any) => ({
+    type: redactAddFormActionsList.SAVE_DREAN_CHANGES,
     data
+})
+
+export const saveDreanChangesSuccessfully = () => ({
+    type: redactAddFormActionsList.SAVE_DREAN_CHANGES_SUCCESSFULLY,
+})
+
+export const saveDreanChangesUnsuccessfully = () => ({
+    type: redactAddFormActionsList.REDACT_DREAN_UNSUCCESSFULLY,
 })

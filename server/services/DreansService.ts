@@ -30,12 +30,15 @@ export default class DreansService extends BaseContext{
     
     updateDreanByID (id: string, drean: DreanType ) {
         const { DreanModel } = this.di;
+        console.log('drean for update  -> ', drean)
+        drean.dateOfEvent = new Date(drean.dateOfEvent).getTime();
         return DreanModel.findByIdAndUpdate(id, drean)
     }
     
     createDrean(owner_id: string, drean: DreanType) {
         const { DreanModel } = this.di;
         drean.owner_id = owner_id;
+        console.log('create new drean == ', drean);
         return DreanModel.insertMany(drean);
     }
 }

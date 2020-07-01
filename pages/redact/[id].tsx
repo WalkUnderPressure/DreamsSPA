@@ -6,20 +6,14 @@ import { xRead, xSave } from '../../src'
 import { WithRouterProps } from 'next/dist/client/with-router'
 import DreanItem from '../../Templates/DreanItem';
 import ServerResponse from '../../Templates/ServerResponse'
-import { redactDreanRequest } from '../../redux/actions/redactAddFormActions';
+import { redactDreanRequest, saveDreanChanges } from '../../redux/actions/redactAddFormActions';
 import { connect } from 'react-redux'
 
 interface IRedactProps extends WithRouterProps {
-  // id: string;
-  // drean: Map<string, any>;
   dreanSaveChanges: (values: any) => void;
 }
 interface IRedactState {
 
-}
-
-const dreanSaveChanges = (values) => {
-  console.log('dreanSaveChanges is working!', values);
 }
 
 class Redact extends Component<IRedactProps, IRedactState> {
@@ -38,30 +32,9 @@ class Redact extends Component<IRedactProps, IRedactState> {
     console.log('id element: ', element);
     return (
       <Layout>
-        <div>
-          {element && element.id !== 'add'? 'Redact' : 'Add New'}
-
-          <RedactForm data={this.props.drean} onSubmit={ values => this.handleOnSubmit(values)} />
-        </div>
+        <RedactForm data={this.props.drean} onSubmit={ values => this.props.dreanSaveChanges(values)} />
       </Layout>
     )
-  }
-
-  handleOnSubmit = (changedData: DreanItem) => {
-      console.log('dreanSaveChanges is working!', changedData);
-
-    const url = '/api/dreans/redact'
-
-    xSave(url, changedData)
-      .then(
-        res => {
-          const answer: ServerResponse = res;
-          if (!answer.error) {
-            this.setState({ item: answer.data });
-          }
-          alert(answer.message)
-        }
-      )
   }
 }
 
@@ -83,7 +56,7 @@ const mapStateToProps = (state, props) => {
 } 
 
 const mapDispatchToProps = (dispatch) => ({
-  dreanSaveChanges: (values: any) => dispatch(dreanSaveChanges(values))
+  dreanSaveChanges: (values: any) => dispatch(saveDreanChanges(values))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Redact)

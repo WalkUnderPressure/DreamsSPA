@@ -4,7 +4,7 @@ import { all } from 'redux-saga/effects';
 
 // import Entity from 'src/models/entity';
 import rootReducer from './reducers';
-import { getDreans, deleteDrean, getDreanForRedact } from './entities/dreans';
+import { getDreans, deleteDrean, getDreanForRedact, saveDreanChanges } from './entities/dreans';
 import { userLogIn, userLogOut, userRegistration } from './identity/user';
 
 const saga = function* root() {
@@ -13,6 +13,7 @@ const saga = function* root() {
         getDreans(),
         deleteDrean(),
         getDreanForRedact(),
+        saveDreanChanges(),
         userLogIn(),
         userLogOut(),
         userRegistration(),

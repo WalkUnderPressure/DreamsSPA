@@ -58,6 +58,8 @@ export default class DreansController extends BaseContext {
     public redactDrean(req: Request, res: Response, next: NextFunction) {
         const { DreansService, passport } = this.di;
 
+        console.log('drean for save =>> ', req.body);
+
         let item = req.body;
         const id = item._id;
 
@@ -82,8 +84,8 @@ export default class DreansController extends BaseContext {
                     console.log('created item : ', resolve);
                     const serRes: ServerResponse = {
                         error: (resolve == null ? true : false),
-                        data: resolve,
-                        message: (resolve == null ? 'Cant create new item!' : 'Successfully crate new item!')
+                        data: resolve && resolve[0],
+                        message: (resolve == null ? 'Cant create new item!' : 'Successfully create new item!')
                     }
                     return res.json(serRes);
                 })
