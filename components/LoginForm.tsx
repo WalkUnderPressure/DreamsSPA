@@ -2,46 +2,52 @@ import React, { Component } from 'react';
 import { Field, reduxForm, InjectedFormProps, Form } from 'redux-form';
 import { required, minLength, maxLength, correctEmail } from '../redux/validators/';
 import InputField from './InputField';
+import Link from 'next/link';
 
 const passwordMinLength = minLength(4);
 const passwordMaxLength = maxLength(10);
 
-class LoginForm extends Component<InjectedFormProps<{}, {}, string>> {
+interface ILoginFormProps extends InjectedFormProps<{}, {}, string> {
+    className: string;
+}
+
+class LoginForm extends Component<ILoginFormProps> {
 
     render() {
-        const { error, handleSubmit, pristine, reset, submitting } = this.props;
+        const { className, error, handleSubmit, pristine, reset, submitting } = this.props;
         return (
-            <Form className='bg-pink-200 w-1/2 m-auto p-auto items-center' onSubmit={handleSubmit}>
-                <div className='flex-col mx-auto justify-start items-center py-2 text-xl'>
-                    <h1 className='mb-6 text-center uppercase text-5xl'>Login</h1>
-                    <Field
-                        className='align-middle w-full'
-                        id="email" name="email"
-                        component={InputField} type="email"
-                        validate={[required, correctEmail]}
-                        placeholder='Email'
-                    />
-                    <Field
-                        className='align-middle w-full'
-                        id="password" name="password"
-                        component={InputField} type="password"
-                        validate={[required, passwordMinLength, passwordMaxLength]}
-                        placeholder='Password'
-                    />
-                    {error && <strong>{error}</strong>}
-                    <div
-                        className='flex flex-rol justify-around my-20'
-                    >
-                        <button type="submit" disabled={submitting}
-                            className='w-1/3 mx-auto text-black hover: cursor-pointer hover: text-green-700 text-xl'>
-                            Log In
-                        </button>
-                        <button type="button" disabled={pristine || submitting} onClick={reset}
-                            className='w-1/3 mx-auto text-black hover: cursor-pointer hover: text-green-700 text-xl'>
-                            Reset
-                        </button>
-                    </div>
+            <Form className={className + ' mx-6 py-2 text-xl flex flex-col items-center bg-white'} onSubmit={handleSubmit}>
+                <div className={'text-center pb-8 text-lg'} >
+                    <h1 className='font-extrabold text-3xl'>Sign In</h1>
+                    <span className={'text-gray-500 font-bold'} >
+                        Or
+                        <Link href="/registration" as="/registration">
+                            <a className={"ml-2 text-purple-600 font-bold"}>
+                                Create An Account
+                            </a>
+                        </Link>
+                    </span>
                 </div>
+
+                <Field
+                    className='w-full'
+                    id="email" name="email"
+                    component={InputField} type="email"
+                    validate={[required, correctEmail]}
+                    label='Email'
+                />
+                <Field
+                    className='w-full'
+                    id="password" name="password"
+                    component={InputField} type="password"
+                    validate={[required, passwordMinLength, passwordMaxLength]}
+                    label='Password'
+                />
+                {error && <strong>{error}</strong>}
+                <button type="submit" disabled={submitting}
+                    className='w-1/3 bg-gray-900 hover:bg-gray-800 hover:cursor-pointer text-sm text-white font-bold rounded-lg py-3 focus:outline-none focus:bg-gray-800'>
+                    Sign In
+                    </button>
             </Form>
         )
     }
@@ -49,4 +55,5 @@ class LoginForm extends Component<InjectedFormProps<{}, {}, string>> {
 
 export default reduxForm({
     form: 'login',
+    //@ts-ignore
 })(LoginForm)

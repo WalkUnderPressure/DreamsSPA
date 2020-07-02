@@ -29,10 +29,13 @@ class InputDateField extends Component<WrappedFieldProps & IInputFieldProps, IIn
                         className='text-center'
                     >{placeholder}</p> : ''}
 
+                    <div
+                        className='block appearance-none w-10/12 bg-white border border-grey-light hover:border-grey p-2 mx-auto rounded shadow'
+                    >
                     <DatePicker
                         selected={new Date(input.value)} onChange={this.handleChange}
-                        className='block appearance-none w-10/12 bg-white border border-grey-light hover:border-grey p-2 mx-auto rounded shadow'
                     />
+                    </div>
                 </div>
 
                 <div

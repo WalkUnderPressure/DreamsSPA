@@ -54,7 +54,7 @@ export function* userLogOut() {
             }
             yield put(action);
 
-            alert(`${result.data.email} ${result.message}`);
+            // alert(`${result.data.email} ${result.message}`);
             Router.push('/login');
         } else {
             console.log('log out not successfully!');
@@ -74,7 +74,7 @@ export function* userRegistration() {
         const result: ServerResponse = yield call(xSave, url, { ...data })
         // console.log('fetch() saga call = ', result);
 
-        alert(result.message);
+        // alert(result.message);
         
         if (!result.error) {
             // console.log('registration successfully!');

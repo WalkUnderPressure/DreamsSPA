@@ -20,7 +20,7 @@ export const correctEmail = (email: string) => {
 }
 
 export const checkPasswords = (value: string, allValues: any) => {
-    return value !== allValues.password ? 'Password mismatch' : undefined
+    return value !== allValues.password ? 'The password and its confirm are not the same' : undefined
 }
 
 export const asyncValidate = (values: any): Promise<any> => {

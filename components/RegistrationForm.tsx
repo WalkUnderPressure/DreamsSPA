@@ -3,6 +3,7 @@ import { Field, reduxForm, InjectedFormProps, Form, FormErrors } from 'redux-for
 import { required, minLength, maxLength, correctEmail, checkPasswords, asyncValidate } from '../redux/validators/';
 import InputField from './InputField';
 import { connect } from 'react-redux';
+import Link from 'next/link';
 
 const firstNameMinLength = minLength(4);
 const firstNameMaxLength = maxLength(12);
@@ -10,75 +11,82 @@ const firstNameMaxLength = maxLength(12);
 const passwordMinLength = minLength(4);
 const passwordMaxLength = maxLength(10);
 
-class RegistrationForm extends Component<InjectedFormProps<{}, {}, string>> {
+interface IRegistrationFormProps extends InjectedFormProps<{}, {}, string> {
+    className: string;
+}
+
+class RegistrationForm extends Component<IRegistrationFormProps> {
 
     render() {
-        const { error, handleSubmit, pristine, reset, submitting } = this.props;
+        const { className, error, handleSubmit, pristine, reset, submitting } = this.props;
         
         return (
-
-            <Form className={'bg-pink-200 w-10/12 m-auto p-auto items-center'} onSubmit={handleSubmit}>
-                <div className='flex-col mx-auto justify-start items-center py-2 text-xl'>
-                    <h1 className={'mb-6 text-center uppercase text-5xl'}>Registration</h1>
+            <Form className={className + ' mx-6 py-2 text-xl flex flex-col items-center bg-white'} onSubmit={handleSubmit}>
+               <div className='text-center pb-8 text-lg' >
+                    <h1 className='font-extrabold text-3xl'>Sign Up</h1>
+                    <p className='text-xl text-ocean-700 font-medium'>
+                        Enter your details to create your account
+                    </p>
+                </div>
                     
                     <Field
                         id='timezone' name='timezone'
                         type='hidden'
-                        component={InputField}
+                        component='input'
                     />
 
                     <Field
-                        className='align-middle w-full'
+                        className='w-full'
                         id="firstName" name="firstName"
                         component={InputField} type="text"
                         validate={[required, firstNameMinLength, firstNameMaxLength]}
-                        placeholder='First Name'
+                        label='First Name'
                     />
 
                     <Field
-                        className='align-middle w-full'
+                        className='w-full'
                         id="lastName" name="lastName"
                         component={InputField} type="text"
                         validate={[required, firstNameMinLength, firstNameMaxLength]}
-                        placeholder='Last Name'
+                        label='Last Name'
                     />
 
                     <Field
-                        className='align-middle w-full'
+                        className='w-full'
                         id="email" name="email"
                         component={InputField} type="email"
                         validate={[required, correctEmail]}
-                        placeholder='Email'
+                        label='Email'
                     />
 
-                    <div className={'mt-24'}>
+                    <div className={'mt-12 w-full'}>
                         <Field
                             id="password" name="password"
                             component={InputField} type="password"
                             validate={[required, passwordMinLength, passwordMaxLength]}
-                            placeholder="Password"
+                            label="Password"
                         />
                         <Field
                             id="confirmPassword" name="confirmPassword"
                             component={InputField} type="password"
                             validate={[required, passwordMinLength, passwordMaxLength, checkPasswords]}
-                            placeholder="Confirm Password:"
+                            label="Confirm Password:"
                         />
                     </div>
 
                     {error && <strong>{error}</strong>}
 
-                    <div className={'flex flex-rol justify-around my-20'}>
+                    <div className={'w-full flex flex-row justify-center'}>
                         <button type="submit" disabled={submitting}
-                                className='w-1/3 mx-auto text-black hover: cursor-pointer hover: text-green-700 text-xl'>
-                            Registration
+                                className='w-1/4 my-2 mx-3 py-3 px-6 bg-purple-700 hover:bg-purple-800 hover:cursor-pointer text-sm text-white font-bold rounded-lg py-3 focus:outline-none focus:bg-purple-800'>
+                            Submit
                         </button>
-                        <button type="button" disabled={pristine || submitting} onClick={reset}
-                                className='w-1/3 mx-auto text-black hover: cursor-pointer hover: text-green-700 text-xl'>
-                            Reset
+                        <button type="button"
+                                className='w-1/4 my-2 mx-3 py-3 px-6 bg-white hover:bg-purple-700 hover:cursor-pointer hover:text-white text-sm text-purple-700 font-bold rounded-lg py-3 focus:outline-none focus:bg-purple-800'>
+                            Cancel
                         </button>
                     </div>
-                </div>
+
             </Form>
         )
     }
@@ -89,6 +97,7 @@ const reduxFormRedactDrean = reduxForm({
     form: 'registration',
     asyncValidate,
     asyncChangeFields: ['email']
+    //@ts-ignore
   })(RegistrationForm);
   
   const mapStateToProps = (state: any, props: any) => {

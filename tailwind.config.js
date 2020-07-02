@@ -73,6 +73,17 @@ module.exports = {
         800: '#276749',
         900: '#22543d',
       },
+      ocean: {
+        // 100: '#e8f5fa',
+        // 200: '#d8eef6',
+        // 300: '#c8e7f2',
+        // 400: '#bde1f0',
+        500: '#b1dced',
+        // 600: '#aad8eb',
+        700: '#a1d3e8',
+        // 800: '#98cee5',
+        // 900: '#88c5e0',
+      },
       teal: {
         100: '#e6fffa',
         200: '#b2f5ea',
@@ -275,6 +286,7 @@ module.exports = {
     height: theme => ({
       auto: 'auto',
       ...theme('spacing'),
+      '2/3': '66.666667%',
       full: '100%',
       screen: '100vh',
     }),
@@ -343,6 +355,10 @@ module.exports = {
     minWidth: {
       '0': '0',
       full: '100%',
+      '1/5': '20%',
+      '2/5': '40%',
+      '3/5': '60%',
+      '4/5': '80%',
     },
     objectPosition: {
       bottom: 'bottom',

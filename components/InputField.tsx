@@ -1,19 +1,31 @@
 import React, { Component } from 'react';
 import { WrappedFieldProps } from 'redux-form';
+import { FaCheck, FaExclamationCircle } from 'react-icons/fa';
 
+// import CheckIcon from '@material-ui/icons/Check';
+// import ErrorIcon from '@material-ui/icons/Error';
+enum InputSize {
+    large, medium, small
+}
 interface IInputFieldProps {
     id: string;
     type?: string;
     placeholder: string;
+    size: InputSize,
+    label: string;
 }
 interface IInputFieldState {
 
 }
 
 class InputField extends Component<WrappedFieldProps & IInputFieldProps, IInputFieldState> {
+   
+    public static defaultProps = {
+        size: InputSize.medium
+    };
 
     render() {
-        const { id, input, type, placeholder, meta: { touched, error, warning, asyncValidating } } = this.props;
+        const { label, id, input, type, placeholder, meta: { touched, error, warning, asyncValidating } } = this.props;
         console.log('input props --------> \n', {...this.props});
         if(type== 'date'){
             let inputValue = input.value;
@@ -24,20 +36,24 @@ class InputField extends Component<WrappedFieldProps & IInputFieldProps, IInputF
             
             console.log('date of event -> ', input.value);
         }
+        const errorColor = error? ' border-red-500' : ' border-gray-500';
+
         return (
-            <div className='flex flex-col w-full my-5'>
-                <div className='flex flex-col justify-center'>
-                    {placeholder? <p
-                        className='text-center my-2'
-                    >{placeholder}</p> : ''}
-                    <input id={id} {...input} type={type} placeholder={placeholder}
-                    className='block appearance-none w-10/12 bg-white border border-grey-light hover:border-grey p-2 mx-auto rounded shadow'
-                    />
-                </div>
+            <div className='flex flex-col w-full'>
                 
-                <div 
-                className='font-bold text-red-900 w-full my-auto px-20'
+                {label && <label className='text-base'>{label}</label>}
+                    
+                <div
+                    className={'flex flex-row bg-white border-solid border-2 rounded-lg p-4 ' + errorColor}
                 >
+                    <input id={id} {...input} type={type} placeholder={placeholder}
+                        className='appearance-none outline-none text-sm w-full'
+                    />
+                    <div className='w-2 mr-2'>
+                        {touched && ((!error && <FaCheck className='text-green-500'/> ) || (!warning && <FaExclamationCircle className=' text-red-600'/> ))}
+                    </div>
+                </div>
+                <div className='text-sm text-red-600 h-8'>
                     {touched && ((error && <p>{error}</p>) || (warning && <p>{warning}</p>))}
                 </div>
             </div>
