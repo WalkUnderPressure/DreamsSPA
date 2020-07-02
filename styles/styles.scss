@@ -1,6 +1,6 @@
 @import 'tailwindcss/base';
-@import 'tailwindcss/utilities';
 @import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 body {
   background-image: url('https://images7.alphacoders.com/888/888540.jpg');
@@ -8,4 +8,8 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
+}
+
+.someClass {
+  
 }

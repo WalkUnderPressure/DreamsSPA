@@ -13,13 +13,17 @@ interface ILoginState {
 
 }
 class Login extends Component<ILoginProps, ILoginState>{
+    state = {
+        isSignIn: false,
+    }
 
     render() {
         return (
-            <div className={'flex lg:flex-row w-full h-full bg-pink-100 flex-col-reverse'}>
-                <div className={'mx-auto lg:w-3/5 lg:my-0 my-20 w-full h-full flex items-center justify-center min-w-3/5 '}>
-                    <LoginForm className='w-3/5' onSubmit={ values => this.props.userLogInRequest(values) } />
-                    <RegistrationForm></RegistrationForm>
+            <div className={'flex lg:flex-row w-full lg:h-full bg-pink-100 flex-col-reverse'}>
+                {/* lg:min-w-3/5   lg:w-3/5 lg:my-0 //lg:min-w-2/5*/}
+                <div className={'w-full my-20 lg:w-3/5 lg:min-w-2/5 lg:my-0 mx-auto h-full flex items-center justify-center'}>
+                    <LoginForm className='w-full lg:w-3/5 sm:w-3/5' onSubmit={ values => this.props.userLogInRequest(values) } />
+                    {/* {this.state.isSignIn?  : <RegistrationForm/> } */}
                 </div>
                 <div className='w-full bg-ocean-500 flex flex-col'>
                     <div className='flex-1 flex flex-col w-full text-center justify-center content-center'>
@@ -31,7 +35,7 @@ class Login extends Component<ILoginProps, ILoginState>{
                             Web Application SaaS Solutions
                         </p>
                     </div>
-                    <img className='h-2/3' src='/static/login-visual.svg'/>
+                    <img className='h-2/3 w-full' src='/static/login-visual.svg'/>
                 </div>
             </div>
         )
