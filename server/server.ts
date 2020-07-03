@@ -29,6 +29,7 @@ export const IGNORS = [
   '/error',
   '/login',
   '/registration',
+  '/auth',
 ];
 
 models(config.mongo.uri, config.mongo.options)
