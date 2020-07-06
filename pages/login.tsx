@@ -10,8 +10,22 @@ import posed, { PoseGroup } from "react-pose";
 
 
 const FlyUpAnimationContainer = posed.div({
-    enter: { y: 0, scale: 1, opacity: 1, delay: 3000,  transition: { duration: 1300 } },
-    exit: { y: 1550, scale: 0, opacity: 0, transition: { duration: 900 } }
+    // enter: {
+    //     y: 0,
+    //     opacity: 1,
+    //     delay: 300,
+    //     transition: {
+    //       y: { type: 'spring', stiffness: 1000, damping: 15 },
+    //       default: { duration: 300 }
+    //     }
+    //   },
+    //   exit: {
+    //     y: 50,
+    //     opacity: 0,
+    //     transition: { duration: 150 }
+    //   }
+    // enter: { y: 0, scale: 1, opacity: 1, delay: 3000,  transition: { duration: 1300 } },
+    // exit: { y: 1550, scale: 0, opacity: 0, transition: { duration: 900 } }
 });
 
 

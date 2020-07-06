@@ -8,6 +8,7 @@ export const redactAddFormActionsList = {
     SAVE_DREAN_CHANGES: 'SAVE_DREAN_CHANGES',
     SAVE_DREAN_CHANGES_SUCCESSFULLY: 'SAVE_DREAN_CHANGES_SUCCESSFULLY',
     SAVE_DREAN_CHANGES_UNSUCCESSFULLY: 'SAVE_DREAN_CHANGES_UNSUCCESSFULLY',
+
 }
 
 export const redactDreanRequest = (id: string) => ({
@@ -36,3 +37,4 @@ export const saveDreanChangesSuccessfully = () => ({
 export const saveDreanChangesUnsuccessfully = () => ({
     type: redactAddFormActionsList.REDACT_DREAN_UNSUCCESSFULLY,
 })
+

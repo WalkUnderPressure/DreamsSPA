@@ -12,10 +12,16 @@ module.exports = {
     // const ownerId = user._id;
 
     for(let j=0; j < itemsCount; j++){
+      let longDescription = '';
+      const descriptionLength = Faker.random.number({ min: 5, max: 25});
+      for (let index = 0; index < descriptionLength; index++) {
+        longDescription += ' ' + Faker.random.words() + ' ';
+      }
+
       item = {
         owner_id: user._id.toString(),
         codeName: Faker.random.words(),
-        description: Faker.random.words(),
+        description: longDescription,
         dateOfEvent: Faker.date.future().getTime(),
         guests:[],
         needThings: []

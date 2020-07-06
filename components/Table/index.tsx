@@ -1,22 +1,24 @@
 import React, { Component } from 'react'
 import TableRow from '../TableRow'
-import DreanItem from '../../Templates/DreanItem'
-import { List, fromJS } from 'immutable'
+import { List, Map } from 'immutable'
+import Link from 'next/link'
+import { FaPlusSquare } from 'react-icons/fa';
 
-interface ITableProps{
-    data : List<Map<string, any>>
+interface ITableProps {
+  data: List<Map<string, any>>,
+  tableName: string,
 }
-interface ITableState{
+interface ITableState {
 
 }
 
 class Table extends Component<ITableProps, ITableState> {
-  constructor (props:ITableProps) {
+  constructor(props: ITableProps) {
     super(props)
     this.state = {}
   }
 
-  render () {
+  render() {
     const items = this.props.data
     let rows = null
 
@@ -26,24 +28,38 @@ class Table extends Component<ITableProps, ITableState> {
       rows = items.map((item, i) => {
         return <TableRow key={'drean_item+' + i} data={item} />
       })
-    }else {
+    } else {
       rows = <tr><td><h3>Table is empty!</h3></td></tr>
     }
 
     return (
-      <div className={'text-center'}>
-        <table className={'table-fixed'}>
-          <thead>
-            <tr>
-              <th className={'w-1/6 px-4 py-2'}>Code Name</th>
-              <th>Description</th>
-              <th>Date</th>
-              <th>Guests</th>
-              <th>Need Things</th>
-              <th>Activity</th>
+      <div className={''}>
+        <div className='flex flex-row justify-between items-center'>
+          <div className='text-left'>
+            <h1 className='text-base font-semibold'>{this.props.tableName}</h1>
+            <p className='mt-2 text-xs font-medium text-gray-500'>More than 400+ new members</p>
+          </div>
+          
+            <Link href='/redact/[id]' as='/redact/add'>
+              <button className='py-2 px-4 h-full flex flex-row justify-around items-center text-white font-semibold bg-blue-300 hover:bg-blue-400 rounded focus:outline-none focus:bg-blue-500'>
+                <FaPlusSquare className='text-lg mr-2'/>
+                Add New Drean
+              </button>
+            </Link>
+          
+        </div>
+        <table className={'w-full'}>
+          <thead className='text-xs uppercase font-medium text-gray-500'>
+            <tr className=''>
+              <th className={'py-3 pl-2 pr-0 text-left '}>Code Name</th>
+              <th className='py-3'>Description</th>
+              <th className='py-3'>Date</th>
+              <th className='py-3'>Guests</th>
+              <th className='py-3'>Need Things</th>
+              <th className='text-right py-3 pl-0 pr-2'>ACTION</th>
             </tr>
           </thead>
-          <tbody className={''}>
+          <tbody className={'text-sm font-bold'}>
             {rows}
           </tbody>
         </table>

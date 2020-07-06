@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { WrappedFieldProps } from 'redux-form';
 import { FaCheck, FaExclamationCircle } from 'react-icons/fa';
+import "react-datepicker/dist/react-datepicker.css"
+import ReactDatePicker from 'react-datepicker';
 
-// import CheckIcon from '@material-ui/icons/Check';
-// import ErrorIcon from '@material-ui/icons/Error';
+import { dreanDateOfEventChange } from '../redux/actions/redactAddFormActions';
+
 enum InputSize {
     large, medium, small
 }
@@ -27,29 +29,46 @@ class InputField extends Component<WrappedFieldProps & IInputFieldProps, IInputF
     render() {
         const { label, id, input, type, placeholder, meta: { touched, error, warning, asyncValidating } } = this.props;
         console.log('input props --------> \n', {...this.props});
-        if(type== 'date'){
-            let inputValue = input.value;
-            if(inputValue === ''){
-                inputValue = new Date().getTime();
-            }
-            input.value = new Date(inputValue).toISOString().slice(0,10)
+        // if(type== 'date'){
+        //     let inputValue = input.value;
+        //     if(inputValue === ''){
+        //         inputValue = new Date().getTime();
+        //     }
+        //     input.value = new Date(inputValue).toISOString().slice(0,10)
             
-            console.log('date of event -> ', input.value);
+        //     console.log('date of event -> ', input.value);
+        // }
+        const errorColor = touched && error? ' border-red-500' : ' border-gray-500';
+        let inputField = null;
+
+        switch (type) {
+            case 'textarea':
+                console.log('text area ');
+                inputField = <textarea id={id} {...input} placeholder={placeholder} className='appearance-none outline-none text-sm w-full' />
+                break;
+            case 'date':
+                if (input.value === ''){
+                    input.value = new Date();
+                }
+                console.log('date area ');
+                inputField = <ReactDatePicker className='w-full' selected={new Date(input.value)} onChange={ this.handleDateChange } />
+                break;
+            default:
+                console.log('input area ');
+                inputField = <input id={id} {...input} type={type} placeholder={placeholder} className='appearance-none outline-none text-sm w-full' />
+                break;
         }
-        const errorColor = error? ' border-red-500' : ' border-gray-500';
+
+        // console.log('input field ---> ', inputField);
 
         return (
             <div className='flex flex-col w-full'>
                 
                 {label && <label className='text-base'>{label}</label>}
                     
-                <div
-                    className={'flex flex-row bg-white border-solid border-2 rounded-lg p-4 ' + errorColor}
-                >
-                    <input id={id} {...input} type={type} placeholder={placeholder}
-                        className='appearance-none outline-none text-sm w-full'
-                    />
-                    <div className='w-2 mr-2'>
+                <div className={'flex flex-row border-solid border-2 rounded-lg p-4 ' + errorColor}>
+                    {inputField}
+                    <div className='w-2 mx-2 my-auto'>
                         {touched && ((!error && <FaCheck className='text-green-500'/> ) || (!warning && <FaExclamationCircle className=' text-red-600'/> ))}
                     </div>
                 </div>
@@ -59,6 +78,16 @@ class InputField extends Component<WrappedFieldProps & IInputFieldProps, IInputF
             </div>
         )
     }
+
+    handleDateChange = (date: Date) => {
+        console.log('on change date -> ', date);
+        // this.props.handlerDreanDateOfEventChanging(date);
+        // this.props.meta.dispatch(dreanDateOfEventChange(date));
+        this.props.input.value = date;
+        this.setState({
+            startDate: date
+        });
+    };
 }
 
 export default InputField;

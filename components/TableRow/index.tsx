@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Link from 'next/link';
 import { deleteUserDrean } from '../../redux/actions/UsersDreansActions';
 import { connect } from 'react-redux';
+import { FaTrash, FaEdit } from 'react-icons/fa';
+import { Map } from 'immutable';
 
 interface ITableRowProps {
   data: Map<string, any>;
@@ -11,29 +13,41 @@ interface ITableRowProps {
 class TableRow extends Component<ITableRowProps> {
   render() {
     const element = this.props.data;
-    console.log('table row item -> ', element);
+    // console.log('table row item -> ', element);
+
+    const countOfOutWords: number = 4;
+    const description = element.get("description");
+    let shortDescription: string = '';
+    if(element && description){
+      const wordsArray = description.split(' ');
+      for (let index = 0; index < countOfOutWords; index++) {
+        const element = wordsArray[index];
+        shortDescription += element+' ';
+      }
+    }
+    // console.log('short description => ', shortDescription);
 
     const dateTime = element && new Date(element.get("dateOfEvent")).toLocaleDateString();
     return (
-      <tr>
-        <td>{element && element.get("codeName")}</td>
-        <td>{element && element.get("description")}</td>
-        <td>{dateTime}</td>
-        <td>{element && element.get("guests").size || 'empty'}</td>
-        <td>{element && element.get("needThings").size || 'empty'}</td>
-        <td>
-          <div className={'flex flex-row justify-around'}>
+      <tr className='text-center'>
+        <td className='w-1/5 text-left py-3 pl-2 pr-0'>{element && element.get("codeName")}</td>
+        <td className='pl-4 text-justify'>{ shortDescription }</td>
+        <td className='px-3'>{dateTime}</td>
+        <td className='font-medium text-base text-gray-500'>{element && element.get("guests").size}</td>
+        <td className='font-medium text-base text-gray-500'>{element && element.get("needThings").size}</td>
+        <td className='align-middle'>
+          <div className='flex flex-row justify-around items-center'>
             <Link href={'/redact/[id]'} as={`/redact/${element.get("_id")}`}>
-                <button className={'my-2 bg-transparent hover:bg-blue-300 ' +
-                    'text-red-600 font-semibold hover:text-white py-2 px-4 ' +
-                    'border border-red-800 hover:border-transparent rounded'}>
-                Redact
+                <button className={'h-full p-2 bg-white hover:bg-purple-700 ' +
+                    'text-purple-700 hover:text-white text-base ' +
+                    'rounded focus:outline-none focus:bg-purple-800'}>
+                <FaEdit />
                 </button>
             </Link>
-            <button onClick={this.handleDelete} className={'my-2 bg-transparent hover:bg-red-700 ' +
-                'text-red-600 font-semibold hover:text-white py-2 px-4 ' +
-                'border border-red-800 hover:border-transparent rounded'}>
-                Delete
+            <button onClick={this.handleDelete} className={'h-full p-2 bg-white hover:bg-purple-700 ' +
+                    'text-purple-700 hover:text-white text-base ' +
+                    'rounded focus:outline-none focus:bg-purple-800'}>
+                <FaTrash/>
             </button>
           </div>
         </td>

@@ -32,7 +32,7 @@ class Redact extends Component<IRedactProps, IRedactState> {
     console.log('id element: ', element);
     return (
       <Layout>
-        <RedactForm data={this.props.drean} onSubmit={ values => this.props.dreanSaveChanges(values)} />
+        <RedactForm data={this.props.drean}  onSubmit={ values => this.props.dreanSaveChanges(values)} />
       </Layout>
     )
   }

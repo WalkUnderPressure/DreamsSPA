@@ -4,7 +4,7 @@ import Table from '../components/Table'
 import Link from 'next/link'
 import { connect } from 'react-redux';
 import { getAllUserDreans } from '../redux/actions/UsersDreansActions';
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 
 interface IDreansProps {
   tableItems: List<Map<string, any>>;
@@ -35,14 +35,7 @@ class Dreans extends Component<IDreansProps, IDreansState> {
     return (
       <Layout>
         <div className={'h-full p-5 bg-white rounded-lg'}>
-          <Table data={element.tableItems} />
-          <Link href='/redact/[id]' as='/redact/add'>
-            <button className={'my-2 bg-transparent hover:bg-blue-400 ' +
-            '   text-red-600 font-semibold hover:text-white py-2 px-4 ' +
-            '   border border-red-800 hover:border-transparent rounded'}>
-              Add
-            </button>
-          </Link>
+          <Table tableName='Dreans' data={element.tableItems} />
         </div>
       </Layout>
     )
