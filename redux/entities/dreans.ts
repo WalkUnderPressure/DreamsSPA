@@ -3,6 +3,7 @@ import { userDreansActionsList, userDreansGetSuccessfully, deleteUserDreanSucces
 import { xRead, xDelete, xSave } from 'src';
 import ServerResponse from 'Templates/ServerResponse';
 import { redactAddFormActionsList, redactDreanSuccessfully, redactDreanUnsuccessfully, saveDreanChangesSuccessfully } from '../actions/redactAddFormActions';
+import DreanItem from 'Templates/DreanItem';
 
 export function* getDreans() {
     while (true) {
@@ -31,7 +32,7 @@ export function* deleteDrean() {
 
         const id = data.drean_id;
         const result: ServerResponse = yield call(xDelete, url, { _id: id });
-        alert(result.message);
+        // alert(result.message);
 
         if (result.error) {
             console.log('Cant get dreans!');
@@ -73,9 +74,13 @@ export function* saveDreanChanges() {
         const data = yield take(redactAddFormActionsList.SAVE_DREAN_CHANGES);
         console.log('saveDreanChanges => fetch() saga take = ', data);
 
-        const changedData = data.data;
-        const url = '/api/dreans/redact'
+        let changedData: DreanItem = data.data;
         
+        changedData.dateOfEvent = new Date(changedData.dateOfEvent).getTime();
+        
+        console.log('changes data => ', changedData);
+
+        const url = '/api/dreans/redact'
         const result: ServerResponse = yield call(xSave, url, { ... changedData });
         
         console.log('server response => ', result);

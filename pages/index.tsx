@@ -48,15 +48,11 @@ class Home extends Component<IHomeProps, IHomeState> {
     }
     return (
       <div>
-        <h1 className='my-5 text-blue-600 text-3xl text-center'>Welcome to Board of Dreams and Plans 0001 </h1>
+        
         <Layout>
-          <div>
-            <div className={'h-full p-5 bg-white'}>
+          <h1 className='my-5 text-blue-600 text-3xl text-center'>Welcome to Board of Dreams and Plans</h1>
+          <div className={'p-5 bg-white'}>
             {user ? userBlock() : 'You not LogIn!'}
-          </div>
-          <div className='bg-white'>
-            <Table tableName='Dreans' data={element.tableItems} />
-          </div>
           </div>
         </Layout>
       </div>

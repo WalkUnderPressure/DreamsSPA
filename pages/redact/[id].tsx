@@ -49,7 +49,7 @@ const mapStateToProps = (state, props) => {
       drean = new Map()
     }
   }
-  console.log('drean +> ', drean)
+  console.log('drean => ', drean)
   return ({
     drean
   })

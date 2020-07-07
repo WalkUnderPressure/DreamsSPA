@@ -37,7 +37,7 @@ class Table extends Component<ITableProps, ITableState> {
         <div className='flex flex-row justify-between items-center'>
           <div className='text-left'>
             <h1 className='text-base font-semibold'>{this.props.tableName}</h1>
-            <p className='mt-2 text-xs font-medium text-gray-500'>More than 400+ new members</p>
+            <p className='mt-2 text-xs font-medium text-gray-500'> { items && items.size > 0 && `On the current time you have ${items.size} records` || 'You don\'t have any records yet!' } </p>
           </div>
           
             <Link href='/redact/[id]' as='/redact/add'>

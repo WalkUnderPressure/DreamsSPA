@@ -27,7 +27,6 @@ const identity = (state = initialEntities, action: AnyAction) => {
 }
 
 const entity = (state = initialEntities, action: AnyAction) => {
-  // console.log('act=', action);
   switch (action.type) {
     case userDreansActionsList.USER_DREANS_GET_SUCCESSFULLY:
       console.log('get successfully : ', state);

@@ -20,7 +20,9 @@ class TableRow extends Component<ITableRowProps> {
     let shortDescription: string = '';
     if(element && description){
       const wordsArray = description.split(' ');
-      for (let index = 0; index < countOfOutWords; index++) {
+      const minLen = wordsArray.length < countOfOutWords? wordsArray.length : countOfOutWords; 
+      console.log('min length => ', minLen);
+      for (let index = 0; index < minLen; index++) {
         const element = wordsArray[index];
         shortDescription += element+' ';
       }
@@ -38,14 +40,14 @@ class TableRow extends Component<ITableRowProps> {
         <td className='align-middle'>
           <div className='flex flex-row justify-around items-center'>
             <Link href={'/redact/[id]'} as={`/redact/${element.get("_id")}`}>
-                <button className={'h-full p-2 bg-white hover:bg-purple-700 ' +
-                    'text-purple-700 hover:text-white text-base ' +
+                <button className={'h-full mx-1 p-2 bg-white hover:bg-purple-700 ' +
+                    'text-purple-700 hover:text-white text-base border border-gray-400 hover:border-white ' +
                     'rounded focus:outline-none focus:bg-purple-800'}>
                 <FaEdit />
                 </button>
             </Link>
-            <button onClick={this.handleDelete} className={'h-full p-2 bg-white hover:bg-purple-700 ' +
-                    'text-purple-700 hover:text-white text-base ' +
+            <button onClick={this.handleDelete} className={'h-full mx-1 p-2 bg-white hover:bg-purple-700 ' +
+                    'text-purple-700 hover:text-white text-base  border border-gray-400 hover:border-white ' +
                     'rounded focus:outline-none focus:bg-purple-800'}>
                 <FaTrash/>
             </button>

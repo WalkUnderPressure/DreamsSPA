@@ -10,9 +10,7 @@ export default class MyDocument extends Document {
                 <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0"/>
             </Head>
             
-            <body 
-            className="font-serif text-sm text-steel bg-fixed"
-            >
+            <body className="font-serif text-sm text-steel bg-fixed">
                 <Main/>
                 <NextScript/>
             </body>

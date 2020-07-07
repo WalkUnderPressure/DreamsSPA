@@ -82,32 +82,31 @@ class Layout extends Component<ILayoutProps, ILayoutState>{
         }
         const size = 32;
         return (
-            <div 
-            className='container lg mx-auto h-auto'
-            >
-                
-                {/* <header className='items-center flex flex-row justify-around p-2
-                    bg-white rounded-br-full rounded-tl-full border-solid border-black border-b-4'>
+            <div className='w-full h-screen bg-pink-100'>
+                <header className='items-center flex flex-row justify-around p-2
+                    bg-white rounded-br-full rounded-tl-full border-black border-b-4'>
                     <div className={`flex content-center rounded-full h-${size} w-${size}`}>
-                        <p className='m-auto font-mono text-6xl text-red-600'>夢</p>
+                        {/* <p className='m-auto font-mono text-6xl text-red-600'>夢</p> */}
                     </div>
-                    <div className={''}>
-                        <h1 className='text-6xl text-red-900'>Board of Dreams and Plans</h1>
+                    <div className={'px-16'}>
+                        <h1 className='text-6xl text-red-700'>Header text</h1>
                     </div>
-                </header> */}
-                <div className={'flex flex-row'}>
-                    <nav className={'flex flex-col justify-between bg-white px-4 '}>
+                </header>
+                
+                <div className={'h-auto flex flex-row'}>
+                    <nav className={'flex flex-col justify-between px-5 '}>
                         {userState}
                         {logInAndReg}
                     </nav>
-                    <div className={'w-full px-10'}>
+                    <div className={'container lg mx-auto my-5 px-5 py-3'}>
                         {this.props.children}
                     </div>
                 </div>
-                {/* <footer className={'items-center flex flex-row justify-around p-2 ' +
-                    'bg-white opacity-100 rounded-tr-full rounded-bl-full'}>
-                    <h1 className={'text-xl'}>© Brinzey Oleksandr 2020. All Rights Reserved.</h1>
-                </footer> */}
+                
+                <footer className={'items-center flex flex-row justify-around p-2 ' +
+                    'bg-white rounded-tr-full border-t-4 border-black '}>
+                    <h1 className={'text-xl '}>Footer text</h1>
+                </footer>
             </div>
         )
     }

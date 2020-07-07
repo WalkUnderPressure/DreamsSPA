@@ -30,7 +30,7 @@ export function* userLogIn() {
             Router.push('/');
         } else {
             // console.log('log in not successfully!');
-            alert(result.message);
+            // alert(result.message);
         }
     }
 }
@@ -58,7 +58,7 @@ export function* userLogOut() {
             Router.push('/login');
         } else {
             console.log('log out not successfully!');
-            alert(result.message);
+            // alert(result.message);
         }
     }
 }
@@ -73,8 +73,9 @@ export function* userRegistration() {
         console.log('log in data for request ', data);
         const result: ServerResponse = yield call(xSave, url, { ...data })
         // console.log('fetch() saga call = ', result);
-
-        // alert(result.message);
+        
+        const mess = result.message
+        alert(mess);
         
         if (!result.error) {
             // console.log('registration successfully!');
@@ -83,7 +84,7 @@ export function* userRegistration() {
                 type: userAuthActionsList.USER_REGISTRATION_SUCCESSFULLY,
             }
             yield put(action);
-            Router.push('/login');
+            // Router.push('/login');
         } else {
             // console.log('registration not successfully!');
         }

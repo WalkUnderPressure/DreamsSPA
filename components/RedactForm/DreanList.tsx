@@ -37,8 +37,8 @@ class DreanList extends Component<IDreanListProps>{
               <button type="button" title="Remove Item"
               onClick={() => fields.remove(index)}
               className={'h-full p-2 bg-white hover:bg-purple-700 ' +
-              'text-purple-700 hover:text-white text-base ' +
-              'rounded focus:outline-none focus:bg-purple-800'}>
+              ' text-purple-700 hover:text-white text-base border border-gray-400 hover:border-white ' +
+              ' rounded focus:outline-none focus:bg-purple-800 '}>
                 <FaMinusCircle className='text-lg'/>
               </button>
             </div>

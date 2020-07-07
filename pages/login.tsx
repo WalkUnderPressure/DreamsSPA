@@ -7,25 +7,27 @@ import { userLogInRequest } from '../redux/actions/UserAuthActions';
 import { userRegistrationRequest } from '../redux/actions/UserAuthActions';
 
 import posed, { PoseGroup } from "react-pose";
+import PopUpMessage, { PopUpMessageTypes } from 'components/PopUpMessage';
 
 
-const FlyUpAnimationContainer = posed.div({
-    // enter: {
-    //     y: 0,
-    //     opacity: 1,
-    //     delay: 300,
-    //     transition: {
-    //       y: { type: 'spring', stiffness: 1000, damping: 15 },
-    //       default: { duration: 300 }
-    //     }
-    //   },
-    //   exit: {
-    //     y: 50,
-    //     opacity: 0,
-    //     transition: { duration: 150 }
-    //   }
-    // enter: { y: 0, scale: 1, opacity: 1, delay: 3000,  transition: { duration: 1300 } },
-    // exit: { y: 1550, scale: 0, opacity: 0, transition: { duration: 900 } }
+const Modal = posed.div({
+    enter: {
+        y: 0,
+        opacity: 1,
+        scale: 1,
+        delay: 300,
+        transition: {
+            y: { type: "spring", stiffness: 80, damping: 100 },
+            scale: { delay: 600 },
+            default: { duration: 1050 }
+        }
+    },
+    exit: {
+        y: 100,
+        opacity: 0,
+        scale: 0.85,
+        transition: { duration: 300 }
+    }
 });
 
 
@@ -43,24 +45,28 @@ class Login extends Component<ILoginProps, ILoginState>{
     }
 
     render() {
-        // const hide = ' opacity-100 scale-0 transform translate-y-full ';
-        // const show = ' opacity-100 transform translate-y-0 scale-100 '
-        // const animationStyle = 'transition duration-1500 ease-in-out ';
-
-        // const signInFormAnimation = animationStyle + (this.state.isSignIn? hide : show );
-        // const signOnFormAnimation = animationStyle + (!this.state.isSignIn? hide : show )
         const { isSignIn } = this.state;
+        
+        const pageIndex = isSignIn? 1 : 2;
+        
+        const pageOne = <LoginForm changeForm={this.changeForm} className={' w-4/5 sm:w-1/2 lg:w-4/5 xl:w-3/5 '} onSubmit={values => this.props.userLogInRequest(values)} />;
+        const pageTwo = <RegistrationForm changeForm={this.changeForm} className=' lg:w-4/5 xl:w-3/5 ' onSubmit={ values => this.props.userRegistrationRequest(values)} />;
+        const modalPage = isSignIn? pageOne : pageTwo;
+
         return (
-            <div className={'flex lg:flex-row w-full lg:h-full bg-pink-100 flex-col-reverse'}>
-                <div className='overflow-hidden w-full my-20 lg:w-3/5 lg:min-w-2/5 lg:my-0 mx-auto h-full flex items-center justify-center'>
-                    <PoseGroup >
-                        <FlyUpAnimationContainer key='fly' className='w-full flex justify-center'>
-                            {isSignIn? 
-                                <LoginForm changeForm={this.changeForm} className={' w-4/5 sm:w-1/2 lg:w-4/5 xl:w-3/5 '} onSubmit={values => this.props.userLogInRequest(values)} /> : 
-                                <RegistrationForm changeForm={this.changeForm} className=' lg:w-4/5 xl:w-3/5 ' onSubmit={ values => this.props.userRegistrationRequest(values)} />
-                            }
-                        </FlyUpAnimationContainer>
+            <div className={'flex lg:flex-row w-full lg:h-full flex-col-reverse bg-pink-100'}>
+                <div className='w-full my-20 lg:w-3/5 lg:min-w-2/5 lg:my-0 mx-auto h-full flex items-center justify-center'>
+                    <PoseGroup>
+                        <Modal key={`modal_${pageIndex}`} className='w-full flex justify-center '>
+                            {modalPage}
+                        </Modal>
                     </PoseGroup>
+                    {/* <PopUpMessage
+                        type={PopUpMessageTypes.SUCCESS}
+                        title="Thank you!"
+                        id="001">
+                        We have received your application. Check your email in a few weeks to find out if you’ve been admitted.
+                    </PopUpMessage> */}
                 </div>
 
                 <div className='w-full bg-ocean-500 flex flex-col'>
@@ -77,6 +83,13 @@ class Login extends Component<ILoginProps, ILoginState>{
                 </div>
             </div>
         )
+    }
+
+    onClickY = () => {
+        console.log('Click Y!')
+        this.setState({
+            isSignIn: !this.state.isSignIn
+        })
     }
 
     changeForm = () => {
