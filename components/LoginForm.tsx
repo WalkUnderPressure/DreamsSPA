@@ -9,7 +9,6 @@ const passwordMaxLength = maxLength(10);
 
 interface ILoginFormProps extends InjectedFormProps<{}, {}, string> {
     className: string;
-    changeForm: (event: any) => void;
 }
 
 class LoginForm extends Component<ILoginFormProps> {
@@ -22,12 +21,11 @@ class LoginForm extends Component<ILoginFormProps> {
                     <h1 className='font-extrabold text-3xl'>Sign In</h1>
                     <span className={'text-gray-500 font-bold'} >
                         Or
-                        {/* <Link href="/registration" as="/registration"> */}
-                            <a onClick={this.props.changeForm}
-                                className={"ml-2 text-purple-600 font-bold cursor-pointer"}>
+                        <Link href="/auth/[id]" as='/auth/registration'>
+                            <a className={"ml-2 text-purple-600 font-bold cursor-pointer"}>
                                 Create An Account
                             </a>
-                        {/* </Link> */}
+                        </Link>
                     </span>
                 </div>
 

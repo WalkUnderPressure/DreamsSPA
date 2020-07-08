@@ -3,6 +3,7 @@ import { Field, reduxForm, InjectedFormProps, Form, FormErrors } from 'redux-for
 import { required, minLength, maxLength, correctEmail, checkPasswords, asyncValidate } from '../redux/validators/';
 import InputField from './InputField';
 import { connect } from 'react-redux';
+import Link from 'next/link';
 
 const firstNameMinLength = minLength(4);
 const firstNameMaxLength = maxLength(12);
@@ -12,7 +13,6 @@ const passwordMaxLength = maxLength(10);
 
 interface IRegistrationFormProps extends InjectedFormProps<{}, {}, string> {
     className: string;
-    changeForm: (event: any) => void;
 }
 
 class RegistrationForm extends Component<IRegistrationFormProps> {
@@ -81,10 +81,13 @@ class RegistrationForm extends Component<IRegistrationFormProps> {
                                 className='w-1/3 my-2 mx-3 py-3 px-6 bg-purple-700 hover:bg-purple-800 hover:cursor-pointer text-sm text-white font-bold rounded-lg py-3 focus:outline-none focus:bg-purple-800'>
                             Submit
                         </button>
-                        <button type="button" onClick={this.props.changeForm}
+                        <Link href="/auth/[id]" as='/auth/login'>
+                            <button type="button" 
                                 className='w-1/3 my-2 mx-3 py-3 px-6 bg-white hover:bg-purple-700 hover:cursor-pointer hover:text-white text-sm text-purple-700 font-bold rounded-lg py-3 focus:outline-none focus:bg-purple-800'>
-                            Cancel
-                        </button>
+                                Cancel
+                            </button>
+                        </Link>
+                        
                     </div>
             </Form>
         )

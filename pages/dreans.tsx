@@ -34,7 +34,7 @@ class Dreans extends Component<IDreansProps, IDreansState> {
     const element = this.props;
     return (
       <Layout>
-        <div className={'h-full p-5 bg-white rounded-lg'}>
+        <div className={'p-5 bg-white'}>
           <Table tableName='Dreans' data={element.tableItems} />
         </div>
       </Layout>
