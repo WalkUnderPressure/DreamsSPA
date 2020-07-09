@@ -66,7 +66,7 @@ class InputField extends Component<WrappedFieldProps & IInputFieldProps, IInputF
                 
                 {label && <label className='text-base'>{label}</label>}
                     
-                <div className={'flex flex-row border-solid border-2 rounded-lg p-4 ' + errorColor}>
+                <div className={'flex flex-row border-solid border rounded-lg p-4 ' + errorColor}>
                     {inputField}
                     <div className='w-2 mx-2 my-auto'>
                         {touched && ((!error && <FaCheck className='text-green-500'/> ) || (!warning && <FaExclamationCircle className=' text-red-600'/> ))}

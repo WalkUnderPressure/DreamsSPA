@@ -1,29 +1,22 @@
 import React, { Component } from 'react'
 import Layout from '../Layout'
+import Table from '../components/Table'
 import { connect } from 'react-redux';
 import { getAllUserDreans } from '../redux/actions/UsersDreansActions';
 import { List, Map } from 'immutable';
-import DreanItem from 'Templates/DreanItem';
 
-interface IDreansProps {
-  allDreans: List<Map<string, any>>;
+interface IMyDreansProps {
+  tableItems: List<Map<string, any>>;
 }
-interface IDreansState {
-    allDreans: List<Map<string, any>>;
+interface IMyDreansState {
+  tableItems: List<Map<string, any>>;
 }
 
-const DreanBox = (drean: Map<string, any>) => {
-    return(
-        <div>
-            Drean : {drean.get('_id')}
-        </div>
-    )
-}
-class Dreans extends Component<IDreansProps, IDreansState> {
+class MyDreans extends Component<IMyDreansProps, IMyDreansState> {
   constructor(props: any) {
     super(props)
     this.state = {
-        allDreans: List()
+      tableItems: List()
     }
   }
 
@@ -36,12 +29,11 @@ class Dreans extends Component<IDreansProps, IDreansState> {
   }
 
   render() {
-    console.log('dreans items : ', this.props.allDreans);
+    console.log('dreans items : ', this.props.tableItems);
     const element = this.props;
     return (
       <Layout>
-          <h1>All Dreans</h1>
-          {DreanBox(this.props.allDreans.get(0))}
+          <Table tableName='Dreans' className='w-full p-5 bg-ocean-500 ' data={element.tableItems} />
       </Layout>
     )
   }
@@ -49,7 +41,7 @@ class Dreans extends Component<IDreansProps, IDreansState> {
 
 const mapStateToProps = (state) => {
   return ({
-    allDreans: state.entity.get('dreans'),
+    tableItems: state.entity.get('dreans'),
   })
 }
 
@@ -57,4 +49,4 @@ const mapDispatchToProps = (dispatch) => ({
   
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dreans)
+export default connect(mapStateToProps, mapDispatchToProps)(MyDreans)

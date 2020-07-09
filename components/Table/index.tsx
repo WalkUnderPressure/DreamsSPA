@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { FaPlusSquare } from 'react-icons/fa';
 
 interface ITableProps {
+  className: string;
   data: List<Map<string, any>>,
   tableName: string,
 }
@@ -19,7 +20,8 @@ class Table extends Component<ITableProps, ITableState> {
   }
 
   render() {
-    const items = this.props.data
+    const { data, className } = this.props;
+    const items = data
     let rows = null
 
     console.log('table items -> ', items);
@@ -33,7 +35,7 @@ class Table extends Component<ITableProps, ITableState> {
     }
 
     return (
-      <div className={''}>
+      <div className={className + ' bg-teal-100 rounded p-2'}>
         <div className='flex flex-row justify-between items-center'>
           <div className='text-left'>
             <h1 className='text-base font-semibold'>{this.props.tableName}</h1>

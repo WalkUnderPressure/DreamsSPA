@@ -40,13 +40,13 @@ class TableRow extends Component<ITableRowProps> {
         <td className='align-middle'>
           <div className='flex flex-row justify-around items-center'>
             <Link href={'/redact/[id]'} as={`/redact/${element.get("_id")}`}>
-                <button className={'h-full mx-1 p-2 bg-white hover:bg-purple-700 ' +
+                <button className={'h-full mx-1 p-2 bg-transparent hover:bg-purple-700 ' +
                     'text-purple-700 hover:text-white text-base border border-gray-400 hover:border-white ' +
                     'rounded focus:outline-none focus:bg-purple-800'}>
                 <FaEdit />
                 </button>
             </Link>
-            <button onClick={this.handleDelete} className={'h-full mx-1 p-2 bg-white hover:bg-purple-700 ' +
+            <button onClick={this.handleDelete} className={'h-full mx-1 p-2 bg-transparent hover:bg-purple-700 ' +
                     'text-purple-700 hover:text-white text-base  border border-gray-400 hover:border-white ' +
                     'rounded focus:outline-none focus:bg-purple-800'}>
                 <FaTrash/>

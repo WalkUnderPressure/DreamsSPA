@@ -47,18 +47,13 @@ export function* userLogOut() {
         // console.log('fetch() saga call = ', result);
 
         if (!result.error) {
-            // console.log('log out successfully!');
-        
             const action = {
                 type: userAuthActionsList.USER_LOGOUT_SUCCESSFULLY,
             }
             yield put(action);
-
-            // alert(`${result.data.email} ${result.message}`);
-            Router.push('/auth/login');
+            Router.push('/');
         } else {
             console.log('log out not successfully!');
-            // alert(result.message);
         }
     }
 }
@@ -73,9 +68,6 @@ export function* userRegistration() {
         console.log('log in data for request ', data);
         const result: ServerResponse = yield call(xSave, url, { ...data })
         // console.log('fetch() saga call = ', result);
-        
-        // const mess = result.message
-        // alert(mess);
         
         if (!result.error) {
             // console.log('registration successfully!');

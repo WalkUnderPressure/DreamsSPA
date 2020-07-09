@@ -17,7 +17,7 @@ class RedactDreanForm extends Component<IRedactDreanFormProps> {
 
   render() {
     const { handleSubmit, hrefValue, asValue, pristine, reset, submitting, className } = this.props;
-    console.log('props of redact form =========>>>>> ', this.props.data);
+    console.log('props of redact form =========>>>>> ', this.props);
     const isRedact = this.props.data && this.props.data._id !== 'add';
     return (
       <Form className={className + ' flex flex-col items-center bg-white'} onSubmit={handleSubmit}>
