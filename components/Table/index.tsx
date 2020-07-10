@@ -42,13 +42,12 @@ class Table extends Component<ITableProps, ITableState> {
             <p className='mt-2 text-xs font-medium text-gray-500'> { items && items.size > 0 && `On the current time you have ${items.size} records` || 'You don\'t have any records yet!' } </p>
           </div>
           
-            <Link href='/redact/[id]' as='/redact/add'>
-              <button className='py-2 px-4 h-full flex flex-row justify-around items-center text-white font-semibold bg-blue-300 hover:bg-blue-400 rounded focus:outline-none focus:bg-blue-500'>
-                <FaPlusSquare className='text-lg mr-2'/>
-                Add New Drean
-              </button>
-            </Link>
-          
+          <Link href='/redact/[id]' as='/redact/add'>
+            <button className='py-2 px-4 h-full flex flex-row justify-around items-center text-white font-semibold bg-blue-300 hover:bg-blue-400 rounded focus:outline-none focus:bg-blue-500'>
+              <FaPlusSquare className='text-lg mr-2'/>
+              Add New Drean
+            </button>
+          </Link>
         </div>
         <table className={'w-full'}>
           <thead className='text-xs uppercase font-medium text-gray-500'>

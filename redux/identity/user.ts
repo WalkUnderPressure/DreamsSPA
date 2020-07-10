@@ -8,7 +8,7 @@ import Router from 'next/router';
 export function* userLogIn() {
     while (true) {
         const actionData = yield take(userAuthActionsList.USER_LOGIN_REQUEST);
-        // console.log('fetch() saga take = ', actionData);
+        console.log('fetch() saga take = ', actionData);
 
         const url = '/api/auth/login';
         const data: ILogInFields = actionData.data;

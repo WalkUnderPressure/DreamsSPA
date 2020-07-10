@@ -4,6 +4,7 @@ import Table from '../components/Table'
 import { connect } from 'react-redux';
 import { getAllUserDreans } from '../redux/actions/UsersDreansActions';
 import { List, Map } from 'immutable';
+import { DreanEntity } from 'redux/Entity';
 
 interface IMyDreansProps {
   tableItems: List<Map<string, any>>;
@@ -21,8 +22,11 @@ class MyDreans extends Component<IMyDreansProps, IMyDreansState> {
   }
 
   static getInitialProps(ctx) {
-    // console.log('getInitialProps!', ctx);
+    console.log('getInitialProps call!');
     
+    const de = new DreanEntity();
+    de.getDreans();
+
     ctx.store.execSagaTasks(ctx, dispatch => {
       dispatch(getAllUserDreans());
     });
@@ -33,7 +37,7 @@ class MyDreans extends Component<IMyDreansProps, IMyDreansState> {
     const element = this.props;
     return (
       <Layout>
-          <Table tableName='Dreans' className='w-full p-5 bg-ocean-500 ' data={element.tableItems} />
+        <Table tableName='Dreans' className='w-full p-5 bg-ocean-900 ' data={element.tableItems} />
       </Layout>
     )
   }

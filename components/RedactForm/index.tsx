@@ -4,6 +4,8 @@ import { Field, reduxForm, Form, InjectedFormProps, FieldArray, GenericFieldArra
 import InputField from 'components/InputField';
 import { required } from 'redux/validators';
 import DreanList from './DreanList';
+import Router from 'next/router';
+import { FaArrowCircleLeft, FaReply } from 'react-icons/fa';
 
 const FieldArrayCustom = FieldArray as new () => GenericFieldArray<Field, any>;
 
@@ -20,16 +22,15 @@ class RedactDreanForm extends Component<IRedactDreanFormProps> {
     console.log('props of redact form =========>>>>> ', this.props);
     const isRedact = this.props.data && this.props.data._id !== 'add';
     return (
-      <Form className={className + ' flex flex-col items-center bg-white'} onSubmit={handleSubmit}>
-        <div>
-          <h1 className={'my-4 text-center text-2xl uppercase font-medium text-gray-500'}>{isRedact ? 'Redact' : 'Add'}</h1>
-          {/* <Link href={hrefValue} as={asValue}>
-            <button className={'my-2 bg-transparent hover:bg-red-300 ' +
-              ' text-red-600 font-semibold hover:text-white py-2 px-4 ' +
-              ' border border-red-800 hover:border-transparent rounded'}>
-                back
-            </button>
-          </Link> */}
+      <Form className={className + ' rounded flex flex-col items-center bg-white'} onSubmit={handleSubmit}>
+        <div className='w-full flex flex-row items-center justify-between'>
+          <h1 className={'m-4 text-center text-2xl font-medium text-teal-500 hover:text-teal-700 hover:font-black'}>{isRedact ? 'Redact' : 'Add'}</h1>
+          <button type='button' onClick={this.goBack} 
+          className='mx-4 px-4 py-2 rounded flex flex-row items-center font-semibold text-black bg-transparent border border-solid border-ocean-900 
+          hover:text-white hover:bg-black hover:opacity-75 hover:border-transparent focus:outline-none'>
+              <FaReply className='mr-2' />
+              Back
+          </button>
         </div>
         
 
@@ -89,9 +90,10 @@ class RedactDreanForm extends Component<IRedactDreanFormProps> {
     )
   }
 
-  getCurrentState = () => {
-    console.log("current state => ", this.props)
-  }
+  goBack = () => {
+    console.log("go back => ", this.props)
+    Router.back();
+  }  
 }
 
 const reduxFormRedactDrean = reduxForm({

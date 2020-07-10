@@ -5,6 +5,7 @@ import { userLogOutRequest } from '../redux/actions/UserAuthActions';
 import { FaHeart, FaFan, FaCircle, FaCaretDown, FaTimes, FaEnvelope, FaUserCircle, FaMailBulk, FaPlane, FaUserPlus, FaSearch, FaMoon, FaSun } from 'react-icons/fa';
 import posed, { PoseGroup } from 'react-pose';
 import Link from 'next/link';
+import Router from 'next/router';
 
 
 const Flicker = posed.div({
@@ -230,7 +231,7 @@ class Layout extends Component<ILayoutProps, ILayoutState>{
                     {user && userNavigation()}
                     
                     <div className='ml-16 w-full'>
-                        <div className='container mx-auto flex justify-center items-center'>
+                        <div className='container mx-auto flex justify-center items-center bg-teal-300 p-2'>
                             {this.props.children}
                         </div>
                     </div>

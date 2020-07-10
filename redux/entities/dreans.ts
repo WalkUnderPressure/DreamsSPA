@@ -5,23 +5,23 @@ import ServerResponse from 'Templates/ServerResponse';
 import { redactAddFormActionsList, redactDreanSuccessfully, redactDreanUnsuccessfully, saveDreanChangesSuccessfully } from '../actions/redactAddFormActions';
 import DreanItem from 'Templates/DreanItem';
 
-export function* getDreans() {
-    while (true) {
-        const data = yield take(userDreansActionsList.USER_DREANS_GET_REQUEST);
-        console.log('fetch() saga take = ', data);
+// export function* getDreans() {
+//     while (true) {
+//         const data = yield take(userDreansActionsList.USER_DREANS_GET_REQUEST);
+//         console.log('fetch() saga take = ', data);
 
-        const url = '/api/dreans/all';
-        const result = yield call(xRead, url, {});
-        console.log('fetch() saga call = ', result);
+//         const url = '/api/dreans/all';
+//         const result = yield call(xRead, url, {});
+//         console.log('fetch() saga call = ', result);
 
-        if (result.error) {
-            console.log('Cant get dreans!');
-        } else {
-            console.log('Get dreans!');
-            yield put(userDreansGetSuccessfully(result.data));
-        }
-    }
-}
+//         if (result.error) {
+//             console.log('Cant get dreans!');
+//         } else {
+//             console.log('Get dreans!');
+//             yield put(userDreansGetSuccessfully(result.data));
+//         }
+//     }
+// }
 
 export function* deleteDrean() {
     while (true) {

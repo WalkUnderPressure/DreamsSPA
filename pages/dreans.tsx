@@ -15,7 +15,7 @@ interface IDreansState {
 const DreanBox = (drean: Map<string, any>) => {
     return(
         <div>
-            Drean : {drean.get('_id')}
+          Drean : {drean.get('_id')}
         </div>
     )
 }
@@ -40,8 +40,7 @@ class Dreans extends Component<IDreansProps, IDreansState> {
     const element = this.props;
     return (
       <Layout>
-          <h1>All Dreans</h1>
-          {DreanBox(this.props.allDreans.get(0))}
+        <h1>All Dreans</h1>
       </Layout>
     )
   }

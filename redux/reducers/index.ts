@@ -6,6 +6,7 @@ import { AnyAction } from "redux";
 import { userAuthActionsList } from 'redux/actions/UserAuthActions';
 import { redactAddFormActionsList } from 'redux/actions/redactAddFormActions';
 import DreanItem from 'Templates/DreanItem';
+import { ActionsTypes } from '../actions';
 
 const initialEntities = fromJS({
 
@@ -28,9 +29,12 @@ const identity = (state = initialEntities, action: AnyAction) => {
 
 const entity = (state = initialEntities, action: AnyAction) => {
   switch (action.type) {
-    case userDreansActionsList.USER_DREANS_GET_SUCCESSFULLY:
-      console.log('get successfully : ', state);
-      return state.set('dreans', fromJS(action.dreansArray));
+    case ActionsTypes.SUCCESSFULLY:
+      console.log('Successfully --->', action.data);
+      return state
+    // case userDreansActionsList.USER_DREANS_GET_SUCCESSFULLY:
+    //   console.log('get successfully : ', state);
+    //   return state.set('dreans', fromJS(action.dreansArray));
     case userDreansActionsList.USER_DREAN_DELETE_SUCCESSFULLY:
       console.log('delete successfully : ', action);
       const filtered = state.get("dreans").filter(item => item.get("_id") !== action.id);

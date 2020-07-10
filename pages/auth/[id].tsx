@@ -106,12 +106,12 @@ class Login extends Component<ILoginProps, ILoginState>{
         )
     }
 
-    onClickY = () => {
-        console.log('Click Y!')
-        this.setState({
-            isSignIn: !this.state.isSignIn
-        })
-    }
+    // onClickY = () => {
+    //     console.log('Click Y!')
+    //     this.setState({
+    //         isSignIn: !this.state.isSignIn
+    //     })
+    // }
 
     changeForm = () => {
         console.log('change form button clicked!');
