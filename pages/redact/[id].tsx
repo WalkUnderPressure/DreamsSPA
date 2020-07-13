@@ -44,7 +44,7 @@ const mapStateToProps = (state, props) => {
   let drean = {}
   if(id !== 'add' || id !== null){
     try {
-      drean = state.entity.get("dreans").filter(item => item.get("_id") === id).get(0)
+      drean = state.entities.get("dreans").filter(item => item.get("id") === id).get(0)
     } catch (error) {
       drean = new Map()
     }

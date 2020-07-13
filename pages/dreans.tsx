@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Layout from '../Layout'
 import { connect } from 'react-redux';
-import { getAllUserDreans } from '../redux/actions/UsersDreansActions';
+// import { getAllUserDreans } from '../redux/actions/UsersDreansActions';
 import { List, Map } from 'immutable';
 import DreanItem from 'Templates/DreanItem';
 
@@ -30,9 +30,9 @@ class Dreans extends Component<IDreansProps, IDreansState> {
   static getInitialProps(ctx) {
     // console.log('getInitialProps!', ctx);
     
-    ctx.store.execSagaTasks(ctx, dispatch => {
-      dispatch(getAllUserDreans());
-    });
+    // ctx.store.execSagaTasks(ctx, dispatch => {
+    //   dispatch(getAllUserDreans());
+    // });
   }
 
   render() {
@@ -48,7 +48,7 @@ class Dreans extends Component<IDreansProps, IDreansState> {
 
 const mapStateToProps = (state) => {
   return ({
-    allDreans: state.entity.get('dreans'),
+    allDreans: state.entities.get('dreans'),
   })
 }
 

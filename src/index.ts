@@ -2,7 +2,8 @@ import { METHODS, DOMAIN} from '../COMMON'
 import fetch, { RequestInit } from 'node-fetch'
 
 export const xFetch = (url : string, data : any, method : METHODS) => {
-  const path = `${DOMAIN}${url}`
+  const path = `${DOMAIN}${url}`;
+  let fullPath = path;
 
   const request : RequestInit = {}
 
@@ -12,12 +13,13 @@ export const xFetch = (url : string, data : any, method : METHODS) => {
   }
 
   if (method === METHODS.GET) {
-    const urlParameters = Object.entries(data).map(e => e.join('=')).join('&')
+    const urlParameters = Object.entries(data).map(e => e.join('=')).join('&');
+    fullPath += urlParameters;
   } else {
     request.body = JSON.stringify(data)
   }
   
-  return fetch(path, request)
+  return fetch(fullPath, request)
     .then(res => {
       return res.json()
     })

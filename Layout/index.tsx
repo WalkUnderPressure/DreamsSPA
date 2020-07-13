@@ -181,14 +181,14 @@ class Layout extends Component<ILayoutProps, ILayoutState>{
         }
 
         const userNavigation = () => {
-            const isNight = true;
-            const dreansColor = isNight? '-blue-800' : '-yellow-400';
+            const isNight = false;
+            const dreansColor = isNight? '-blue-800' : '-yellow-600';
             return (
                 <nav className='px-2 py-4 h-auto flex flex-col text-xl bg-teal-200 rounded-tr-lg rounded-br-lg fixed'>
                     <Link href='/myDreans' as='/myDreans'>
                         <button className={`my-1 p-2 rounded text${dreansColor} bg-transparent border border-solid border-teal-500 hover:text-white hover:bg${dreansColor} hover:border-transparent focus:outline-none`}
                         title='My Dreans'>
-                            {isNight ? <FaMoon /> : <FaSun />}
+                            {isNight ? <FaMoon /> : <FaSun className=''/>}
                         </button>
                     </Link>
                     

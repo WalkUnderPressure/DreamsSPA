@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import Link from 'next/link';
-import { deleteUserDrean } from '../../redux/actions/UsersDreansActions';
+// import { deleteUserDrean } from '../../redux/actions/UsersDreansActions';
 import { connect } from 'react-redux';
 import { FaTrash, FaEdit } from 'react-icons/fa';
 import { Map } from 'immutable';
 
 interface ITableRowProps {
   data: Map<string, any>;
-  deleteUserDrean: (id: string) => void;
+  // deleteUserDrean: (id: string) => void;
 }
 
 class TableRow extends Component<ITableRowProps> {
@@ -59,18 +59,18 @@ class TableRow extends Component<ITableRowProps> {
 
   handleDelete = () => {
     const id: string = this.props.data.get("_id");
-    this.props.deleteUserDrean(id);
+    // this.props.deleteUserDrean(id);
   }
 }
 
 const mapStateToProps = (state: any) => {
   return ({
-    tableItems: state.entity.getIn(['dreans']),
+    tableItems: state.entities.get(['dreans']),
   })
 }
 
 const mapDispatchToProps = (dispatch: any) => ({
-  deleteUserDrean: (id: string) => dispatch(deleteUserDrean(id)),
+  // deleteUserDrean: (id: string) => dispatch(deleteUserDrean(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableRow) 

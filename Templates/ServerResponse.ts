@@ -1,4 +1,4 @@
-export default interface ServerResponse{
+export default interface IServerResponse{
     error: boolean;
     data: any;
     message: string;

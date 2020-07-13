@@ -5,22 +5,23 @@ import { all } from 'redux-saga/effects';
 import Entity from './Entity';
 import rootReducer from './reducers';
 
-import { deleteDrean, getDreanForRedact, saveDreanChanges } from './entities/dreans';
+// import { deleteDrean, getDreanForRedact, saveDreanChanges } from './entities/dreans';
 import { userLogIn, userLogOut, userRegistration } from './identity/user';
 
 const saga = function* root() {
-    // console.log('1 - saga started !!!')
+    console.log('1 - saga started !!!', Entity.saga);
+    yield all(Entity.saga);
+    
     yield all([
-        deleteDrean(),
-        getDreanForRedact(),
-        saveDreanChanges(),
+        // deleteDrean(),
+        // getDreanForRedact(),
+        // saveDreanChanges(),
         userLogIn(),
         userLogOut(),
         userRegistration(),
-    ]);
-    yield all( Entity.saga );
+    ])
+    
 };
-
 
 
 /**

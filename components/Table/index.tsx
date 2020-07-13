@@ -21,17 +21,19 @@ class Table extends Component<ITableProps, ITableState> {
 
   render() {
     const { data, className } = this.props;
-    const items = data
+    const items = data;
+
     let rows = null
 
     console.log('table items -> ', items);
 
-    if (items && items.size > 0) {
-      rows = items.map((item, i) => {
-        return <TableRow key={'drean_item+' + i} data={item} />
+    if(items && items.size > 0){
+      rows = items.valueSeq().map((item, i) => {
+        const res = <TableRow key={'drean_item_' + i} data={item} />;
+        return res;
       })
-    } else {
-      rows = <tr><td><h3>Table is empty!</h3></td></tr>
+    }else{
+      rows = (<tr><td><h3>Table is empty!</h3></td></tr>);
     }
 
     return (

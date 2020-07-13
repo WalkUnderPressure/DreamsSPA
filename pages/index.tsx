@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { List, Map } from 'immutable';
-import { getAllUserDreans } from '../redux/actions/UsersDreansActions';
+// import { getAllUserDreans } from '../redux/actions/UsersDreansActions';
 import Table from 'components/Table';
 import Layout from 'Layout';
 
@@ -26,7 +26,7 @@ class Home extends Component<IHomeProps, IHomeState> {
     // console.log('getInitialProps!', ctx);
     
     ctx.store.execSagaTasks(ctx, dispatch => {
-      dispatch(getAllUserDreans());
+      // dispatch(getAllUserDreans());
     });
   }
 
@@ -48,7 +48,7 @@ class Home extends Component<IHomeProps, IHomeState> {
 }
 
 const mapStateToProps = (state) => ({
-  tableItems: state.entity.get('dreans'),
+  tableItems: state.entities.get('dreans'),
   user: state.identity.get("user")
 })
 
