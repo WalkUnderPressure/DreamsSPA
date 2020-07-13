@@ -98,7 +98,6 @@ export default class Entity {
     //     // while(true){
     //         console.log('inside xRead!', this);
     //         const query = yield call(xfRead, url, data, method);
-
     //         console.log('xFetch query result : ', query)
     //         // camelizeKeys(JSON.parse(JSON.stringify(query.response.data)))
     //         const response = normalize(camelizeKeys(query.data), this.mSchema);
