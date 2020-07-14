@@ -4,9 +4,6 @@ import { reducer as formReducer } from 'redux-form'
 // import { userDreansActionsList } from '../actions/UsersDreansActions';
 import { AnyAction } from "redux";
 import { userAuthActionsList } from 'redux/actions/UserAuthActions';
-import { redactAddFormActionsList } from 'redux/actions/redactAddFormActions';
-import DreanItem from 'Templates/DreanItem';
-import { DreanEntity } from 'redux/Entity';
 import { CRUD } from 'COMMON';
 
 const initialEntities = fromJS({
@@ -29,9 +26,11 @@ const identity = (state = initialEntities, action: AnyAction) => {
 }
 
 const entities = (state = initialEntities, action: AnyAction) => {  
-  
+  // console.log('action => ', action);
   if (action.hasOwnProperty('glob')) {
       const { glob: { crud, entity } } = action;
+      // console.log('crud => ', crud);
+      
       switch (crud) {
           case CRUD.DELETE:
               {
@@ -44,13 +43,14 @@ const entities = (state = initialEntities, action: AnyAction) => {
               break;
           default:
           case CRUD.UPDATE:
-              if (action.response && action.response.entities) {
+          // console.log('hello from update!');   
+          if (action.response && action.response.entities) {
                   const { response: { entities } } = action;
                   if (entities) {
                       Object.keys(entities).map((entityName) => {
                           let list = state.get(entityName);
                           if (list && list.size > 0) {
-                              Object.keys(entities[entityName]).map((id) => list = list.remove(id));
+                            Object.keys(entities[entityName]).map((id) => list = list.remove(id));
                           }
                           state = state.set(entityName, list);
                       });

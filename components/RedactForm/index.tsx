@@ -12,15 +12,19 @@ const FieldArrayCustom = FieldArray as new () => GenericFieldArray<Field, any>;
 interface IRedactDreanFormProps extends InjectedFormProps<{}, {}, string> {
   data: any;
   className: string;
-  hrefValue: string;
-  asValue: string;
 }
 class RedactDreanForm extends Component<IRedactDreanFormProps> {
 
   render() {
-    const { handleSubmit, hrefValue, asValue, pristine, reset, submitting, className } = this.props;
-    console.log('props of redact form =========>>>>> ', this.props);
-    const isRedact = this.props.data && this.props.data._id !== 'add';
+    const { handleSubmit, pristine, reset, submitting, className } = this.props;
+    const element = this.props;
+    console.log('props of redact form =========>>>>> ', element);
+    const id = element.data && element.data.id
+    const isRedact = id !== 'add';
+    console.log('IS REDACT ==>> ', element.data && element.data.get('id') );
+    
+    const publicAccess = element.data && element.data.get('publicAccess');
+    console.log('Public Access - ', publicAccess);
     return (
       <Form className={className + ' rounded flex flex-col items-center bg-white'} onSubmit={handleSubmit}>
         <div className='w-full flex flex-row items-center justify-between'>
@@ -33,7 +37,6 @@ class RedactDreanForm extends Component<IRedactDreanFormProps> {
           </button>
         </div>
         
-
         <div className='w-full flex flex-row justify-around'>
           <div className='w-3/6'>
             <Field
@@ -51,6 +54,21 @@ class RedactDreanForm extends Component<IRedactDreanFormProps> {
               validate={[]}
               label={'Date of event'} />
           </div>
+        </div>
+
+        <div className='w-11/12'>
+        <Field
+              name="publicAccess"
+              component={InputField}
+              type="selector"
+              label="Public Access"
+              />
+          {/* <Field
+          name='publicAccess'
+          component={InputField}
+          type='radio'
+          checked={publicAccess}
+          label=''/> */}
         </div>
 
         <div className='w-11/12'>
@@ -104,8 +122,14 @@ const reduxFormRedactDrean = reduxForm({
 
 const mapStateToProps = (state: any, props: any) => {
   console.log('state redact drean form => ', props);
+  let data = null;
+  if(props.data && props.data.size > 0){
+    data = props.data.toJS()
+    data.publicAccess = data.publicAccess? 'true' : 'false';
+  }
+  console.log('data - ', data);
   return ({
-    initialValues: props.data && props.data.size > 0 && props.data.toJS(),
+    initialValues: data ,
   })
 }
 const mapDispatchToProps = (dispatch) => ({

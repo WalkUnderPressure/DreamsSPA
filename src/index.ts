@@ -14,7 +14,7 @@ export const xFetch = (url : string, data : any, method : METHODS) => {
 
   if (method === METHODS.GET) {
     const urlParameters = Object.entries(data).map(e => e.join('=')).join('&');
-    fullPath += urlParameters;
+    // fullPath += urlParameters;
   } else {
     request.body = JSON.stringify(data)
   }

@@ -181,7 +181,9 @@ class Layout extends Component<ILayoutProps, ILayoutState>{
         }
 
         const userNavigation = () => {
-            const isNight = false;
+            
+            // const isNight = this.state.currentItem%4 === 0;
+            const isNight = true;
             const dreansColor = isNight? '-blue-800' : '-yellow-600';
             return (
                 <nav className='px-2 py-4 h-auto flex flex-col text-xl bg-teal-200 rounded-tr-lg rounded-br-lg fixed'>

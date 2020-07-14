@@ -1,9 +1,8 @@
 import { schema, normalize } from 'normalizr';
 import { call, put, select, fork } from 'redux-saga/effects';
-import { METHODS, CRUD } from 'COMMON';
+import { METHODS, CRUD, DOMAIN } from 'COMMON';
 import { entityRequest, IActionRequest } from '../redux/actions';
 import { camelizeKeys } from 'humps';
-import { xFetch } from '../src';
 import IServerResponse from '../Templates/ServerResponse';
 export interface IEntityRequest {
     
@@ -21,9 +20,11 @@ export default class Entity {
         this.mEntityName = name;
         this.mSchema = name !== "entity"? [new schema.Entity(name, definitions, options)] : null;
         
+        this.xFetch = this.xFetch.bind(this);
         this.xRead = this.xRead.bind(this);
-        // // this.xFetch.bind(this);
-        // console.log('Entity constructor -> ', this);
+
+        this.getAction = this.getAction.bind(this);
+        this.actionRequest = this.actionRequest.bind(this);
     }
 
     public static addSaga(...args: any[]) {
@@ -50,26 +51,49 @@ export default class Entity {
             case CRUD.READ:
                 break;
         }
+        console.log('getAction => ', action);
+
         return action;
     }
 
-    protected * actionRequest(uri: string, crud: CRUD, method: METHODS, data?: any) {
+    protected xFetch = (url : string, data : any, method : METHODS) => {
+        const path = `${DOMAIN}${url}`;
+        let fullPath = path;
+        const request : RequestInit = {}
+        request.method = method;
+        request.headers = {
+            'Content-Type': 'application/json'
+        }
+        if (method === METHODS.GET) {
+            const urlParameters = Object.entries(data).map(e => e.join('=')).join('&');
+          // fullPath += urlParameters;
+        } else {
+            request.body = JSON.stringify(data)
+        }
         
+        return fetch(fullPath, request)
+            .then(res => {
+                return res.json()
+            })
+    }
+
+    protected * actionRequest(uri: string, crud: CRUD, method: METHODS, data?: any) {
+        console.log('actionRequest => ', { crud, method, data } );
         // while(true){
             const action: IActionRequest = this.getAction(crud);
-            let result: IServerResponse = yield call(xFetch, uri, method, data);
-            // ( .. data, token)
-            
-            const success = result.error;
+            let result: IServerResponse = yield call(this.xFetch, uri, data, method);
+
+            const success = !result.error;
             const query = result.data;
             
             let response = null;
             if (success && this.mSchema && query) {
-                const response = normalize(camelizeKeys(query), this.mSchema);
-            } else if (query ) {
-                const response = query.data;
+                response = normalize(camelizeKeys(query), this.mSchema);
+            } else if (query) {
+                response = query;
             }
 
+            // console.log('put to redux -> ', response);
             if (success) {
                 yield put(action.success(data, response));
             } else {
@@ -92,48 +116,10 @@ export default class Entity {
     public xDelete = (uri: string, data: any = {}) => {
         return this.actionRequest(uri, CRUD.DELETE, METHODS.DELETE, data);
     }
-
-    // public * xRead(url : string, data : Object, method = METHODS.GET){
-    //     console.log('xRead => this => ', this);
-    //     // while(true){
-    //         console.log('inside xRead!', this);
-    //         const query = yield call(xfRead, url, data, method);
-    //         console.log('xFetch query result : ', query)
-    //         // camelizeKeys(JSON.parse(JSON.stringify(query.response.data)))
-    //         const response = normalize(camelizeKeys(query.data), this.mSchema);
-    //         console.log('response => ', response);
-    //         yield put(action.success(response));
-    //     // }
-    // }
 }
 
 export enum ENTITIES {
     USERS = 'users', 
-    DREANS = 'dreans',
+    MY_DREANS = 'myDreans',
+    ALL_DREANS = 'allDreans',
 } 
-
-export class DreanEntity extends Entity {
-    constructor() {
-        super(ENTITIES.DREANS, new schema.Entity(ENTITIES.DREANS, {
-            ownerId: new schema.Entity(ENTITIES.USERS)
-        }));
-
-        this.getDreans = this.getDreans.bind(this);
-        Entity.addSaga(
-            this.getDreans.bind(this),
-        );
-    }
-
-    public * getDreans() {
-        console.log('get dreans start listen ');
-        while (true) {
-            const data = yield select((state: any) => state.entities.get('dreans'));
-            console.log('Select Data = : = ', data);
-            if (!data) {
-                console.log('data != null call xRead => ');
-                const url = '/api/dreans/all';
-                yield call(this.xRead, url, {}, METHODS.POST);
-            }
-        }
-    }
-}

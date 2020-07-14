@@ -29,8 +29,10 @@ class Table extends Component<ITableProps, ITableState> {
 
     if(items && items.size > 0){
       rows = items.valueSeq().map((item, i) => {
-        const res = <TableRow key={'drean_item_' + i} data={item} />;
-        return res;
+        if(item.get('id')){
+          const res = <TableRow key={'drean_item_' + i} data={item} />;
+          return res;
+        }
       })
     }else{
       rows = (<tr><td><h3>Table is empty!</h3></td></tr>);
@@ -59,6 +61,7 @@ class Table extends Component<ITableProps, ITableState> {
               <th className='py-3'>Date</th>
               <th className='py-3'>Guests</th>
               <th className='py-3'>Need Things</th>
+              <th className='py-3'>Access</th>
               <th className='text-right py-3 pl-0 pr-2'>ACTION</th>
             </tr>
           </thead>

@@ -1,26 +1,22 @@
 import { Store, createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware, { END } from 'redux-saga';
 import { all } from 'redux-saga/effects';
-
-import Entity from './Entity';
 import rootReducer from './reducers';
 
-// import { deleteDrean, getDreanForRedact, saveDreanChanges } from './entities/dreans';
 import { userLogIn, userLogOut, userRegistration } from './identity/user';
+
+import Entity from './Entity';
+import './MyDreanEntity';
 
 const saga = function* root() {
     console.log('1 - saga started !!!', Entity.saga);
     yield all(Entity.saga);
     
     yield all([
-        // deleteDrean(),
-        // getDreanForRedact(),
-        // saveDreanChanges(),
         userLogIn(),
         userLogOut(),
         userRegistration(),
     ])
-    
 };
 
 

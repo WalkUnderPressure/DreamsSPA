@@ -48,7 +48,7 @@ class Dreans extends Component<IDreansProps, IDreansState> {
 
 const mapStateToProps = (state) => {
   return ({
-    allDreans: state.entities.get('dreans'),
+    allDreans: state.entities.get('allDreans'),
   })
 }
 

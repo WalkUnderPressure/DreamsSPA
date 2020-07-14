@@ -2,14 +2,12 @@ import { withRouter } from 'next/router'
 import React, { Component } from 'react'
 import Layout from '../../Layout'
 import RedactForm from '../../components/RedactForm'
-import { xRead, xSave } from '../../src'
 import { WithRouterProps } from 'next/dist/client/with-router'
-import DreanItem from '../../Templates/DreanItem';
-import ServerResponse from '../../Templates/ServerResponse'
-import { redactDreanRequest, saveDreanChanges } from '../../redux/actions/redactAddFormActions';
 import { connect } from 'react-redux'
+import { redactDrean } from 'redux/MyDreanEntity'
 
 interface IRedactProps extends WithRouterProps {
+  drean: any;
   dreanSaveChanges: (values: any) => void;
 }
 interface IRedactState {
@@ -19,16 +17,18 @@ interface IRedactState {
 class Redact extends Component<IRedactProps, IRedactState> {
 
   public static async getInitialProps(ctx: any) {
-    let id: any = null;
+    let id: any = 'add';
     await ctx.store.execSagaTasks(ctx, (dispatch: any) => {
         id = ctx?.req?.params?.id ? ctx.req.params.id : ctx.query.id;
-        ctx.store.dispatch(redactDreanRequest(id));
+        console.log('id for redact => ', id);
+        ctx.store.dispatch(redactDrean(id));
     })
     return {id}
   }
 
   render() {
-    const element = this.props;
+    console.log('redact form props => ', this.props);
+    const element = this.props.drean;
     console.log('id element: ', element);
     return (
       <Layout>
@@ -41,22 +41,23 @@ class Redact extends Component<IRedactProps, IRedactState> {
 
 const mapStateToProps = (state, props) => {
   const id = props.id;
-  let drean = {}
+  let drean: any = new Map();
   if(id !== 'add' || id !== null){
     try {
-      drean = state.entities.get("dreans").filter(item => item.get("id") === id).get(0)
+      drean = state.entities.get("myDreans").filter((item: Map<string, any> ) => {
+        return item.get('id') === id
+      })
     } catch (error) {
-      drean = new Map()
+      
     }
   }
-  console.log('drean => ', drean)
   return ({
-    drean
+    drean: drean.get(id)
   })
 } 
 
 const mapDispatchToProps = (dispatch) => ({
-  dreanSaveChanges: (values: any) => dispatch(saveDreanChanges(values))
+  // dreanSaveChanges: (values: any) => dispatch(saveDreanChanges(values))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Redact)

@@ -23,10 +23,13 @@ export class DreanSchema implements DreanItem{
     dateOfEvent: number;
 
     @prop({type: String })
-    guests: [string]
+    guests: [string];
 
     @prop({type: String })
-    needThings: [string]
+    needThings: [string];
+
+    @prop()
+    publicAccess: boolean;
 }
 
 export type DreanType = mongoose.Model<DocumentType<DreanSchema>, {}> & DreanSchema;

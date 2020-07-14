@@ -8,6 +8,11 @@ export default class DreansService extends BaseContext{
         return DreanModel.find({ owner_id: owner_id });
     }
 
+    getAllPublicDreans(){
+        const { DreanModel } = this.di;
+        return DreanModel.find({publicAccess: true})
+    }
+
     getAllDreans () {
         const { DreanModel } = this.di;
         return DreanModel.find({});

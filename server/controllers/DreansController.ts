@@ -7,9 +7,9 @@ import { IIdentity, USER_ROLE } from 'COMMON';
 @route('/api/dreans')
 export default class DreansController extends BaseContext {
     @GET()
-    @route('/all')
-    public getDreans(req: Request, res: Response) {
-        const { DreansService, passport } = this.di;
+    @route('/allMyDreans')
+    public getAllMyDreans(req: Request, res: Response) {
+        const { DreansService } = this.di;
 
         const user = req.session.identity;
         const owner_id = user && user.userId;
@@ -18,7 +18,23 @@ export default class DreansController extends BaseContext {
                 const serRes: ServerResponse = {
                     error: (resolve == null ? true : false),
                     data: resolve,
-                    message: (resolve == null ? 'Cant get all items!' : 'Successfully get all items!')
+                    message: (resolve == null ? 'Cant get all my dreans!' : 'Successfully get all my dreans!')
+                }
+                return res.json(serRes)
+            })
+    }
+
+    @GET()
+    @route('/allDreans')
+    public getAllDreans(req: Request, res: Response) {
+        const { DreansService } = this.di;
+
+        DreansService.getAllPublicDreans()
+            .then(resolve => {
+                const serRes: ServerResponse = {
+                    error: (resolve === null ? true : false),
+                    data: resolve,
+                    message: (resolve === null ? 'Cant get all public dreans!' : 'Successfully get all public dreans!')
                 }
                 return res.json(serRes)
             })

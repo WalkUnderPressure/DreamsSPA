@@ -5,4 +5,5 @@ export default interface DreanItem {
     dateOfEvent : number;
     guests : [string];
     needThings : [string];
+    publicAccess: boolean;
 }
