@@ -27,8 +27,6 @@ export const IGNORS = [
   '/manifest.json',
   '/styles.chunk.css.map',
   '/error',
-  '/login',
-  '/registration',
   '/auth',
 ];
 

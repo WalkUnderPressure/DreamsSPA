@@ -25,7 +25,7 @@ module.exports = {
         dateOfEvent: Faker.date.future().getTime(),
         guests:[],
         needThings: [],
-        publicAccess: j < itemsCount/2,
+        publicAccess: j < itemsCount/2? 'PUBLIC' : 'PRIVATE',
       };
 
       let guestsSize = Faker.random.number({ min: 3, max: 5});

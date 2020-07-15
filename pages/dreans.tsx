@@ -3,7 +3,6 @@ import Layout from '../Layout'
 import { connect } from 'react-redux';
 // import { getAllUserDreans } from '../redux/actions/UsersDreansActions';
 import { List, Map } from 'immutable';
-import DreanItem from 'Templates/DreanItem';
 
 interface IDreansProps {
   allDreans: List<Map<string, any>>;

@@ -18,13 +18,10 @@ class RedactDreanForm extends Component<IRedactDreanFormProps> {
   render() {
     const { handleSubmit, pristine, reset, submitting, className } = this.props;
     const element = this.props;
-    console.log('props of redact form =========>>>>> ', element);
-    const id = element.data && element.data.id
-    const isRedact = id !== 'add';
-    console.log('IS REDACT ==>> ', element.data && element.data.get('id') );
+    // console.log('props of redact form =========>>>>> ', element);
+    const isRedact = element.data && element.data.get("id");
+    // console.log('IS REDACT ==>> ', element.data && element.data.get('id') );
     
-    const publicAccess = element.data && element.data.get('publicAccess');
-    console.log('Public Access - ', publicAccess);
     return (
       <Form className={className + ' rounded flex flex-col items-center bg-white'} onSubmit={handleSubmit}>
         <div className='w-full flex flex-row items-center justify-between'>
@@ -51,24 +48,17 @@ class RedactDreanForm extends Component<IRedactDreanFormProps> {
               name="dateOfEvent"
               component={InputField}
               type="date"
-              validate={[]}
+              validate={[required]}
               label={'Date of event'} />
           </div>
         </div>
 
         <div className='w-11/12'>
-        <Field
-              name="publicAccess"
-              component={InputField}
-              type="selector"
-              label="Public Access"
-              />
-          {/* <Field
-          name='publicAccess'
-          component={InputField}
-          type='radio'
-          checked={publicAccess}
-          label=''/> */}
+          <Field className='focus:outline-none'
+          name="publicAccess" component='select'>
+            <option className='focus:outline-none' value="PRIVATE">Private</option>
+            <option className='focus:outline-none' value="PUBLIC">Public</option>
+          </Field>
         </div>
 
         <div className='w-11/12'>
@@ -116,7 +106,6 @@ class RedactDreanForm extends Component<IRedactDreanFormProps> {
 
 const reduxFormRedactDrean = reduxForm({
   form: 'redactDreanForm',
-
   // @ts-ignore
 })(RedactDreanForm);
 
@@ -125,7 +114,6 @@ const mapStateToProps = (state: any, props: any) => {
   let data = null;
   if(props.data && props.data.size > 0){
     data = props.data.toJS()
-    data.publicAccess = data.publicAccess? 'true' : 'false';
   }
   console.log('data - ', data);
   return ({
@@ -133,6 +121,7 @@ const mapStateToProps = (state: any, props: any) => {
   })
 }
 const mapDispatchToProps = (dispatch) => ({
+
 })
 
 const connectRedactDrean = connect(mapStateToProps, mapDispatchToProps)(reduxFormRedactDrean);

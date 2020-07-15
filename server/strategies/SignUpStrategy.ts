@@ -76,10 +76,7 @@ export default class SignUpStrategy extends BaseContext {
         //var error = BaseModel.validate(newUser);
         //if (error) {
         //    return done(error);
-        //}
-
-
-        // newUser.save().then (   
+        //}   
 
         newUser.save()
             .then((user: any) => {

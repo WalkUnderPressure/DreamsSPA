@@ -1,3 +1,4 @@
+import { PublicAccess } from '../server/models/Drean.model';
 export default interface DreanItem {
     _id? : string;
     codeName : string;
@@ -5,5 +6,5 @@ export default interface DreanItem {
     dateOfEvent : number;
     guests : [string];
     needThings : [string];
-    publicAccess: boolean;
+    publicAccess: PublicAccess;
 }

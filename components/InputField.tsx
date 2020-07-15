@@ -15,7 +15,6 @@ interface IInputFieldProps {
     placeholder: string;
     size: InputSize,
     label: string;
-    checked: boolean;
 }
 interface IInputFieldState {
 
@@ -28,17 +27,8 @@ class InputField extends Component<WrappedFieldProps & IInputFieldProps, IInputF
     };
 
     render() {
-        const { label, id, input, type, checked, meta: { touched, error, warning, asyncValidating } } = this.props;
-        // console.log('input props --------> \n', {...this.props});
-        // if(type== 'date'){
-        //     let inputValue = input.value;
-        //     if(inputValue === ''){
-        //         inputValue = new Date().getTime();
-        //     }
-        //     input.value = new Date(inputValue).toISOString().slice(0,10)
-            
-        //     console.log('date of event -> ', input.value);
-        // }
+        const { label, id, input, type, meta: { touched, error, warning, asyncValidating } } = this.props;
+        
         const errorColor = touched && error? ' border-red-500' : ' border-gray-500';
         let inputField = null;
 
@@ -52,20 +42,12 @@ class InputField extends Component<WrappedFieldProps & IInputFieldProps, IInputF
                     input.value = new Date();
                 }
                 console.log('date area ');
-                inputField = <ReactDatePicker className='w-full' selected={new Date(input.value)} onChange={ input.onChange } />
-                break;
-            case 'selector':
-                console.log('value -> ', input.value);
-                
-                inputField = <input id={id} className='' type='text' {...input} checked={input.value === 'true'} onChange={ input.onChange } onClick={ this.changeRadioValue } /> 
+                inputField = <ReactDatePicker className='w-full focus:outline-none' selected={new Date(input.value)} onChange={ input.onChange } />
                 break;
             default:
-                // console.log('input area ', {...this.props});
                 inputField = <input id={id} {...input} type={type} placeholder={label} className='appearance-none outline-none text-sm w-full' />
                 break;
         }
-
-        // console.log('input field ---> ', inputField);
 
         return (
             <div className='flex flex-col w-full'>
@@ -83,15 +65,6 @@ class InputField extends Component<WrappedFieldProps & IInputFieldProps, IInputF
                 </div>
             </div>
         )
-    }
-
-    changeRadioValue = () => {
-        const prev = this.props.input.value;
-        const next = prev === 'true'? 'false' : 'true';
-        console.log('prev value : ', prev);
-        console.log('next value : ', next);
-        
-        this.props.input.onChange(next);
     }
 }
 

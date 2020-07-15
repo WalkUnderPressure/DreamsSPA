@@ -5,11 +5,11 @@ import rootReducer from './reducers';
 
 import { userLogIn, userLogOut, userRegistration } from './identity/user';
 
-import Entity from './Entity';
-import './MyDreanEntity';
+import Entity from './entities/Entity';
+import './entities/MyDreanEntity';
 
 const saga = function* root() {
-    console.log('1 - saga started !!!', Entity.saga);
+    // console.log('1 - saga started !!!', Entity.saga);
     yield all(Entity.saga);
     
     yield all([

@@ -1,9 +1,9 @@
 import { schema, normalize } from 'normalizr';
 import { call, put, select, fork } from 'redux-saga/effects';
 import { METHODS, CRUD, DOMAIN } from 'COMMON';
-import { entityRequest, IActionRequest } from '../redux/actions';
+import { entityRequest, IActionRequest } from '../actions';
 import { camelizeKeys } from 'humps';
-import IServerResponse from '../Templates/ServerResponse';
+import IServerResponse from '../../Templates/ServerResponse';
 export interface IEntityRequest {
     
 }
@@ -56,7 +56,39 @@ export default class Entity {
         return action;
     }
 
+    
+
+    protected * actionRequest(url: string, crud: CRUD, method: METHODS, data?: any) {
+        console.log('actionRequest => ', { crud, method, data } );
+
+        const action: IActionRequest = this.getAction(crud);
+        let result: IServerResponse = yield call(this.xFetch, url, data, method);
+        const success = !result.error;
+        const query = result.data;
+
+        console.log('success - ', success);
+        console.log('query - ', query);        
+
+        let response = null;
+        if (success && this.mSchema && query) {
+            response = normalize(camelizeKeys(query), this.mSchema);
+        } else if (query) {
+            response = query;
+        }
+
+        console.log('response -> ', response);
+        if (success) {
+            yield put(action.success(data, response));
+        } else {
+            yield put(action.failure(data, response));
+        }
+
+        const message = result.message;
+        return { response, message };
+    }
+
     protected xFetch = (url : string, data : any, method : METHODS) => {
+        console.log('xFetch is called -> ', data)
         const path = `${DOMAIN}${url}`;
         let fullPath = path;
         const request : RequestInit = {}
@@ -77,44 +109,16 @@ export default class Entity {
             })
     }
 
-    protected * actionRequest(uri: string, crud: CRUD, method: METHODS, data?: any) {
-        console.log('actionRequest => ', { crud, method, data } );
-        // while(true){
-            const action: IActionRequest = this.getAction(crud);
-            let result: IServerResponse = yield call(this.xFetch, uri, data, method);
-
-            const success = !result.error;
-            const query = result.data;
-            
-            let response = null;
-            if (success && this.mSchema && query) {
-                response = normalize(camelizeKeys(query), this.mSchema);
-            } else if (query) {
-                response = query;
-            }
-
-            // console.log('put to redux -> ', response);
-            if (success) {
-                yield put(action.success(data, response));
-            } else {
-                yield put(action.failure(data, response));
-            }
-
-            const message = result.message;
-            return { response, message };
-        // }
-    }
-
-    public xSave = (uri: string, data: any = {}) => {
-        return this.actionRequest(uri, CRUD.UPDATE, METHODS.POST, data);
+    public xSave = (url: string, data: any = {}) => {
+        return this.actionRequest(url, CRUD.UPDATE, METHODS.POST, data);
     }
     
     public xRead = (url: string, data: any = {}, method: METHODS = METHODS.GET) => {
         return this.actionRequest(url, CRUD.READ, method, data);
     }
     
-    public xDelete = (uri: string, data: any = {}) => {
-        return this.actionRequest(uri, CRUD.DELETE, METHODS.DELETE, data);
+    public xDelete = (url: string, data: any = {}) => {
+        return this.actionRequest(url, CRUD.DELETE, METHODS.DELETE, data);
     }
 }
 

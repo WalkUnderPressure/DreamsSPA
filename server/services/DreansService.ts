@@ -1,5 +1,6 @@
 import BaseContext from '../BaseContext';
-import { DreanType } from '../models/Drean.model';
+import { DreanType, PublicAccess, DreanSchema } from '../models/Drean.model';
+import { Schema } from 'mongoose';
 
 export default class DreansService extends BaseContext{
     
@@ -10,7 +11,7 @@ export default class DreansService extends BaseContext{
 
     getAllPublicDreans(){
         const { DreanModel } = this.di;
-        return DreanModel.find({publicAccess: true})
+        return DreanModel.find({ publicAccess: PublicAccess.PUBLIC })
     }
 
     getAllDreans () {
@@ -18,8 +19,28 @@ export default class DreansService extends BaseContext{
         return DreanModel.find({});
     }
     
-    getDreanByID (id: string) {
+    async getDreanByID (id: string) {
         const { DreanModel } = this.di;
+
+        const person = await DreanModel.findById(id);
+        (await person.populate({ path: 'owner', select: ['_id', 'role', 'email', 'firstName', 'lastName'] }).execPopulate())
+        person.populated('owner');
+        console.log('Person -> ', person);
+
+
+        const dreans = await DreanModel.find({ publicAccess: PublicAccess.PUBLIC });
+        console.log('Dreans before - ', dreans);
+
+        const newDreans = dreans.map(async (item) => {
+            (await item.populate({ path: 'owner', select: ['_id', 'role', 'email', 'firstName', 'lastName'] }).execPopulate())
+            
+            item.populated('owner')
+            console.log('return item ', item.owner);
+            return item      
+        })
+                
+        console.log('Dreans after - ', newDreans);
+
         return DreanModel.findById(id);
     }
     
@@ -33,17 +54,19 @@ export default class DreansService extends BaseContext{
         return DreanModel.findByIdAndRemove(id);
     }
     
-    updateDreanByID (id: string, drean: DreanType ) {
+    async updateDreanByID (id: string, drean: DreanType) {
         const { DreanModel } = this.di;
         console.log('drean for update  -> ', drean)
-        drean.dateOfEvent = new Date(drean.dateOfEvent).getTime();
-        return DreanModel.findByIdAndUpdate(id, drean)
+        return DreanModel.findByIdAndUpdate(id, drean);
     }
     
-    createDrean(owner_id: string, drean: DreanType) {
-        const { DreanModel } = this.di;
-        drean.owner_id = owner_id;
-        console.log('create new drean == ', drean);
-        return DreanModel.insertMany(drean);
+    async createDrean(ownerId: string, drean: DreanType) {
+        const { DreanModel, UserModel } = this.di;
+        const owner = await UserModel.findById(ownerId);
+
+        drean.owner_id = ownerId;
+        drean.owner = owner._id;
+        const newDrean = new DreanModel(drean);
+        return newDrean.save();
     }
 }

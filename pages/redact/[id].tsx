@@ -4,7 +4,8 @@ import Layout from '../../Layout'
 import RedactForm from '../../components/RedactForm'
 import { WithRouterProps } from 'next/dist/client/with-router'
 import { connect } from 'react-redux'
-import { redactDrean } from 'redux/MyDreanEntity'
+import { redactDrean } from 'redux/entities/MyDreanEntity'
+import { saveDreanChanges } from '../../redux/entities/MyDreanEntity';
 
 interface IRedactProps extends WithRouterProps {
   drean: any;
@@ -57,7 +58,7 @@ const mapStateToProps = (state, props) => {
 } 
 
 const mapDispatchToProps = (dispatch) => ({
-  // dreanSaveChanges: (values: any) => dispatch(saveDreanChanges(values))
+  dreanSaveChanges: (values: any) => dispatch(saveDreanChanges(values)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Redact)

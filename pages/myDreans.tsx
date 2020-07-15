@@ -2,9 +2,8 @@ import React, { Component } from 'react'
 import Layout from '../Layout'
 import Table from '../components/Table'
 import { connect } from 'react-redux';
-// import { getAllUserDreans } from '../redux/actions/UsersDreansActions';
 import { List, Map } from 'immutable';
-import { getMyDreans } from 'redux/MyDreanEntity';
+import { getMyDreans } from 'redux/entities/MyDreanEntity';
 
 interface IMyDreansProps {
   tableItems: List<Map<string, any>>;

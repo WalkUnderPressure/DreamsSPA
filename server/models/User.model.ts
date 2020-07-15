@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import { pre, prop, modelOptions, getModelForClass, DocumentType} from '@typegoose/typegoose';
 import bcrypt from 'bcrypt';
 import {USER_ROLE} from '../../COMMON';
-@pre<UserSchema>("save", function (next) { // or @pre(this: Car, 'save', ...
+@pre<UserSchema>("save", function (next) {
     
     if (this._id === undefined || this._id === null) {
         this._id = mongoose.Types.ObjectId();

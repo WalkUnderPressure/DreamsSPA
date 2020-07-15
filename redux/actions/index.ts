@@ -1,5 +1,5 @@
 import { Action } from "redux";
-import Entity, { IEntityRequest } from "redux/Entity";
+import Entity, { IEntityRequest } from "redux/entities/Entity";
 import { CRUD } from "COMMON";
 
 export const action = (type: string, payload = {}): Action<any> => {

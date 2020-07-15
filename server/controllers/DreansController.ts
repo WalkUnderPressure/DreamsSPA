@@ -31,6 +31,7 @@ export default class DreansController extends BaseContext {
 
         DreansService.getAllPublicDreans()
             .then(resolve => {
+                console.log('Public Dreans => ', resolve)
                 const serRes: ServerResponse = {
                     error: (resolve === null ? true : false),
                     data: resolve,
@@ -52,7 +53,7 @@ export default class DreansController extends BaseContext {
 
                     const serRes: ServerResponse = {
                         error: (resolve == null ? true : false),
-                        data: resolve,
+                        data: [resolve],
                         message: (resolve == null ? 'Cant get item for redact!' : 'Successfully get item for redact!')
                     }
 
@@ -72,21 +73,20 @@ export default class DreansController extends BaseContext {
     @POST()
     @route('/redact')
     public redactDrean(req: Request, res: Response, next: NextFunction) {
-        const { DreansService, passport } = this.di;
+        const { DreansService } = this.di;
 
         console.log('drean for save =>> ', req.body);
 
         let item = req.body;
-        const id = item._id;
-
+        const id = item.id;
         if (id) {
             DreansService.updateDreanByID(id, item)
                 .then(resolve => {
                     console.log('item for update : ', resolve);
-
+                    const updatesItem = resolve? item : resolve;
                     const serRes: ServerResponse = {
                         error: (resolve == null ? true : false),
-                        data: resolve,
+                        data: [updatesItem],
                         message: (resolve == null ? 'Cant update item!' : 'Successfully update item!')
                     }
 
@@ -95,12 +95,13 @@ export default class DreansController extends BaseContext {
         } else {
             const user = req.session.identity;
             const ownerId = user && user.userId;
+            
             DreansService.createDrean( ownerId, item)
                 .then(resolve => {
                     console.log('created item : ', resolve);
                     const serRes: ServerResponse = {
                         error: (resolve == null ? true : false),
-                        data: resolve && resolve[0],
+                        data: [resolve],
                         message: (resolve == null ? 'Cant create new item!' : 'Successfully create new item!')
                     }
                     return res.json(serRes);
@@ -111,9 +112,9 @@ export default class DreansController extends BaseContext {
     @DELETE()
     @route('/remove')
     public removeDrean(req: Request, res: Response, next: NextFunction) {
-        const { DreansService, passport } = this.di;
+        const { DreansService } = this.di;
 
-        const id = req.body._id;
+        const id = req.body.id;
         console.log('id for delete : ', id);
         DreansService.deleteDreanByID(id)
             .then(resolve => {
