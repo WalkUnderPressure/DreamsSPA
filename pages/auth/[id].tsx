@@ -3,8 +3,8 @@ import LoginForm from '../../components/LoginForm';
 import RegistrationForm from '../../components/RegistrationForm';
 
 import { connect } from 'react-redux';
-import { userLogInRequest } from '../../redux/actions/UserAuthActions';
-import { userRegistrationRequest } from '../../redux/actions/UserAuthActions';
+import { userLogIn } from '../../redux/identity';
+import { userRegistration } from '../../redux/identity';
 
 import posed, { PoseGroup } from "react-pose";
 import Layout from 'Layout';
@@ -33,8 +33,8 @@ const Modal = posed.div({
 
 
 interface ILoginProps {
-    userLogInRequest: (values) => void;
-    userRegistrationRequest: (data: any) => void;
+    userLogIn: (values: any) => void;
+    userRegistration: (data: any) => void;
     router?: SingletonRouter; 
 }
 
@@ -70,8 +70,8 @@ class Login extends Component<ILoginProps, ILoginState>{
         
         const pageIndex = isSignIn? 1 : 2;
         
-        const pageOne = <LoginForm changeForm={this.changeForm} className={' w-4/5 sm:w-1/2 lg:w-4/5 xl:w-3/5 '} onSubmit={values => this.props.userLogInRequest(values)} />;
-        const pageTwo = <RegistrationForm changeForm={this.changeForm} className=' lg:w-4/5 xl:w-3/5 ' onSubmit={ values => this.props.userRegistrationRequest(values)} />;
+        const pageOne = <LoginForm changeForm={this.changeForm} className={' w-4/5 sm:w-1/2 lg:w-4/5 xl:w-3/5 '} onSubmit={values => this.props.userLogIn(values)} />;
+        const pageTwo = <RegistrationForm changeForm={this.changeForm} className=' lg:w-4/5 xl:w-3/5 ' onSubmit={ values => this.props.userRegistration(values)} />;
         const modalPage = isSignIn? pageOne : pageTwo;
 
         return (
@@ -126,8 +126,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    userLogInRequest: (values) => dispatch(userLogInRequest(values)),
-    userRegistrationRequest: (data: any) => dispatch(userRegistrationRequest(data)),
+    userLogIn: (values: any) => dispatch(userLogIn(values)),
+    userRegistration: (data: any) => dispatch(userRegistration(data)),
 })
 
 const LoginConnect = connect(mapStateToProps, mapDispatchToProps)(Login)

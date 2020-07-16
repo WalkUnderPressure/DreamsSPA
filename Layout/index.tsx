@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ILogInFields } from 'redux/actions/UserAuthActions';
-import { userLogOutRequest } from '../redux/actions/UserAuthActions';
+import { userLogOut, ILogInFields } from '../redux/identity';
 import { FaHeart, FaFan, FaCircle, FaCaretDown, FaTimes, FaEnvelope, FaUserCircle, FaMailBulk, FaPlane, FaUserPlus, FaSearch, FaMoon, FaSun } from 'react-icons/fa';
 import posed, { PoseGroup } from 'react-pose';
 import Link from 'next/link';
@@ -29,7 +28,7 @@ const Flicker = posed.div({
 interface ILayoutProps {
     children: any;
     user?: Map<string, any>;
-    userLogOutRequest: (data: ILogInFields) => void;
+    userLogOut: (data: ILogInFields) => void;
 }
 interface ILayoutState {
     developers: Array<string>,
@@ -266,7 +265,7 @@ class Layout extends Component<ILayoutProps, ILayoutState>{
     }
 
     handleLogOut = () => {
-        this.props.userLogOutRequest({ email: this.props.user.get("email"), password: 'template' });
+        this.props.userLogOut({ email: this.props.user.get("email"), password: 'template' });
     }
 
     changeProfileState = () => {
@@ -287,7 +286,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    userLogOutRequest: (data: ILogInFields) => dispatch(userLogOutRequest(data)),
+    userLogOut: (data: ILogInFields) => dispatch(userLogOut(data)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Layout)

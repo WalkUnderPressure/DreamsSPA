@@ -1,33 +1,38 @@
-import Entity, { ENTITIES } from "./Entity";
+import Entity from "./Entity";
+import  { ENTITIES } from '../../COMMON';
 import { schema } from "normalizr";
 import { take, call, select } from 'redux-saga/effects';
 import { action } from '../actions'
 import DreanItem from "Templates/DreanItem";
 
 export const GET_MY_DREANS = 'GET_MY_DREANS';
+export const GET_ALL_DREANS = 'GET_ALL_DREANS'; 
 export const REDACT_DREAN = 'REDACT_DREAN';
 export const DELETE_DREAN = 'DELETE_DREAN';
 export const SAVE_DREAN = 'SAVE_DREAN';
 
 export const getMyDreans = () => action(GET_MY_DREANS, {});
+export const getAllDreans = () => action(GET_ALL_DREANS, {});
 export const redactDrean = (id: string) => action(REDACT_DREAN, {id});
 export const deleteDrean = (id: string) => action(DELETE_DREAN, {id});
 export const saveDreanChanges = (changedData: any) => action(SAVE_DREAN, {changedData});
 
 export class MyDreansEntity extends Entity {
     constructor() {
-        super(ENTITIES.MY_DREANS, new schema.Entity(ENTITIES.MY_DREANS));
+        super(ENTITIES.DREANS, {
+            owner: new schema.Entity(ENTITIES.USERS),
+        });
         
         Entity.addSaga(
             this.getMyDreans.bind(this),
             this.getDreanForRedact.bind(this),
             this.deleteDrean.bind(this),
             this.saveDreanChanges.bind(this),
+            this.getAllDreans.bind(this),
         );
     }
 
     public * getMyDreans() {
-        console.log('get dreans start listen ');
         while (true) {
             const actionData = yield take(GET_MY_DREANS);
             
@@ -35,10 +40,19 @@ export class MyDreansEntity extends Entity {
             
             if (!data) {
                 console.log('data != null call xRead => ');
-                // const url = '/api/dreans/allMyDreans';
-                const url = '/api/dreans/allDreans';
+                const url = '/api/dreans/allMyDreans';
+                // const url = '/api/dreans/allDreans';
                 yield call(this.xRead, url, {});
             }
+        }
+    }
+
+    public * getAllDreans() {
+        while (true) {
+            const actionData = yield take(GET_ALL_DREANS);
+            console.log('get all dreans => ', actionData);
+            const url = '/api/dreans/allDreans';
+            yield call(this.xRead, url, {});
         }
     }
 

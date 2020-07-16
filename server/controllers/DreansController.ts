@@ -29,7 +29,7 @@ export default class DreansController extends BaseContext {
     public getAllDreans(req: Request, res: Response) {
         const { DreansService } = this.di;
 
-        DreansService.getAllPublicDreans()
+        DreansService.getAllPublicDreansWithOwner()
             .then(resolve => {
                 console.log('Public Dreans => ', resolve)
                 const serRes: ServerResponse = {

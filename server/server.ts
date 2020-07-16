@@ -28,6 +28,8 @@ export const IGNORS = [
   '/styles.chunk.css.map',
   '/error',
   '/auth',
+  // remove after testing 
+  //'/api',
 ];
 
 models(config.mongo.uri, config.mongo.options)
@@ -83,10 +85,12 @@ function acl(req: Request, res: Response, next: NextFunction) {
   let useAcl = true;
   const path = req.path.toString();
   for (const item of IGNORS) {
+    
     if (path.startsWith(item) || path ===  '/') {
       useAcl = false;
     }
   }
+  // console.log(`acl path - ${path} - access ${useAcl}`)
   if (useAcl) {
     passport.authenticate('local-jwt', (err, identity: IIdentity) => {
       const isLogged = identity && identity.userId && identity.role !== USER_ROLE.GUEST ? true : false;
@@ -106,7 +110,6 @@ function acl(req: Request, res: Response, next: NextFunction) {
           return res.redirect('/error');
         }
       }
-      
       next();
     })(req, res, next);
   } else {

@@ -27,10 +27,6 @@ type ObjectId = mongoose.Types.ObjectId;
 
 @modelOptions({schemaOptions: {collection: 'dreans', versionKey: false }})
 export class DreanSchema implements DreanItem{
-
-    @prop()
-    owner_id: string;
-
     @prop({ type: Schema.Types.ObjectId, ref: 'UserSchema'})
     owner: Ref<UserSchema>;
 

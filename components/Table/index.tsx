@@ -29,9 +29,8 @@ class Table extends Component<ITableProps, ITableState> {
 
     if(items && items.size > 0){
       rows = items.valueSeq().map((item, i) => {
-        if(item.get('id')){
-          const res = <TableRow key={'drean_item_' + i} data={item} />;
-          return res;
+        if(item.get('id')){ 
+          return <TableRow key={'drean_item_' + i} data={item} />;
         }
       })
     }else{

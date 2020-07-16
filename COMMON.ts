@@ -4,7 +4,7 @@ export const DOMAIN:string = `http://localhost:3000`
 export enum METHODS {
     POST = 'POST',
     GET = 'GET',
-    DELETE = 'DELETE'
+    DELETE = 'DELETE',
 }
 
 export enum CRUD {
@@ -17,7 +17,12 @@ export enum CRUD {
 export enum USER_ROLE {
     GUEST = 'GUEST',
     USER = 'USER',
-    ADMIN = 'ADMIN'
+    ADMIN = 'ADMIN',
+}
+
+export enum ENTITIES {
+    USERS = 'users', 
+    DREANS = 'dreans',
 }
 
 export interface  IIdentity {

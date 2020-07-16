@@ -4,8 +4,8 @@ const bcrypt = require('bcrypt');
 module.exports = {
   async up(db) {
 
-    const passwords = ['user', 'admin'];
-    const roles = ["USER", "ADMIN"];
+    const passwords = ['user', 'admin', 'pinta'];
+    const roles = ["USER", "ADMIN", "USER"];
     const email = '@gmail.com';
     const size = passwords.length;
 
@@ -14,7 +14,7 @@ module.exports = {
     for (let j = 0; j < size; j++) {
       let item = {};
       item.role = roles[j];
-      item.email = `${roles[j]}${email}`;
+      item.email = `${passwords[j]}${email}`;
       item.firstName = Faker.name.firstName();
       item.lastName = Faker.name.lastName();
       item.password = await bcrypt.hash(passwords[j], 10);

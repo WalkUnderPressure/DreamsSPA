@@ -66,6 +66,7 @@ export default class Entity {
         const success = !result.error;
         const query = result.data;
 
+        console.log('result - ', result);
         console.log('success - ', success);
         console.log('query - ', query);        
 
@@ -98,7 +99,7 @@ export default class Entity {
         }
         if (method === METHODS.GET) {
             const urlParameters = Object.entries(data).map(e => e.join('=')).join('&');
-          // fullPath += urlParameters;
+            // fullPath += urlParameters;
         } else {
             request.body = JSON.stringify(data)
         }
@@ -121,9 +122,3 @@ export default class Entity {
         return this.actionRequest(url, CRUD.DELETE, METHODS.DELETE, data);
     }
 }
-
-export enum ENTITIES {
-    USERS = 'users', 
-    MY_DREANS = 'myDreans',
-    ALL_DREANS = 'allDreans',
-} 

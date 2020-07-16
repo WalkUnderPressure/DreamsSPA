@@ -1,45 +1,51 @@
 import React, { Component } from 'react'
 import Layout from '../Layout'
 import { connect } from 'react-redux';
-// import { getAllUserDreans } from '../redux/actions/UsersDreansActions';
 import { List, Map } from 'immutable';
+import { getAllDreans } from 'redux/entities/MyDreanEntity';
+import { ENTITIES } from '../COMMON';
+import DreanBox from 'components/DreanBox';
 
 interface IDreansProps {
-  allDreans: List<Map<string, any>>;
+  dreans: List<Map<string, any>>;
+  users: List<Map<string, any>>;
 }
 interface IDreansState {
-    allDreans: List<Map<string, any>>;
+  dreans: List<Map<string, any>>;
+  users: List<Map<string, any>>;
 }
 
-const DreanBox = (drean: Map<string, any>) => {
-    return(
-        <div>
-          Drean : {drean.get('_id')}
-        </div>
-    )
-}
 class Dreans extends Component<IDreansProps, IDreansState> {
   constructor(props: any) {
     super(props)
     this.state = {
-        allDreans: List()
+      dreans: List(),
+      users: List(),
     }
   }
 
-  static getInitialProps(ctx) {
-    // console.log('getInitialProps!', ctx);
-    
-    // ctx.store.execSagaTasks(ctx, dispatch => {
-    //   dispatch(getAllUserDreans());
-    // });
+  static async getInitialProps(ctx) {
+    console.log('getInitialProps all dreans call!', ctx);
+    ctx.store.execSagaTasks(ctx, (dispatch: any) => {
+      ctx.store.dispatch(getAllDreans());
+    })
   }
 
   render() {
-    console.log('dreans items : ', this.props.allDreans);
-    const element = this.props;
+    const { dreans, users } = this.props;
+    
+    let allDreansBoxes = null;
+    if(dreans && users){
+      allDreansBoxes = dreans.valueSeq().map(drean => {
+        return <DreanBox key={drean.get('id')} drean={drean} owner={users.get(drean.get('owner'))} />
+      })
+    }
+
     return (
       <Layout>
-        <h1>All Dreans</h1>
+        <div className='w-full'>
+          {allDreansBoxes}
+        </div>
       </Layout>
     )
   }
@@ -47,7 +53,8 @@ class Dreans extends Component<IDreansProps, IDreansState> {
 
 const mapStateToProps = (state) => {
   return ({
-    allDreans: state.entities.get('allDreans'),
+    dreans: state.entities.get(ENTITIES.DREANS),
+    users: state.entities.get(ENTITIES.USERS),
   })
 }
 

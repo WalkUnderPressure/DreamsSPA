@@ -4,6 +4,7 @@ import { deleteDrean } from '../../redux/entities/MyDreanEntity';
 import { connect } from 'react-redux';
 import { FaTrash, FaEdit } from 'react-icons/fa';
 import { Map } from 'immutable';
+import { shortContent } from 'Helpers';
 
 interface ITableRowProps {
   data: Map<string, any>;
@@ -15,20 +16,9 @@ class TableRow extends Component<ITableRowProps> {
     const element = this.props.data;
     console.log('table row item -> ', element);
 
-    const countOfOutWords: number = 4;
     const description = element.get("description");
-    let shortDescription: string = '';
-    if(element && description){
-      const wordsArray = description.split(' ');
-      const minLen = wordsArray.length < countOfOutWords? wordsArray.length : countOfOutWords; 
-      console.log('min length => ', minLen);
-      for (let index = 0; index < minLen; index++) {
-        const element = wordsArray[index];
-        shortDescription += element+' ';
-      }
-    }
-    // console.log('short description => ', shortDescription);
-
+    const shortDescription: string = element && shortContent(description, 4);
+    
     const dateTime = element && new Date(element.get("dateOfEvent")).toLocaleDateString();
     const publicAccess = element && element.get("publicAccess") || 'Undefine';
     return (

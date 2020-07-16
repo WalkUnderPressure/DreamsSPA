@@ -2,8 +2,9 @@ import { fromJS, Map } from 'immutable';
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form'
 import { AnyAction } from "redux";
-import { userAuthActionsList } from 'redux/actions/UserAuthActions';
+import { USER_LOG_IN, USER_LOG_OUT, USER_REGISTRATION } from 'redux/identity';
 import { CRUD } from 'COMMON';
+
 
 const initialEntities = fromJS({
 
@@ -11,12 +12,12 @@ const initialEntities = fromJS({
 
 const identity = (state = initialEntities, action: AnyAction) => {
   switch (action.type) {
-    case userAuthActionsList.USER_LOGIN_SUCCESSFULLY:
+    case USER_LOG_IN:
       console.log('log in successfully : ', action);
       return state.set("user", fromJS(action.user))
-    case userAuthActionsList.USER_LOGOUT_SUCCESSFULLY:
+    case USER_LOG_OUT:
       return Map();
-    case userAuthActionsList.USER_REGISTRATION_SUCCESSFULLY:
+    case USER_REGISTRATION:
       return state;
     default:
       return state

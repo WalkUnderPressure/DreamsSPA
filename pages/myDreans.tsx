@@ -4,6 +4,7 @@ import Table from '../components/Table'
 import { connect } from 'react-redux';
 import { List, Map } from 'immutable';
 import { getMyDreans } from 'redux/entities/MyDreanEntity';
+import { ENTITIES } from '../COMMON';
 
 interface IMyDreansProps {
   tableItems: List<Map<string, any>>;
@@ -39,8 +40,20 @@ class MyDreans extends Component<IMyDreansProps, IMyDreansState> {
 }
 
 const mapStateToProps = (state) => {
+  const dreans: List<any> = state.entities.get(ENTITIES.DREANS);
+  console.log('State - ', state);
+  const currentUser = state.identity.get('user');
+  const userId = currentUser && currentUser.get('userId');
+  console.log('user ID = ', userId);
+
+  const filteredDreans = dreans && dreans.filter((item) => {
+    console.log("item - ", item);
+    return item.get('owner') === userId
+  });
+  console.log('Filtered dreans - ', filteredDreans);
+
   return ({
-    tableItems: state.entities.get('myDreans'),
+    tableItems: filteredDreans,
   })
 }
 
