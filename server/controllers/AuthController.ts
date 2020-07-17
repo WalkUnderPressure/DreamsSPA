@@ -146,6 +146,30 @@ export default class AuthController extends BaseContext {
     }
 
     @POST()
+    @route('/updateProfile')
+    public updateProfile(req: Request, res: Response, next: NextFunction) {
+        const { UserService, initSession } = this.di;
+
+        const data = req.body;
+        const user = req.session.identity;
+        const userId = user && user.userId;
+
+        console.log('data - ', data);
+        console.log('userId - ', userId);
+        UserService.updateUserProfile( userId, data)
+            .then(updatedUser => {
+                const identity = initSession(req, updatedUser);
+                delete identity.token;
+                const serRes: ServerResponse = {
+                    error: identity? false : true,
+                    data: identity? identity : null,
+                    message: identity ? 'User profile was successfully updated!' : 'We can\'t update user profile!'
+                };
+                res.json(serRes);
+            })
+    }
+
+    @POST()
     @route('/checkEmail')
     public checkEmail(req: Request, res: Response, next: NextFunction) {
         const { UserService } = this.di;

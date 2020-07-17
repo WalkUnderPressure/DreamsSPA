@@ -49,7 +49,7 @@ export default class SignUpStrategy extends BaseContext {
 
         const user = await UserModel.findOne({ email: email });
         if (user) {
-            console.log('find user cant registr ', user);
+            console.log('Find user cant be register!', user);
             return done('That e-mail already taken!');
         }
         const defaultTimezone = 'America/Edmonton';

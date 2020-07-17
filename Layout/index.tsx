@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { userLogOut, ILogInFields } from '../redux/identity';
-import { FaHeart, FaFan, FaCircle, FaCaretDown, FaTimes, FaEnvelope, FaUserCircle, FaMailBulk, FaPlane, FaUserPlus, FaSearch, FaMoon, FaSun } from 'react-icons/fa';
+import { FaHeart, FaFan, FaCircle, FaCaretDown, FaTimes, FaEnvelope, FaUserCircle, FaMailBulk, FaPlane, FaUserPlus, FaSearch, FaMoon, FaSun, FaUsers } from 'react-icons/fa';
 import posed, { PoseGroup } from 'react-pose';
 import Link from 'next/link';
 import Router from 'next/router';
@@ -118,12 +118,16 @@ class Layout extends Component<ILayoutProps, ILayoutState>{
                     </div>
                     <div className='mt-8'>
                         <ul className='text-sm'>
-                            <li className='my-2 flex flex-row items-center text-black hover:text-teal-600 cursor-pointer'>
-                                <FaUserCircle className='text-teal-500 text-3xl' />
-                                <div className='mx-4'>
-                                    <h1 className=''>My Profile</h1>
-                                    <p className='text-sm text-teal-500'>Account settings and more</p>
-                                </div>
+                            <li className=''>
+                                <Link href="/profile" as="/profile">
+                                    <a className={'my-2 flex flex-row items-center text-black hover:text-teal-600 cursor-pointer'}>
+                                        <FaUserCircle className='text-teal-500 text-3xl' />
+                                        <div className='mx-4'>
+                                            <h1 className=''>My Profile</h1>
+                                            <p className='text-sm text-teal-500'>Account settings and more</p>
+                                        </div>
+                                    </a>
+                                </Link>
                             </li>
                             <li className='my-2 flex flex-row items-center text-black hover:text-teal-600 cursor-pointer'>
                                 <FaMailBulk className='text-teal-500 text-3xl' />
@@ -180,27 +184,39 @@ class Layout extends Component<ILayoutProps, ILayoutState>{
         }
 
         const userNavigation = () => {
-            
+            const userRole = user.get('role');
             // const isNight = this.state.currentItem%4 === 0;
             const isNight = true;
             const dreansColor = isNight? '-blue-800' : '-yellow-600';
             return (
                 <nav className='px-2 py-4 h-auto flex flex-col text-xl bg-teal-200 rounded-tr-lg rounded-br-lg fixed'>
                     <Link href='/myDreans' as='/myDreans'>
-                        <button className={`my-1 p-2 rounded text${dreansColor} bg-transparent border border-solid border-teal-500 hover:text-white hover:bg${dreansColor} hover:border-transparent focus:outline-none`}
+                        <button className={`my-1 p-2 rounded text${dreansColor} bg-transparent border border-solid border-teal-500 
+                        hover:text-white hover:bg${dreansColor} hover:border-transparent focus:outline-none`}
                         title='My Dreans'>
                             {isNight ? <FaMoon /> : <FaSun className=''/>}
                         </button>
                     </Link>
                     
-                    <button className='my-1 p-2 rounded text-blue-600 bg-transparent border border-solid border-teal-500 hover:text-white hover:bg-blue-600 hover:border-transparent focus:outline-none'
+                    <button className='my-1 p-2 rounded text-blue-600 bg-transparent border border-solid border-teal-500 
+                    hover:text-white hover:bg-blue-600 hover:border-transparent focus:outline-none'
                     title='Find Friends'>
                         <FaSearch />
                     </button>
-                    <button className='my-1 p-2 rounded text-yellow-600 bg-transparent border border-solid border-teal-500 hover:text-white hover:bg-yellow-600 hover:border-transparent focus:outline-none'
+                    <button className='my-1 p-2 rounded text-yellow-600 bg-transparent border border-solid border-teal-500 
+                    hover:text-white hover:bg-yellow-600 hover:border-transparent focus:outline-none'
                     title='Friends Request'>
                         <FaUserPlus />
                     </button>
+                    {userRole &&
+                        <Link href='/allUsers' as='/allUser'>
+                            <button className='my-1 p-2 rounded text-red-600 bg-transparent border border-solid border-teal-500 
+                            hover:text-white hover:bg-red-600 hover:border-transparent focus:outline-none'
+                            title='All Users'>
+                                <FaUsers />
+                            </button>
+                        </Link>    
+                    }
                 </nav>
             )
         }
@@ -232,34 +248,36 @@ class Layout extends Component<ILayoutProps, ILayoutState>{
                     {user && userNavigation()}
                     
                     <div className='ml-16 w-full'>
-                        <div className='container mx-auto flex justify-center items-center bg-teal-300 p-2'>
+                        <div className='container mx-auto flex justify-center items-center bg-teal-300 p-2 rounded-lg'>
                             {this.props.children}
                         </div>
                     </div>
                 </div>
-                <footer className='w-full flex flex-col sm:flex-row text-teal-600 font-medium bg-white z-50'>
-                    <div className='flex-1 flex flex-row justify-center items-center p-4 leading-5'>
-                        <h1 className='mx-1'>© 2020 Brinzey Oleksandr. </h1>
-                        <h1 className='mx-1'>All Rights Reserved.</h1>
-                    </div>
-                    <div className='flex-1 flex flex-row justify-center items-center p-4 '>
-                        <div className='flex flex-row'>
-                            Made with <FaHeart className='text-red-500 text-xl mx-2' /> remotely from
+                {/* <div className='ml-16 w-full bg-black'> */}
+                    <footer className='flex flex-col sm:flex-row text-teal-600 font-medium bg-white z-50'>
+                        <div className='flex-1 flex flex-row justify-center items-center p-4 leading-5'>
+                            <h1 className='mx-1'>© 2020 Brinzey Oleksandr. </h1>
+                            <h1 className='mx-1'>All Rights Reserved.</h1>
                         </div>
-                        <PoseGroup>
-                            <Flicker className='w-10' key={this.state.currentItem}>
-                                <p className='ml-2'>
-                                    {this.state.developers && this.state.developers[this.state.currentItem] || 'Home'}
-                                </p>
-                            </Flicker>
-                        </PoseGroup>
-                    </div>
-                    <div className='flex-1 flex items-center justify-center p-4'>
-                        <h1 className='text-black font-extrabold'>{dreansWritten}</h1>
-                        <p className='mx-2'>dreans are written</p>
-                        <FaFan className='text-4xl text-ocean-700' />
-                    </div>
-                </footer>
+                        <div className='flex-1 flex flex-row justify-center items-center p-4 '>
+                            <div className='flex flex-row'>
+                                Made with <FaHeart className='text-red-500 text-xl mx-2' /> remotely from
+                            </div>
+                            <PoseGroup>
+                                <Flicker className='w-10' key={this.state.currentItem}>
+                                    <p className='ml-2'>
+                                        {this.state.developers && this.state.developers[this.state.currentItem] || 'Home'}
+                                    </p>
+                                </Flicker>
+                            </PoseGroup>
+                        </div>
+                        <div className='flex-1 flex items-center justify-center p-4'>
+                            <h1 className='text-black font-extrabold'>{dreansWritten}</h1>
+                            <p className='mx-2'>dreans are written</p>
+                            <FaFan className='text-4xl text-ocean-700' />
+                        </div>
+                    </footer>
+                {/* </div> */}
             </div>
         )
     }

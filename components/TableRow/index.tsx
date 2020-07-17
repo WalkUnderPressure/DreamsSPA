@@ -21,6 +21,20 @@ class TableRow extends Component<ITableRowProps> {
     
     const dateTime = element && new Date(element.get("dateOfEvent")).toLocaleDateString();
     const publicAccess = element && element.get("publicAccess") || 'Undefine';
+
+    // const keys = element.keySeq().toArray();
+    // const rowCells = keys.map(key => {
+    //   // console.log('key - ', key);
+    //   // console.log('value - ', element.get(key));
+    //   if(key !== 'id'){
+    //     let data = element.get(key);
+    //     if(data.size > 0){
+    //       data = data.size;
+    //     }
+    //     return  <td className='px-3'>{data}</td>
+    //   }
+    // })
+
     return (
       <tr className='text-center'>
         <td className='w-1/5 text-left py-3 pl-2 pr-0'>{element && element.get("codeName")}</td>

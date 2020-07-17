@@ -1,3 +1,5 @@
+import Router from "next/router";
+
 export const shortContent = (content: string, countOfOutWords: number) => {
     let shortContent: string = '';
     const wordsArray = content.split(' ');
@@ -9,4 +11,16 @@ export const shortContent = (content: string, countOfOutWords: number) => {
     }
   
     return shortContent
+}
+
+export const goBack = () => {
+  Router.back();
+}
+
+export const DataToArray = (data: any) => {
+  if(data.length > 0){
+    return data
+  }else{
+    return [data];
   }
+}

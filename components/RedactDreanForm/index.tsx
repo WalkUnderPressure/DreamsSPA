@@ -6,6 +6,7 @@ import { required } from 'redux/validators';
 import DreanList from './DreanList';
 import Router from 'next/router';
 import { FaArrowCircleLeft, FaReply } from 'react-icons/fa';
+import { goBack } from 'Helpers';
 
 const FieldArrayCustom = FieldArray as new () => GenericFieldArray<Field, any>;
 
@@ -23,10 +24,10 @@ class RedactDreanForm extends Component<IRedactDreanFormProps> {
     // console.log('IS REDACT ==>> ', element.data && element.data.get('id') );
     
     return (
-      <Form className={className + ' rounded flex flex-col items-center bg-white'} onSubmit={handleSubmit}>
+      <Form className={className + ' rounded-lg flex flex-col items-center bg-white'} onSubmit={handleSubmit}>
         <div className='w-full flex flex-row items-center justify-between'>
           <h1 className={'m-4 text-center text-2xl font-medium text-teal-500 hover:text-teal-700 hover:font-black'}>{isRedact ? 'Redact' : 'Add'}</h1>
-          <button type='button' onClick={this.goBack} 
+          <button type='button' onClick={() => goBack()}
           className='mx-4 px-4 py-2 rounded flex flex-row items-center font-semibold text-black bg-transparent border border-solid border-ocean-900 
           hover:text-white hover:bg-black hover:opacity-75 hover:border-transparent focus:outline-none'>
               <FaReply className='mr-2' />
@@ -97,11 +98,6 @@ class RedactDreanForm extends Component<IRedactDreanFormProps> {
       </Form>
     )
   }
-
-  goBack = () => {
-    console.log("go back => ", this.props)
-    Router.back();
-  }  
 }
 
 const reduxFormRedactDrean = reduxForm({

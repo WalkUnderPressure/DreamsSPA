@@ -64,14 +64,12 @@ class RegistrationForm extends Component<IRegistrationFormProps> {
                             id="password" name="password"
                             component={InputField} type="password"
                             validate={[required, passwordMinLength, passwordMaxLength]}
-                            label="Password"
-                        />
+                            label="Password"/>
                         <Field
                             id="confirmPassword" name="confirmPassword"
                             component={InputField} type="password"
                             validate={[required, passwordMinLength, passwordMaxLength, checkPasswords]}
-                            label="Confirm Password:"
-                        />
+                            label="Confirm Password:"/>
                     </div>
 
                     {error && <strong>{error}</strong>}

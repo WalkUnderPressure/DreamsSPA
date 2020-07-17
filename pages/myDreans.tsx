@@ -31,9 +31,18 @@ class MyDreans extends Component<IMyDreansProps, IMyDreansState> {
   render() {
     console.log('dreans items : ', this.props.tableItems);
     const element = this.props;
+    const tableFields: string[] = [
+      'Code Name',
+      'Description',
+      'Date',
+      'Guests',
+      'Need Things',
+      'Access',
+      'ACTION',
+    ]
     return (
       <Layout>
-        <Table tableName='Dreans' className='w-full p-5 bg-ocean-900 ' data={element.tableItems} />
+        <Table tableName='Dreans' tableFields={tableFields} className='w-full p-5 bg-ocean-900 ' data={element.tableItems} />
       </Layout>
     )
   }

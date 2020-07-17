@@ -31,7 +31,7 @@ export default class DreansController extends BaseContext {
 
         DreansService.getAllPublicDreansWithOwner()
             .then(resolve => {
-                console.log('Public Dreans => ', resolve)
+                // console.log('Public Dreans => ', resolve)
                 const serRes: ServerResponse = {
                     error: (resolve === null ? true : false),
                     data: resolve,
@@ -54,7 +54,7 @@ export default class DreansController extends BaseContext {
                     const serRes: ServerResponse = {
                         error: (resolve == null ? true : false),
                         data: [resolve],
-                        message: (resolve == null ? 'Cant get item for redact!' : 'Successfully get item for redact!')
+                        message: (resolve == null ? 'Cant get drean for redact!' : 'Successfully get drean for redact!')
                     }
 
                     return res.json(serRes);

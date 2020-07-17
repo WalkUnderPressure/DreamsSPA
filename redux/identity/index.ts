@@ -13,10 +13,12 @@ export interface ILogInFields{
 export const USER_LOG_IN = 'USER_LOG_IN';
 export const USER_LOG_OUT = 'USER_LOG_OUT';
 export const USER_REGISTRATION = 'USER_REGISTRATION';
+export const USER_UPDATE_PROFILE = 'USER_UPDATE_PROFILE';
 
 export const userLogIn = (data: ILogInFields) => action(USER_LOG_IN, {data});
 export const userLogOut = (data: ILogInFields) => action(USER_LOG_OUT, {data});
-export const userRegistration = (data: any) => action(USER_REGISTRATION, {data});
+export const userRegistration = (data: IIdentity) => action(USER_REGISTRATION, {data});
+export const userUpdateProfile = (data: IIdentity) => action(USER_UPDATE_PROFILE, {data});
 
 export class Identity extends Entity {
 
@@ -26,6 +28,7 @@ export class Identity extends Entity {
             this.userLogIn.bind(this),
             this.userLogOut.bind(this),
             this.userRegistration.bind(this),
+            this.userUpdateProfile.bind(this),
             // this.showMessage.bind(this),
         )
     }
@@ -124,6 +127,33 @@ export class Identity extends Entity {
                 Router.push('/auth/login');
             } else {
                 // console.log('registration not successfully!');
+            }
+        }
+    }
+
+    public * userUpdateProfile(){
+        while (true) {
+            // console.log('<< update profile saga start listen >>');
+            const actionData = yield take(USER_UPDATE_PROFILE);
+            // console.log('fetch() update profile saga take = ', actionData);
+            
+            const url = '/api/auth/updateProfile';
+            const data = actionData.data;
+            // console.log('log in data for request ', data);
+            const result: IServerResponse = yield call(this.xFetch, url, { ...data },METHODS.POST)
+            // console.log('server response - ', result);
+            
+            if (!result.error) {
+                // console.log('Update profile successfully!');
+            
+                const action = {
+                    type: USER_UPDATE_PROFILE,
+                    user: {...result.data}
+                }
+                yield put(action);
+                Router.back();
+            } else {
+                console.log('Update profile not successfully!');
             }
         }
     }

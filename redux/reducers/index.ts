@@ -2,7 +2,7 @@ import { fromJS, Map } from 'immutable';
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form'
 import { AnyAction } from "redux";
-import { USER_LOG_IN, USER_LOG_OUT, USER_REGISTRATION } from 'redux/identity';
+import { USER_LOG_IN, USER_LOG_OUT, USER_REGISTRATION, USER_UPDATE_PROFILE } from 'redux/identity';
 import { CRUD } from 'COMMON';
 
 
@@ -17,8 +17,9 @@ const identity = (state = initialEntities, action: AnyAction) => {
       return state.set("user", fromJS(action.user))
     case USER_LOG_OUT:
       return Map();
-    case USER_REGISTRATION:
-      return state;
+    case USER_UPDATE_PROFILE:
+      console.log("Reducer update profile - ", action);
+      return state.set("user", fromJS(action.user))
     default:
       return state
   }

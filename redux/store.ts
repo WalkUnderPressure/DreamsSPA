@@ -5,6 +5,7 @@ import rootReducer from './reducers';
 
 import Entity from './entities/Entity';
 import './entities/MyDreanEntity';
+import './entities/UserEntity';
 import './identity';
 
 const saga = function* root() {

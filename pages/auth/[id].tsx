@@ -3,8 +3,7 @@ import LoginForm from '../../components/LoginForm';
 import RegistrationForm from '../../components/RegistrationForm';
 
 import { connect } from 'react-redux';
-import { userLogIn } from '../../redux/identity';
-import { userRegistration } from '../../redux/identity';
+import { userLogIn, userRegistration} from '../../redux/identity';
 
 import posed, { PoseGroup } from "react-pose";
 import Layout from 'Layout';
@@ -50,15 +49,15 @@ class Login extends Component<ILoginProps, ILoginState>{
     }
     
 
-    public static async getInitialProps(ctx: any) {
-        console.log('auth props ===>> ', ctx);
-        // let id: any = null;
-        // await ctx.store.execSagaTasks(ctx, (dispatch: any) => {
-        //     id = ctx?.req?.params?.id ? ctx.req.params.id : ctx.query.id;
-        //     ctx.store.dispatch(redactDreanRequest(id));
-        // })
-        // return {id}
-    }
+    // public static async getInitialProps(ctx: any) {
+    //     console.log('auth props ===>> ', ctx);
+    //     // let id: any = null;
+    //     // await ctx.store.execSagaTasks(ctx, (dispatch: any) => {
+    //     //     id = ctx?.req?.params?.id ? ctx.req.params.id : ctx.query.id;
+    //     //     ctx.store.dispatch(redactDreanRequest(id));
+    //     // })
+    //     // return {id}
+    // }
 
     render() {
         console.log('render auth props ===>> ', this.props);

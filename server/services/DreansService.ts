@@ -9,13 +9,13 @@ export default class DreansService extends BaseContext{
         return DreanModel.find({ owner: ownerId });
     }
 
-    getAllPublicDreans(){
+    getAllDreansByAccess(publicAccess: PublicAccess){
         const { DreanModel } = this.di;
-        return DreanModel.find({ publicAccess: PublicAccess.PUBLIC })
+        return DreanModel.find({ publicAccess })
     }
 
     async getAllPublicDreansWithOwner(){
-        const dreans = await this.getAllPublicDreans();
+        const dreans = await this.getAllDreansByAccess(PublicAccess.PUBLIC);
         
         return new Promise(async (resolve, reject) => {
             const dreansArray = [];
@@ -36,13 +36,8 @@ export default class DreansService extends BaseContext{
         return DreanModel.find({});
     }
     
-    async getDreanByID (id: string) {
+    getDreanByID (id: string) {
         const { DreanModel } = this.di;
-        // need to remove
-        // const person = await DreanModel.findById(id);
-        // (await person.populate({ path: 'owner', select: ['_id', 'role', 'email', 'firstName', 'lastName'] }).execPopulate())
-        // person.populated('owner');
-        // console.log('Person -> ', person);
         return DreanModel.findById(id);
     }
     
@@ -68,5 +63,10 @@ export default class DreansService extends BaseContext{
         drean.owner = owner._id;
         const newDrean = new DreanModel(drean);
         return newDrean.save();
+    }
+
+    deleteDreansWithRemovingUser(ownerId: string){
+        const { DreanModel } = this.di;
+        return DreanModel.deleteMany({ owner: ownerId, publicAccess: {$nin : [PublicAccess.PUBLIC] } })
     }
 }
