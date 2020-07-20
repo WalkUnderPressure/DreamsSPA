@@ -23,8 +23,6 @@ class Profile extends Component<IProfileProps, IProfileState> {
   }
 
   static getInitialProps(ctx) {
-    // console.log('getInitialProps!', ctx);
-    
     // ctx.store.execSagaTasks(ctx, dispatch => {
     //   dispatch(getAllUserDreans());
     // });
@@ -32,8 +30,6 @@ class Profile extends Component<IProfileProps, IProfileState> {
 
   render() {
     const userInfo = this.props.userInfo
-    console.log('User Info - ', userInfo);
-    // const element = this.props;
     return (
         <Layout>
             <div className="w-full p-4">

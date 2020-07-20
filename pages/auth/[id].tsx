@@ -47,21 +47,8 @@ class Login extends Component<ILoginProps, ILoginState>{
             isSignIn: true,
         }
     }
-    
-
-    // public static async getInitialProps(ctx: any) {
-    //     console.log('auth props ===>> ', ctx);
-    //     // let id: any = null;
-    //     // await ctx.store.execSagaTasks(ctx, (dispatch: any) => {
-    //     //     id = ctx?.req?.params?.id ? ctx.req.params.id : ctx.query.id;
-    //     //     ctx.store.dispatch(redactDreanRequest(id));
-    //     // })
-    //     // return {id}
-    // }
 
     render() {
-        console.log('render auth props ===>> ', this.props);
-
         const { router: { query } } = this.props;
         const id = query.id;
 
@@ -75,7 +62,6 @@ class Login extends Component<ILoginProps, ILoginState>{
 
         return (
             <div className={'flex lg:flex-row w-full lg:h-full bg-pink-100 flex-col-reverse'}>
-                {/* flex lg:flex-row w-full h-screen flex-col-reverse bg-pink-100 */}
                 <div className='w-full my-20 lg:w-3/5 lg:min-w-2/5 lg:my-0 mx-auto flex items-center  justify-center'>
                     <PoseGroup>
                         <Modal key={`modal_${pageIndex}`} className='w-full flex justify-center align-middle'>
@@ -105,15 +91,7 @@ class Login extends Component<ILoginProps, ILoginState>{
         )
     }
 
-    // onClickY = () => {
-    //     console.log('Click Y!')
-    //     this.setState({
-    //         isSignIn: !this.state.isSignIn
-    //     })
-    // }
-
     changeForm = () => {
-        console.log('change form button clicked!');
         this.setState({
             isSignIn: !this.state.isSignIn
         })

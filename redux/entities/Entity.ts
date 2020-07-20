@@ -1,31 +1,79 @@
 import { schema, normalize } from 'normalizr';
-import { call, put, select, fork } from 'redux-saga/effects';
+import { take, call, put, fork } from 'redux-saga/effects';
 import { METHODS, CRUD, DOMAIN } from 'COMMON';
-import { entityRequest, IActionRequest } from '../actions';
-import { camelizeKeys } from 'humps';
+import { entityRequest, IActionRequest, action } from '../actions';
+import { camelizeKeys, decamelizeKeys, decamelize } from 'humps';
 import IServerResponse from '../../Templates/ServerResponse';
 export interface IEntityRequest {
-    
+
 }
+
 export default class Entity {
     protected mEntityName: string;
     public static mSagas: any[] = [];
     public mSchema: any;
 
-    public get entityName() { return this.mEntityName};
+    public get entityName() { return this.mEntityName };
 
     public static get saga() { return Entity.mSagas; }
 
+    public static mActions = [];
+
     constructor(name: string = "entity", definitions: any = {}, options: any = {}) {
         this.mEntityName = name;
-        this.mSchema = name !== "entity"? [new schema.Entity(name, definitions, options)] : null;
-        
+        this.mSchema = name !== "entity" ? [new schema.Entity(name, definitions, options)] : null;
+
         this.xFetch = this.xFetch.bind(this);
         this.xRead = this.xRead.bind(this);
 
         this.getAction = this.getAction.bind(this);
         this.actionRequest = this.actionRequest.bind(this);
+
+        const methods = Reflect.ownKeys(Object.getPrototypeOf(this))
+
+        methods.forEach((method) => {
+            if (method !== 'constructor') {
+                // const actionName = decamelize(method.toString(), { separator: '_', }).toUpperCase();
+                // console.log('action name - ', actionName);
+                
+                const entityName = this.constructor.name;
+                const entityItem = Entity.mActions.hasOwnProperty(entityName)? Entity.mActions[entityName] : {};
+
+                const propertyKey = method.toString();
+
+                if (!entityItem.hasOwnProperty(propertyKey)) {
+                    entityItem[propertyKey] = {
+                        // watcher: propertyKey,
+                        actionFunc: (data: any) => action(propertyKey,{data}),
+                        // isAdded: false,
+                    };
+                }
+                Entity.mActions[entityName] = entityItem;
+                Entity.addSaga(this[method].bind(this));
+                
+                this.sagaTemplate(propertyKey, this[method]);
+            }
+        });
     }
+
+    private * sagaTemplate(actionName: string, method: Function){
+        while(true){
+            const actionData = yield take(actionName);
+            yield fork(method(actionData));
+        }
+    }
+
+    // public saga(){
+    //     return (target: any, propertyKey: string) => {
+
+    //     }
+    // }
+
+    public static getSagaAction(className: string, methodName: string){
+        console.log('Entity.mActions', Entity.mActions);
+        return Entity.mActions[className][methodName].actionFunc;
+    }
+
 
     public static addSaga(...args: any[]) {
         args.forEach((item) => {
@@ -51,24 +99,16 @@ export default class Entity {
             case CRUD.READ:
                 break;
         }
-        console.log('getAction => ', action);
-
         return action;
     }
 
-    
+
 
     protected * actionRequest(url: string, crud: CRUD, method: METHODS, data?: any) {
-        console.log('actionRequest => ', { crud, method, data } );
-
         const action: IActionRequest = this.getAction(crud);
         let result: IServerResponse = yield call(this.xFetch, url, data, method);
         const success = !result.error;
         const query = result.data;
-
-        console.log('result - ', result);
-        console.log('success - ', success);
-        console.log('query - ', query);        
 
         let response = null;
         if (success && this.mSchema && query) {
@@ -77,7 +117,6 @@ export default class Entity {
             response = query;
         }
 
-        console.log('response -> ', response);
         if (success) {
             yield put(action.success(data, response));
         } else {
@@ -88,11 +127,10 @@ export default class Entity {
         return { response, message };
     }
 
-    protected xFetch = (url : string, data : any, method : METHODS) => {
-        console.log('xFetch is called -> ', data)
+    protected xFetch = (url: string, data: any, method: METHODS) => {
         const path = `${DOMAIN}${url}`;
         let fullPath = path;
-        const request : RequestInit = {}
+        const request: RequestInit = {}
         request.method = method;
         request.headers = {
             'Content-Type': 'application/json'
@@ -103,7 +141,7 @@ export default class Entity {
         } else {
             request.body = JSON.stringify(data)
         }
-        
+
         return fetch(fullPath, request)
             .then(res => {
                 return res.json()
@@ -113,11 +151,11 @@ export default class Entity {
     public xSave = (url: string, data: any = {}) => {
         return this.actionRequest(url, CRUD.UPDATE, METHODS.POST, data);
     }
-    
+
     public xRead = (url: string, data: any = {}, method: METHODS = METHODS.GET) => {
         return this.actionRequest(url, CRUD.READ, method, data);
     }
-    
+
     public xDelete = (url: string, data: any = {}) => {
         return this.actionRequest(url, CRUD.DELETE, METHODS.DELETE, data);
     }

@@ -4,8 +4,13 @@ import Layout from '../../Layout';
 import RedactForm from '../../components/RedactDreanForm';
 import { WithRouterProps } from 'next/dist/client/with-router';
 import { connect } from 'react-redux';
-import { redactDrean, saveDreanChanges } from 'redux/entities/MyDreanEntity';
 import { ENTITIES } from 'COMMON';
+import Entity from 'redux/entities/Entity';
+// import { redactDrean, saveDreanChanges } from 'redux/entities/DreanEntity';
+const redactDrean = Entity.getSagaAction('DreansEntity', 'redactDrean');
+const saveDreanChanges = Entity.getSagaAction('DreansEntity', 'saveDreanChanges');
+
+
 
 interface IRedactProps extends WithRouterProps {
   drean: any;
@@ -21,16 +26,13 @@ class RedactDrean extends Component<IRedactProps, IRedactState> {
     let id: any = 'add';
     await ctx.store.execSagaTasks(ctx, (dispatch: any) => {
         id = ctx?.req?.params?.id ? ctx.req.params.id : ctx.query.id;
-        console.log('id for redact => ', id);
         ctx.store.dispatch(redactDrean(id));
     })
     return {id}
   }
 
   render() {
-    console.log('redact form props => ', this.props);
     const element = this.props.drean;
-    console.log('id element: ', element);
     return (
       <Layout>
         <div className='w-full p-4'>

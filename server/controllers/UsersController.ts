@@ -54,14 +54,11 @@ export default class UsersController extends BaseContext {
     public redactUser(req: Request, res: Response, next: NextFunction) {
         const { UserService } = this.di;
 
-        console.log('user for save =>> ', req.body);
-
         let item = req.body;
         const id = item.id;
         if (id) {
             UserService.updateUserProfile(id, item)
                 .then(resolve => {
-                    console.log('user for update : ', resolve);
                     const updatesItem = resolve? item : resolve;
                     
                     const serRes: ServerResponse = {
@@ -77,7 +74,6 @@ export default class UsersController extends BaseContext {
             
             UserService.createUser(item)
                 .then(resolve => {
-                    console.log('created user : ', resolve);
                     const serRes: ServerResponse = {
                         error: (resolve == null ? true : false),
                         data: DataToArray(resolve),
@@ -94,11 +90,8 @@ export default class UsersController extends BaseContext {
         const { UserService } = this.di;
 
         const id = req.body.id;
-        console.log('id for delete : ', id);
         UserService.deleteUserByID(id)
             .then(resolve => {
-                console.log('user for delete : ', resolve);
-
                 const serRes: ServerResponse = {
                     error: (resolve == null ? true : false),
                     data: DataToArray(resolve),

@@ -23,8 +23,6 @@ class PersonalInformation extends Component<IPersonalInformationProps> {
     render() {
         const { user, className, error, handleSubmit, pristine, reset, submitting } = this.props;
 
-        console.log('user - ', user);
-
         return (
             <Form className={className + ' w-full bg-white rounded-lg'} onSubmit={handleSubmit}>
                 <div className='p-4 flex flex-row justify-between'>
@@ -137,13 +135,11 @@ const reduxFormRedactDrean = reduxForm({
 })(PersonalInformation);
 
 const mapStateToProps = (state: any, props: any) => {
-    console.log('state redact drean form => ', props);
     let data = null;
     if(props.user && props.user.size > 0){
         data = props.user.toJS();
         data.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     }
-    console.log('data - ', data);
     return ({
         initialValues: data ,
     })

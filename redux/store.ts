@@ -4,12 +4,11 @@ import { all } from 'redux-saga/effects';
 import rootReducer from './reducers';
 
 import Entity from './entities/Entity';
-import './entities/MyDreanEntity';
+import './entities/DreanEntity';
 import './entities/UserEntity';
 import './identity';
 
 const saga = function* root() {
-    // console.log('1 - saga started !!!', Entity.saga);
     yield all(Entity.saga);
 };
 

@@ -34,14 +34,12 @@ class InputField extends Component<WrappedFieldProps & IInputFieldProps, IInputF
 
         switch (type) {
             case 'textarea':
-                console.log('text area ');
                 inputField = <textarea id={id} {...input} placeholder={label} rows={5} className='appearance-none outline-none text-sm w-full resize-y' />
                 break;
             case 'date':
                 if (input.value === ''){
                     input.value = new Date();
                 }
-                console.log('date area ');
                 inputField = <ReactDatePicker className='w-full focus:outline-none' selected={new Date(input.value)} onChange={ input.onChange } />
                 break;
             default:

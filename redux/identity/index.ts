@@ -29,45 +29,20 @@ export class Identity extends Entity {
             this.userLogOut.bind(this),
             this.userRegistration.bind(this),
             this.userUpdateProfile.bind(this),
-            // this.showMessage.bind(this),
         )
     }
-
-    // @saga()
-    // public * loginUser(data: ILoginData) {
-    //     try {
-    //         const { response } = yield call(Entity.fetch, '/auth/login', data, HTTP_METHOD.POST);
-    //         if (response && response.user
-    //             && response.user.userId
-    //             && response.user.token && response.user.token.length > 0) {
-    //             yield put(getIdentity(response));
-    //             const href = '/profile'
-    //             Router.replace(href, href, { shallow: true });
-    //         }
-    //     } finally {
-    //         if (yield cancelled()) {
-    //             ('authorize yield cancelled');
-    //         }
-    //     }
-    // }
 
     public * userLogIn() {
         while (true) {
             const actionData = yield take(USER_LOG_IN);
-            console.log('fetch() saga take = ', actionData);
-    
+            
             const url = '/api/auth/login';
             const data: ILogInFields = actionData.data;
-            // console.log('log in data for request ', data);
-
+            
             const result = yield call(this.xFetch, url, data, METHODS.POST);
-            // const result: IServerResponse = yield call(this.xRead, url, { ...data }, METHODS.POST)
-            // console.log('fetch() saga call = ', result);
-    
+            
             if (!result.error) {
-                // console.log('log in successfully!');
                 const element: IIdentity = result.data;
-                // console.log('element -> ', element);
             
                 const action = {
                     type: USER_LOG_IN,
@@ -77,7 +52,7 @@ export class Identity extends Entity {
     
                 Router.push('/');
             } else {
-                // console.log('log in not successfully!');
+                console.log('Log in not successfully!', data);
                 // alert(result.message);
             }
         }
@@ -86,14 +61,11 @@ export class Identity extends Entity {
     public * userLogOut() {
         while (true) {
             const actionData = yield take(USER_LOG_OUT);
-            // console.log('fetch() saga take = ', actionData);
-    
+            
             const url = '/api/auth/logout';
             const data: ILogInFields = actionData.data;
-            // console.log('log in data for request ', data);
             const result: IServerResponse = yield call(this.xFetch, url, { ...data }, METHODS.POST)
-            // console.log('fetch() saga call = ', result);
-    
+            
             if (!result.error) {
                 const action = {
                     type: USER_LOG_OUT,
@@ -102,6 +74,7 @@ export class Identity extends Entity {
                 Router.push('/');
             } else {
                 console.log('log out not successfully!');
+                // alert(result.message);
             }
         }
     }
@@ -109,43 +82,33 @@ export class Identity extends Entity {
     public * userRegistration() {
         while (true) {
             const actionData = yield take(USER_REGISTRATION);
-            console.log('fetch() saga take = ', actionData);
-    
+            
             const url = '/api/auth/register';
             const data = actionData.data;
-            console.log('log in data for request ', data);
             const result: IServerResponse = yield call(this.xFetch, url, { ...data },METHODS.POST)
-            // console.log('fetch() saga call = ', result);
             
             if (!result.error) {
-                // console.log('registration successfully!');
-            
                 const action = {
                     type: USER_REGISTRATION,
                 }
                 yield put(action);
                 Router.push('/auth/login');
             } else {
-                // console.log('registration not successfully!');
+                console.log('registration not successfully!');
+                // alert(result.message);
             }
         }
     }
 
     public * userUpdateProfile(){
         while (true) {
-            // console.log('<< update profile saga start listen >>');
             const actionData = yield take(USER_UPDATE_PROFILE);
-            // console.log('fetch() update profile saga take = ', actionData);
             
             const url = '/api/auth/updateProfile';
             const data = actionData.data;
-            // console.log('log in data for request ', data);
             const result: IServerResponse = yield call(this.xFetch, url, { ...data },METHODS.POST)
-            // console.log('server response - ', result);
             
             if (!result.error) {
-                // console.log('Update profile successfully!');
-            
                 const action = {
                     type: USER_UPDATE_PROFILE,
                     user: {...result.data}
@@ -154,6 +117,7 @@ export class Identity extends Entity {
                 Router.back();
             } else {
                 console.log('Update profile not successfully!');
+                // alert(result.message);
             }
         }
     }

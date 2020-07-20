@@ -10,7 +10,6 @@ export enum PublicAccess {
 type ObjectId = mongoose.Types.ObjectId; 
 
 @pre<DreanSchema>("save", function (next) {
-  // console.log('drean pre save hook ', this);
   if (this._id === undefined || this._id === null) {
     this._id = mongoose.Types.ObjectId();
   }
@@ -18,7 +17,6 @@ type ObjectId = mongoose.Types.ObjectId;
   this.dateOfEvent = new Date(this.dateOfEvent).getTime();
 
   if (!this.publicAccess || !Object.values(PublicAccess).includes(this.publicAccess)) {
-    console.log('PUBLIC ACCESS NOT EQUAL OF ENUM ITEMS', this.publicAccess);
     this.publicAccess = PublicAccess.PRIVATE;
   }
 

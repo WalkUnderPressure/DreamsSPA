@@ -16,19 +16,11 @@ export const deleteUser = (id: string) => action(DELETE_USER, {id});
 export class UserEntity extends Entity {
     constructor() {
         super(ENTITIES.USERS);
-        
-        Entity.addSaga(
-            this.getAllUsers.bind(this),
-            this.getUserForRedact.bind(this),
-            this.saveUserChanges.bind(this),
-            this.deleteUser.bind(this),
-        );
     }
 
     public * getAllUsers() {
         while (true) {
             const actionData = yield take(GET_ALL_USERS);
-            console.log('get all users => ', actionData);
             const url = '/api/users/allUsers';
             yield call(this.xRead, url, {});
         }
@@ -37,8 +29,7 @@ export class UserEntity extends Entity {
     public * getUserForRedact() {
         while (true) {
             const actionData = yield take(REDACT_USER);
-            console.log('fetch() saga take = ', actionData);
-
+            
             const id = actionData.id;
             if (id !== 'add') {
                 const url = `/api/users/redact/${id}`
@@ -49,7 +40,6 @@ export class UserEntity extends Entity {
     public * saveUserChanges() {
         while (true) {
             const actionData = yield take(SAVE_USER);
-            console.log('saveUserChanges => fetch() saga take = ', actionData);
             let changedData = actionData.changedData;
             const url ='/api/users/redact';
             yield call(this.xSave, url, { ... actionData.changedData });
@@ -59,7 +49,6 @@ export class UserEntity extends Entity {
     public * deleteUser() {
         while (true) {
             const actionData = yield take(DELETE_USER);
-            console.log('fetch() saga take = ', actionData);
 
             const url = '/api/users/remove';
 

@@ -27,9 +27,6 @@ class DreanBox extends Component<IDreanBoxProps, IDreanBoxState>{
         const description = element && element.get("description");
         const shortDescription: string = element && shortContent(description, 4);
         const dateTime = element && new Date(element.get("dateOfEvent")).toLocaleDateString();
-        
-        // console.log('element - ', element);
-        // console.log('owner - ', owner);
 
         let ownerFullName = '';
         let ownerEmail = '';

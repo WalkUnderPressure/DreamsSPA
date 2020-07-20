@@ -15,13 +15,12 @@ export default class UserService extends BaseContext{
 
     async updateUserProfile(userId: string, userData: any){
         const { UserModel } = this.di;
-        console.log('user data : ', userData);
         const user = await UserModel.findById(userId);
         
         Object.keys(userData).forEach((key: any) => {
             user[key] = userData[key];
         });
-        console.log('user : ', user);
+        
         return user.save();
     }
 
@@ -33,10 +32,7 @@ export default class UserService extends BaseContext{
 
     async deleteUserByID(id: string){
         const { DreansService, UserModel } = this.di;
-        
         const deleted = await DreansService.deleteDreansWithRemovingUser(id)
-        console.log('Deleted - ', deleted);
-
         return UserModel.findByIdAndRemove(id);
     }
 

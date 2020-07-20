@@ -19,10 +19,8 @@ class RedactDreanForm extends Component<IRedactDreanFormProps> {
   render() {
     const { handleSubmit, pristine, reset, submitting, className } = this.props;
     const element = this.props;
-    // console.log('props of redact form =========>>>>> ', element);
     const isRedact = element.data && element.data.get("id");
-    // console.log('IS REDACT ==>> ', element.data && element.data.get('id') );
-    
+
     return (
       <Form className={className + ' rounded-lg flex flex-col items-center bg-white'} onSubmit={handleSubmit}>
         <div className='w-full flex flex-row items-center justify-between'>
@@ -54,7 +52,7 @@ class RedactDreanForm extends Component<IRedactDreanFormProps> {
           </div>
         </div>
 
-        <div className='w-11/12'>
+        <div className='w-11/12 mb-4'>
           <Field className='focus:outline-none'
           name="publicAccess" component='select'>
             <option className='focus:outline-none' value="PRIVATE">Private</option>
@@ -106,12 +104,10 @@ const reduxFormRedactDrean = reduxForm({
 })(RedactDreanForm);
 
 const mapStateToProps = (state: any, props: any) => {
-  console.log('state redact drean form => ', props);
   let data = null;
   if(props.data && props.data.size > 0){
     data = props.data.toJS()
   }
-  console.log('data - ', data);
   return ({
     initialValues: data ,
   })

@@ -21,16 +21,13 @@ class RedactUser extends Component<IRedactProps, IRedactState> {
     let id: any = 'add';
     await ctx.store.execSagaTasks(ctx, (dispatch: any) => {
         id = ctx?.req?.params?.id ? ctx.req.params.id : ctx.query.id;
-        console.log('id for redact => ', id);
         ctx.store.dispatch(redactUser(id));
     })
     return {id}
   }
 
   render() {
-    console.log('redact form props => ', this.props);
     const element = this.props.user;
-    console.log('id element: ', element);
     return (
       <Layout>
         <div className='w-full p-4'>

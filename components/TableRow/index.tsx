@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import Link from 'next/link';
-import { deleteDrean } from '../../redux/entities/MyDreanEntity';
 import { connect } from 'react-redux';
 import { FaTrash, FaEdit } from 'react-icons/fa';
 import { Map } from 'immutable';
 import { shortContent } from 'Helpers';
+import Entity from 'redux/entities/Entity';
+// import { deleteDrean } from '../../redux/entities/DreanEntity';
+const deleteDrean = Entity.getSagaAction('DreansEntity','deleteDrean');
 
 interface ITableRowProps {
   data: Map<string, any>;
@@ -14,31 +16,17 @@ interface ITableRowProps {
 class TableRow extends Component<ITableRowProps> {
   render() {
     const element = this.props.data;
-    console.log('table row item -> ', element);
-
+    
     const description = element.get("description");
     const shortDescription: string = element && shortContent(description, 4);
     
     const dateTime = element && new Date(element.get("dateOfEvent")).toLocaleDateString();
     const publicAccess = element && element.get("publicAccess") || 'Undefine';
 
-    // const keys = element.keySeq().toArray();
-    // const rowCells = keys.map(key => {
-    //   // console.log('key - ', key);
-    //   // console.log('value - ', element.get(key));
-    //   if(key !== 'id'){
-    //     let data = element.get(key);
-    //     if(data.size > 0){
-    //       data = data.size;
-    //     }
-    //     return  <td className='px-3'>{data}</td>
-    //   }
-    // })
-
     return (
       <tr className='text-center'>
         <td className='w-1/5 text-left py-3 pl-2 pr-0'>{element && element.get("codeName")}</td>
-        <td className='pl-4 text-justify'>{ shortDescription }</td>
+        <td className='pl-4 text-center'>{ shortDescription }</td>
         <td className='px-3'>{dateTime}</td>
         <td className='font-medium text-base text-gray-500'>{element && element.get("guests").size}</td>
         <td className='font-medium text-base text-gray-500'>{element && element.get("needThings").size}</td>
@@ -65,7 +53,6 @@ class TableRow extends Component<ITableRowProps> {
 
   handleDelete = () => {
     const id: string = this.props.data.get("id");
-    console.log('id for delete -> ', id);
     this.props.deleteDrean(id);
   }
 }

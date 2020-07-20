@@ -53,7 +53,6 @@ export default class DreansService extends BaseContext{
     
     async updateDreanByID (id: string, drean: DreanType) {
         const { DreanModel } = this.di;
-        console.log('drean for update  -> ', drean)
         return DreanModel.findByIdAndUpdate(id, drean);
     }
     

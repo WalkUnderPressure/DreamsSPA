@@ -12,7 +12,6 @@ module.exports = {
 
     if (users.length > 0) {
       users.forEach(user => {
-        // console.log('user - ', user)
         for (let j = 0; j < itemsCount; j++) {
           let longDescription = '';
           const descriptionLength = Faker.random.number({ min: 5, max: 25 });
@@ -45,8 +44,6 @@ module.exports = {
           items.push(item);
         }
       });
-    } else {
-      console.log('User not exist in collection!');
     }
 
     return db.collection('dreans').insertMany(items);

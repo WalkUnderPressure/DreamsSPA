@@ -22,14 +22,12 @@ class AllUsers extends Component<IAllUsersProps, IAllUsersState> {
     }
 
     static async getInitialProps(ctx) {
-        console.log('getInitialProps call!', ctx);
         ctx.store.execSagaTasks(ctx, (dispatch: any) => {
             ctx.store.dispatch(getAllUsers());
         })
     }
 
     render() {
-        console.log('all users items : ', this.props.tableItems);
         const element = this.props;
         const tableFields: string[] = [
             'First Name',
@@ -41,7 +39,7 @@ class AllUsers extends Component<IAllUsersProps, IAllUsersState> {
         return (
             <Layout>
                 <div className='w-full p-4'>
-                    <Table tableName='Users' tableFields={tableFields} className='w-full p-5 bg-ocean-900 ' data={element.tableItems} />
+                    <Table tableName='Users' tableFields={tableFields} createItemLink='redactUser' className='w-full p-5 bg-ocean-900 ' data={element.tableItems} />
                 </div>
             </Layout>
         )
@@ -50,8 +48,7 @@ class AllUsers extends Component<IAllUsersProps, IAllUsersState> {
 
 const mapStateToProps = (state) => {
     const allUsers: List<any> = state.entities.get(ENTITIES.USERS);
-    console.log('All Users - ', allUsers);
-
+    
     return ({
         tableItems: allUsers,
     })

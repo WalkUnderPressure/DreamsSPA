@@ -7,9 +7,10 @@ import UserTableRow from 'components/TableRow/UserTableRow';
 
 interface ITableProps {
   className: string;
-  data: List<Map<string, any>>,
-  tableName: string,
-  tableFields: Array<string>,
+  data: List<Map<string, any>>;
+  tableName: string;
+  tableFields: Array<string>;
+  createItemLink: string;
 }
 interface ITableState {
 
@@ -22,18 +23,17 @@ class Table extends Component<ITableProps, ITableState> {
   }
 
   render() {
-    const { data, tableName, tableFields, className } = this.props;
+    const { data, tableName, tableFields, createItemLink, className } = this.props;
     const items = data;
 
     let rows = null
-    console.log('table items -> ', items);
     if(items && items.size > 0){
       rows = items.valueSeq().map((item, i) => {
         if(item.get('id')){
           if(tableName === 'Users'){
-            return <UserTableRow key={item.get('id')} data={item} />
+            return <UserTableRow key={`user_item_${i}`} data={item} />
           }else{
-            return <TableRow key={'drean_item_' + i} data={item} />;
+            return <TableRow key={`drean_item_${i}`} data={item} />;
           }
         }
       })
@@ -44,11 +44,11 @@ class Table extends Component<ITableProps, ITableState> {
     let tableHeaders = tableFields.map((head: string, i: number) => {
       switch (i) {
         case 0:
-          return <th className={'py-3 pl-2 pr-0 text-left '}>{head}</th> 
+          return <th key={`table_head_${i}`} className={'py-3 pl-2 pr-0 text-left '}>{head}</th> 
         case tableFields.length-1:
-          return <th className='text-right py-3 pl-0 pr-2'>{head}</th>
+          return <th key={`table_head_${i}`} className='text-right py-3 pl-0 pr-2'>{head}</th>
         default:
-          return <th className='py-3'>{head}</th>
+          return <th key={`table_head_${i}`} className='py-3'>{head}</th>
       }
     })
 
@@ -60,7 +60,7 @@ class Table extends Component<ITableProps, ITableState> {
             <p className='mt-2 text-xs font-medium text-gray-500'> { items && items.size > 0 && `On the current time you have ${items.size} records` || 'You don\'t have any records yet!' } </p>
           </div>
           
-          <Link href='/redact/[id]' as='/redact/add'>
+          <Link href={`/${createItemLink}/[id]`} as={`/${createItemLink}/add`}>
             <button className='py-2 px-4 h-full flex flex-row justify-around items-center text-white font-semibold bg-blue-300 hover:bg-blue-400 rounded focus:outline-none focus:bg-blue-500'>
               <FaPlusSquare className='text-lg mr-2'/>
               Add New Item

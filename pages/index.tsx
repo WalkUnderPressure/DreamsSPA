@@ -22,25 +22,20 @@ class Home extends Component<IHomeProps, IHomeState> {
     }
   }
 
-  static getInitialProps(ctx) {
-    // console.log('getInitialProps!', ctx);
-    
-    ctx.store.execSagaTasks(ctx, dispatch => {
-      // dispatch(getAllUserDreans());
-    });
-  }
-
   render() {
-    console.log('dreans items : ', this.props.tableItems);
-    console.log('index redux props => ', this.props.user);
-
     const user = this.props.user;
     
     return (
       <div>
-        
         <Layout>
-          <h1 className='my-5 text-blue-600 text-3xl text-center'>Welcome to Board of Dreams and Plans</h1>
+          <div className='w-full flex flex-col'>
+            <div>
+              <h1 className='my-5 text-blue-600 text-3xl text-center'>Welcome to Board of Dreams and Plans</h1>
+            </div>
+            <div>
+              <input type="file" name='uploadAvatar' id='uploadAvatar' />
+            </div>            
+          </div>
         </Layout>
       </div>
     )

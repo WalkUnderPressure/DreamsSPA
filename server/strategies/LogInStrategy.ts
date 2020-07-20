@@ -65,10 +65,7 @@ export default class LogInStrategy extends BaseContext {
         user.token = token;
         user.save();
         
-        console.log('user to init => ', user);
-        
         const identity = initSession(req, user);
-        console.log('init session for user => ', identity)
         return done(null, identity);
     }
 

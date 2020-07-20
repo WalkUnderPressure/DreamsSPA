@@ -5,6 +5,7 @@ import { FaHeart, FaFan, FaCircle, FaCaretDown, FaTimes, FaEnvelope, FaUserCircl
 import posed, { PoseGroup } from 'react-pose';
 import Link from 'next/link';
 import Router from 'next/router';
+import { USER_ROLE } from 'COMMON';
 
 
 const Flicker = posed.div({
@@ -208,8 +209,8 @@ class Layout extends Component<ILayoutProps, ILayoutState>{
                     title='Friends Request'>
                         <FaUserPlus />
                     </button>
-                    {userRole &&
-                        <Link href='/allUsers' as='/allUser'>
+                    {userRole === USER_ROLE.ADMIN &&
+                        <Link href='/allUsers' as='/allUsers'>
                             <button className='my-1 p-2 rounded text-red-600 bg-transparent border border-solid border-teal-500 
                             hover:text-white hover:bg-red-600 hover:border-transparent focus:outline-none'
                             title='All Users'>

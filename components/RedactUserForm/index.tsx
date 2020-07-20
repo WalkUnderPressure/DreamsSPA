@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Field, reduxForm, Form, InjectedFormProps, FieldArray, GenericFieldArray } from 'redux-form';
 import InputField from 'components/InputField';
-import { required, minLength, maxLength, checkPasswords } from 'redux/validators';
-import Router from 'next/router';
+import { required, minLength, maxLength, correctEmail, checkPasswords, asyncValidate } from '../../redux/validators/';
 import { FaReply } from 'react-icons/fa';
 import { goBack } from 'Helpers';
 
@@ -15,19 +14,23 @@ const passwordMaxLength = maxLength(10);
 
 const FieldArrayCustom = FieldArray as new () => GenericFieldArray<Field, any>;
 
+
 interface IRedactUserFormProps extends InjectedFormProps<{}, {}, string> {
   data: any;
   className: string;
 }
+
 class RedactUserForm extends Component<IRedactUserFormProps> {
 
   render() {
     const { handleSubmit, pristine, reset, submitting, className } = this.props;
     const element = this.props;
-    // console.log('props of redact form =========>>>>> ', element);
     const isRedact = element.data && element.data.get("id");
-    // console.log('IS REDACT ==>> ', element.data && element.data.get('id') );
-    
+    const emailArray = !isRedact? [required, correctEmail] : [];
+
+    const passwordFunctions = (value: string) => {
+      return !isRedact && required(value);
+    }
     return (
       <Form className={className + ' rounded-lg flex flex-col items-center bg-white'} onSubmit={handleSubmit}>
         <div className='w-full flex flex-row items-center justify-between'>
@@ -68,26 +71,21 @@ class RedactUserForm extends Component<IRedactUserFormProps> {
             component={InputField}
             type="text"
             label="Email"
-            validate={[required]} />
+            validate={[required, correctEmail]} />
 
             <div className={'mt-12 w-full'}>
               <Field
                 id="password" name="password"
                 component={InputField} type="password"
-                validate={[required, passwordMinLength, passwordMaxLength]}
+                validate={[passwordFunctions, passwordMinLength, passwordMaxLength]}
                 label="Password"/>
               <Field
                 id="confirmPassword" name="confirmPassword"
                 component={InputField} type="password"
-                validate={[required, passwordMinLength, passwordMaxLength, checkPasswords]}
+                validate={[passwordFunctions, passwordMinLength, passwordMaxLength, checkPasswords]}
                 label="Confirm Password:"/>
             </div>
         </div>
-        
-            
-            
-
-            
 
         <div className={'w-full flex flex-row justify-around my-10'}>
           <button type="submit" disabled={submitting}
@@ -110,18 +108,18 @@ class RedactUserForm extends Component<IRedactUserFormProps> {
 
 const reduxFormRedactUser = reduxForm({
   form: 'redactUserForm',
+  asyncValidate,
+  asyncChangeFields: ['email'],
   // @ts-ignore
 })(RedactUserForm);
 
 const mapStateToProps = (state: any, props: any) => {
-  console.log('state redact drean form => ', props);
   let data = null;
   if(props.data && props.data.size > 0){
     data = props.data.toJS();
     delete data.password;
   }
   
-  console.log('data - ', data);
   return ({
     initialValues: data,
   })

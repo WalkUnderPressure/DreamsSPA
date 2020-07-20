@@ -11,7 +11,6 @@ interface IDreanListProps extends WrappedFieldArrayProps<{}> {
 class DreanList extends Component<IDreanListProps>{
 
   render() {
-    console.log('drean list props => ', this.props);
     const { fields, listName, meta: { error, submitFailed } } = this.props;
     return (
       <ul className={'w-full px-3'}>

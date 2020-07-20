@@ -20,21 +20,15 @@ class News extends Component<INewsProps, INewsState> {
   }
 
   static getInitialProps(ctx) {
-    // console.log('getInitialProps!', ctx);
-    
     // ctx.store.execSagaTasks(ctx, dispatch => {
     //   dispatch(getAllUserDreans());
     // });
   }
 
   render() {
-    // console.log('dreans items : ', this.props.tableItems);
-    // const element = this.props;
     return (
       <Layout>
-          <h1>News</h1>
-
-          {/* <Table tableName='Dreans' className='w-full p-5 bg-ocean-500 ' data={element.tableItems} /> */}
+        <h1>News</h1>
       </Layout>
     )
   }

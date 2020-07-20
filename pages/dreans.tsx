@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Layout from '../Layout'
 import { connect } from 'react-redux';
 import { List, Map } from 'immutable';
-import { getAllDreans } from 'redux/entities/MyDreanEntity';
+import { getAllDreans } from 'redux/entities/DreanEntity';
 import { ENTITIES } from '../COMMON';
 import DreanBox from 'components/DreanBox';
 
@@ -25,7 +25,6 @@ class Dreans extends Component<IDreansProps, IDreansState> {
   }
 
   static async getInitialProps(ctx) {
-    console.log('getInitialProps all dreans call!', ctx);
     ctx.store.execSagaTasks(ctx, (dispatch: any) => {
       ctx.store.dispatch(getAllDreans());
     })
